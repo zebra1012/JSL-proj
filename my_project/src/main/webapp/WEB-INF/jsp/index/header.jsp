@@ -5,83 +5,50 @@
 <html>
 <head>
 <style type="text/css">
-div.header {
-	background-image: url("image/dream-4827288_640.jpg");
-	background-position: center;
-	text-align: center;
-	background-size: cover;
-	background-repeat: no-repeat;
-	max-height: 30%;
-	height: 400px;
-	line-height: 21;
-}
-
-div.small_Menu {
-}
-
-div.Huge_Menu {
-	background-image: url("image/images.png");
-	background-position: center;
-	background-size: cover;
-	background-repeat: no-repeat;
-	height: 60px;
-}
-
-li {
+li#top_list {
 	list-style: none;
 	float: left;
 	margin-left: 20px;
 }
-
-ul.Huge_Menu_List {
-	display: table;
-	margin-left: auto;
-	margin-right: auto;
+ul#top_list {
+	display:table;
+	margin-left:auto;
 	line-height: 1px;
 }
-ul.small_Menu_list{
-display:table;
-font-size:8px;
-margin-left:auto;
-line-height: 1px;
+input#btn {
+	width:300px;
+	height:200px;
+}
+div#wrapper{
+	width:90%;
+	margin-left: 5%;
 }
 </style>
+<script type="text/javascript">
+function LoginPopup() {
+	window.open("index/login.html","로그인","status=no,location=no,toolbars=no,scrollbars=no,height=300,width=600")
+}
+</script>
 <meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
 <title>Insert title here</title>
 </head>
 <body>
-	<div class="wrapper">
-		<div class="header">
-			<h3 class="title">
-				<font color="Red">어서오세요!</font>
-			</h3>
-		</div>
-		
-		<div class="Huge_Menu">
-			<ul class="Huge_Menu_List">
-				<li>메뉴1</li>
-				<li>메뉴2</li>
-				<li>메뉴3</li>
-			</ul>
-		</div>
-		<div class="small_Menu">
-			<ul class="small_Menu_list">
-				<c:choose>
-					<c:when test="${not empty User }">
-						<li><a href="사서함">사서함</a></li>
-						<li><a href="로그아웃">로그아웃</a></li>
-						<li><a href="사이트맵">사이트맵</a></li>
-					</c:when>
-					<c:when test="${empty User}">
-						<li><a href="로그인">로그인</a></li>
-						<li><a href="사이트맵">사이트맵</a></li>
-					</c:when>
-				</c:choose>
-			</ul>
-		</div>
+	<div id="wrapper" >
+	<div id="top_list">
+		<ul id="top_list"> 
+			<li id="top_list"><a href="javascript:LoginPopup()">로그인</a></li>
+			<li id="top_list">메뉴2</li>
+		</ul>
+		<hr/>
 	</div>
-
-
-
+	<div id="buttons" align="center">
+	<input id="btn" type="button" value="메인메뉴"/>
+	<input id="btn" type="button" value="중고거래"/>
+	<input id="btn" type="button" value="오픈마켓"/>
+	<input id="btn" type="button" value="커뮤니티"/>
+	<input id="btn" type="button" value="마이페이지"/>
+	<hr/>
+	</div>
+	</div>
 </body>
 </html>

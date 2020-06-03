@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:context="http://www.springframework.org/schema/context"
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:p="http://www.springframework.org/schema/p"
 	xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd
 		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
@@ -10,7 +13,18 @@
          <context:component-scan
             base-package="org.springframework.samples.web"/>  -->
 
-
+	<bean id="dataSource"
+		class="org.springframework.jdbc.datasource.DriverManagerDataSource"
+		p:driverClassName="oracle.jdbc.driver.OracleDriver" p:url="jdbc:oracle:thin:@127.0.0.1:1522:myorcl"
+		p:username="kim" p:password="kim">
+	</bean>
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean"
+		p:dataSource-ref="dataSource" p:configLocation="classpath:/mybatis-config.xml">
+	</bean>
+	<bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate">
+		<constructor-arg ref="sqlSessionFactory"></constructor-arg>
+	</bean>
+	
     <mvc:annotation-driven />
 
 	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
@@ -18,14 +32,12 @@
 	        <property name="prefix" value="/WEB-INF/jsp/"/>
 	        <property name="suffix" value=".jsp"/>
 	</bean>
-	<bean id="testController" class="controller.TestController"></bean>
-	<bean id="handlerMapping"
-		class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
-		<property name="mappings">
-			<value>
-				/showMessage.html=testController
-			</value>
-		</property>
-	</bean>
+	<bean
+		class="org.springframework.web.servlet.mvc.support.ControllerClassNameHandlerMapping"></bean>
+	<context:component-scan base-package="controller,dao,model">
+	</context:component-scan>
+	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver"
+	p:maxInMemorySize="5242880" p:maxUploadSize="5242880"
+	></bean>
 	
 </beans>
