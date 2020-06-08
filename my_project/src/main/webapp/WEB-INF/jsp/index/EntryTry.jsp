@@ -7,9 +7,10 @@
 <title>Insert title here</title>
 </head>
 <body>
-<div>
-<input type="button" value="일반회원가입" onclick="location.href='index/entryform.html?type=formal'"/>
-<input type="button" value="업체회원가입" onclick="location.href='index/entryform.html?type=comapny'"/>
+<jsp:include page="header.jsp"></jsp:include>
+<div id="wrapper" align="center">
+<input type="button" value="일반회원가입" onclick="location.href='../index/entryform.html?type=formal'"/>
+<input type="button" value="업체회원가입" onclick="location.href='../index/entryform.html?type=comapny'"/>
 </div>
 </body>
 </html>

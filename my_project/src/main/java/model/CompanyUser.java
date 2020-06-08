@@ -1,7 +1,7 @@
 package model;
 
 public class CompanyUser {
-	private String company_id,company_reg,company_name,company_pwd,company_phone,company_addr,comapny_manager,comapny_email;
+	private String company_id,company_reg,company_name,company_pwd,company_phone,company_addr,company_manager,company_email;
 	private Integer company_state;
 	public String getCompany_id() {
 		return company_id;
@@ -39,17 +39,18 @@ public class CompanyUser {
 	public void setCompany_addr(String company_addr) {
 		this.company_addr = company_addr;
 	}
-	public String getComapny_manager() {
-		return comapny_manager;
+	
+	public String getCompany_manager() {
+		return company_manager;
 	}
-	public void setComapny_manager(String comapny_manager) {
-		this.comapny_manager = comapny_manager;
+	public void setCompany_manager(String company_manager) {
+		this.company_manager = company_manager;
 	}
-	public String getComapny_email() {
-		return comapny_email;
+	public String getCompany_email() {
+		return company_email;
 	}
-	public void setComapny_email(String comapny_email) {
-		this.comapny_email = comapny_email;
+	public void setCompany_email(String company_email) {
+		this.company_email = company_email;
 	}
 	public Integer getCompany_state() {
 		return company_state;
