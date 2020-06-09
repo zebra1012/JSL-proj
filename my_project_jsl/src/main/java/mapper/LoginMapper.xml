@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="LoginMapper">
+<select id="formaldupcheck" parameterType="String" resultType="Integer">
+	select count(user_id) from formal_user where user_id=#{user_id} 
+	</select>
+	<select id="companyDupCheck" parameterType="String" resultType="Integer">
+	select count(company_id) from company_user where company_id=#{company_id}
+	</select>
+	<insert id="formalregister" parameterType="model.FormalUser">
+	insert into formal_user values(#{user_id},#{user_pwd},#{user_email},#{user_name},#{user_addr},#{user_phone},#{user_state})
+	</insert>
+	<insert id="companyregister" parameterType="model.CompanyUser">
+	insert into company_user values(#{company_id},#{company_reg},#{company_name},#{company_pwd},#{company_phone},#{company_addr},#{company_manager},#{company_email},#{company_state})
+	</insert>
+	<select id="formalGetIDPWD" parameterType="String" resultType="model.FormalUser">
+	select * from formal_user where user_id=#{user_id}
+	</select>
+	<select id="companyGetIDPWD" parameterType="String" resultType="model.CompanyUser">
+	select * from company_user where company_id=#{company_id}
+	</select>
+	<select id="adminGetIDPWD" parameterType="String" resultType="model.AdminUser">
+	select * from admin_user where admin_id=#{admin_id}
+	</select>
+	<select id="formalGetID" parameterType="String" resultType="String">
+	select user_id from formal_user where user_email=#{user_email}
+	</select>
+	<select id="companyGetID" parameterType="String" resultType="String">
+	select company_id from company_user where company_email=#{company_id}
+	</select>
+	<select id="formalGetPWD" parameterType="model.FormalUser" resultType="Integer">
+	select count(*) from formal_user where user_email=#{user_email} and user_id=#{user_id}
+	</select>
+	<select id="companyGetPWD" parameterType="model.CompanyUser" resultType="Integer">
+	select count(*) from company_user where company_email=#{company_email} and company_id=#{company_id}
+	</select>
+	<update id="formalchangePWD" parameterType="model.FormalUser">
+	update formal_user set user_pwd=#{user_pwd} where user_id=#{user_id}
+	</update>
+	<update id="companychangePWD" parameterType="model.CompanyUser">
+	update company_user set company_pwd=#{company_pwd} where company_id=#{company_id}
+	</update>
+</mapper>
