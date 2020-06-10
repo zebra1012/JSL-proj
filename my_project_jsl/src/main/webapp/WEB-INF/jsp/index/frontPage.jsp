@@ -33,14 +33,6 @@ table#wrapper_table {
 <div id="items_latest">
 	<table border="1">
 		<tr><td>글번호</td><td width="400">제목</td><td width="60">가격</td><td width="100">게시일</td></tr>
-		<tr><td>대충</td><td>상품이라는 뜻</td><td>대충</td><td>비싸다는 뜻</td></tr>
-		<tr><td>대충</td><td>글이 있다는 뜻</td><td>대충</td><td>비싸다는 뜻</td></tr>
-		<tr><td>대충</td><td>글이 있다는 뜻</td><td>대충</td><td>비싸다는 뜻</td></tr>
-		<tr><td>대충</td><td>글이 있다는 뜻</td><td>대충</td><td>비싸다는 뜻</td></tr>
-		<tr><td>대충</td><td>글이 있다는 뜻</td><td>대충</td><td>비싸다는 뜻</td></tr>
-		<tr><td>대충</td><td>글이 있다는 뜻</td><td>대충</td><td>비싸다는 뜻</td></tr>
-		<tr><td>대충</td><td>글이 있다는 뜻</td><td>대충</td><td>비싸다는 뜻</td></tr>
-		<tr><td>대충</td><td>글이 있다는 뜻</td><td>대충</td><td>비싸다는 뜻</td></tr>
 	</table>
 </div>
 </td>
@@ -48,10 +40,6 @@ table#wrapper_table {
 <div id="secondhand_latest">
 	<table border="1">
 		<tr><td>글번호</td><td width="400">제목</td><td width="60">가격</td><td width="100">게시일</td></tr>
-		<tr><td>대충</td><td>글이 있다는 뜻</td><td>대충</td><td>비싸다는 뜻</td></tr>
-		<tr><td>대충</td><td>글이 있다는 뜻</td><td>대충</td><td>비싸다는 뜻</td></tr>
-		<tr><td>대충</td><td>글이 있다는 뜻</td><td>대충</td><td>비싸다는 뜻</td></tr>
-		<tr><td>대충</td><td>글이 있다는 뜻</td><td>대충</td><td>비싸다는 뜻</td></tr>
 	</table>
 </div>
 </td>
@@ -61,10 +49,6 @@ table#wrapper_table {
 <div id="bbs_latest">
 	<table border="1">
 		<tr><td>글번호</td><td width="400">제목</td><td width="60">가격</td><td width="100">게시일</td></tr>
-		<tr><td>대충</td><td>게시판이라는 뜻</td><td>대충</td><td>비싸다는 뜻</td></tr>
-		<tr><td>대충</td><td>글이 있다는 뜻</td><td>대충</td><td>비싸다는 뜻</td></tr>
-		<tr><td>대충</td><td>글이 있다는 뜻</td><td>대충</td><td>비싸다는 뜻</td></tr>
-		<tr><td>대충</td><td>글이 있다는 뜻</td><td>대충</td><td>비싸다는 뜻</td></tr>
 	</table>
 </div>
 </td>

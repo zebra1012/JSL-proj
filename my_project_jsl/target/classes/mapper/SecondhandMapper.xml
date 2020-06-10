@@ -2,11 +2,21 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="SecondhandMapper">
 	<select id="getMaxSeqno" resultType="Integer">
-	select max(secondhand_seqno) from secondhand;
+	select max(secondhand_seqno) from secondhand
 	</select>
 	<insert id="insertSecondHand" parameterType="model.Secondhand">
 	insert into secondhand values (#{secondhand_seqno},#{secondhand_title},#{secondhand_writer},
-	#{second_local},#{second_price},#{secondhand_image},#{secondhand_content},
+	#{secondhand_local},#{secondhand_price},#{secondhand_image},#{secondhand_content},
 	to_date(#{secondhand_date},'yyyy/mm/dd/ hh24:mi:ss'))
 	</insert>
+	<select id="getSecondHandList" parameterType="model.Condition" resultType="model.Secondhand" >
+	select secondhand_seqno,secondhand_image,secondhand_title,secondhand_writer,secondhand_price,secondhand_date from (
+ 		select a.*, rownum rn from (
+ 			(select * from secondhand order by secondhand_seqno desc)a
+ 			) 
+ 	) where rn between #{startRow} and #{endRow}
+	</select>
+	<select id="getSecondHandCount" resultType="Integer">
+	select count(*) from secondhand
+	</select>
 </mapper>

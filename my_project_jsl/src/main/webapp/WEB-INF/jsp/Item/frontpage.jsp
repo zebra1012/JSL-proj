@@ -17,7 +17,7 @@ function search(){
 	alert("작동확인");
 	var keyword=document.getElementById("searchForm").value;
 	var type=document.getElementById("searchType").value;
-	window.location.href="../secondhand/search.html?type="+type+"&keyword="+keyword;
+	window.location.href="../item/search.html?type="+type+"&keyword="+keyword;
 	
 }
 </script>
@@ -27,24 +27,24 @@ function search(){
 <body>
 <jsp:include page="../index/header.jsp"></jsp:include>
 <div id="wrapper" align="center">
-<h3> 중고 거래 게시판 </h3>
-<input type="button" value="글 작성" name="write" onclick="location.href='../secondhand/writeform.html'" style="float:right;">
+<h3> 오픈 마켓 </h3>
+<input type="button" value="글 작성" name="write" onclick="location.href='../item/writeform.html'" style="float:right;">
 <br/>
 <br/>
 <div id="table">
 <table style="border-style:solid;">
 <tr><td width="50px">글번호</td><td colspan="2" width="500px">글제목</td><td width="100px">가격</td><td width="100px">작성자</td><td width="100px">작성일</td></tr>
-<c:forEach items="${Secondhand }" var="Secondhand">
-<tr height="50px"><td width="50px">${Secondhand.secondhand_seqno }</td><td width="100px"><img alt="" width="100px" src="${pageContext.request.contextPath }/Secondhand_Image/${Secondhand.secondhand_image }"/></td><td>${Secondhand.secondhand_title }</td>
-<td>${Secondhand.secondhand_price }</td><td>${Secondhand.secondhand_writer }</td><td>${Secondhand.secondhand_date }</td></tr>
+<c:forEach items="${Item }" var="item">
+<tr height="50px"><td width="50px">${item.secondhand_seqno }</td><td width="100px"><img alt="" width="100px" src="${pageContext.request.contextPath }/item_Image/${item.secondhand_image }"/></td><td>${item.secondhand_title }</td>
+<td>${item.secondhand_price }</td><td>${item.secondhand_writer }</td><td>${item.secondhand_date }</td></tr>
 </c:forEach>
 </table>
 </div>
 <div>
 <c:forEach var = "page" begin="1" end="${COUNT}" >
-<a href="../secondhand/frontpage.html?pgeNo=${page }">${page }</a></c:forEach><br/>
+<a href="../item/frontpage.html?pgeNo=${page }">${page }</a></c:forEach><br/>
 <select id="searchType">
-<option value="writer">작성자</option>
+<option value="writer">상호</option>
 <option value="title">제목</option>
 <option value="content">내용</option>
 </select>

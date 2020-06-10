@@ -36,8 +36,6 @@
 		class="org.springframework.web.servlet.mvc.support.ControllerClassNameHandlerMapping"></bean>
 	<context:component-scan base-package="controller,dao,model">
 	</context:component-scan>
-	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver"
-	p:maxInMemorySize="5242880" p:maxUploadSize="5242880"
-	></bean>
+	
 	
 </beans>

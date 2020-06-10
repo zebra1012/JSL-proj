@@ -16,8 +16,11 @@ ul#top_list {
 	line-height: 1px;
 }
 input#btn {
-	width:300px;
-	height:200px;
+	width:150px;
+	height:100px;
+	outline:1;
+	border:3;
+	background-color: #6699CC;
 }
 div#wrapper{
 	width:90%;
@@ -57,9 +60,9 @@ function LoginPopup() {
 	<div id="buttons" align="center">
 	<input id="btn" type="button" value="메인메뉴" onclick="location.href='../index/showMessage.html'"/>
 	<input id="btn" type="button" value="중고거래" onclick="location.href='../secondhand/frontpage.html'"/>
-	<input id="btn" type="button" value="오픈마켓"/>
-	<input id="btn" type="button" value="커뮤니티"/>
-	<input id="btn" type="button" value="마이페이지"/>
+	<input id="btn" type="button" value="오픈마켓" onclick="location.href='../item/frontpage.html'"/>
+	<input id="btn" type="button" value="커뮤니티" onclick="location.href='../bbs/frontpage.html'"/>
+	<input id="btn" type="button" value="마이페이지" onclick="location.href='../mypage/frontpage.html'"/>
 	<hr/>
 	</div>
 	</div>

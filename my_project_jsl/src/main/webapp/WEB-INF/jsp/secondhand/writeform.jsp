@@ -14,7 +14,7 @@ tr{
 }
 </style>
 <script type="text/javascript">
-function formal_validation(){
+function write_validation(){
 	if(document.writeform.secondhand_title.value=="") {
 		alert("제목을 입력하세요.");
 		document.writeform.secondhand_title.focus();
@@ -41,7 +41,8 @@ function formal_validation(){
 <c:choose>
 <c:when test="${Formal == 'YES' }">
 <h3>중고거래 게시글 작성</h3>
-<form:form name="writeform" modelAttribute="secondhand" action="../secondhand/write.html" method="POST" enctype="multipart/form-data">
+<form:form name="writeform" modelAttribute="secondhand" 
+action="../secondhand/write.html" method="POST" enctype="multipart/form-data">
 <table align="center">
 <tr><td>글제목</td><td><form:input path="secondhand_title" cssClass="secondhand_title"/></td></tr>
 <tr><td>가격</td><td><form:input path="secondhand_price"/></td></tr>
