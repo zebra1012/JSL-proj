@@ -35,7 +35,8 @@ function search(){
 <table style="border-style:solid;">
 <tr><td width="50px">글번호</td><td colspan="2" width="500px">글제목</td><td width="100px">가격</td><td width="100px">작성자</td><td width="100px">작성일</td></tr>
 <c:forEach items="${Secondhand }" var="Secondhand">
-<tr height="50px"><td width="50px">${Secondhand.secondhand_seqno }</td><td width="100px"><img alt="" width="100px" src="${pageContext.request.contextPath }/Secondhand_Image/${Secondhand.secondhand_image }"/></td><td>${Secondhand.secondhand_title }</td>
+<tr height="50px"><td width="50px">${Secondhand.secondhand_seqno }</td><td width="100px"><img alt="" width="100px" src="${pageContext.request.contextPath }/Secondhand_Image/${Secondhand.secondhand_image }"/></td>
+<td><a href="../secondhand/Detail.html?seqno=${Secondhand.secondhand_seqno }">${Secondhand.secondhand_title }</a></td>
 <td>${Secondhand.secondhand_price }</td><td>${Secondhand.secondhand_writer }</td><td>${Secondhand.secondhand_date }</td></tr>
 </c:forEach>
 </table>

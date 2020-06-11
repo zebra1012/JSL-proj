@@ -10,4 +10,7 @@ public interface SecondHandDao {
 	public void insertSecondHand(Secondhand secondhand);
 	public List<Secondhand> getSecondHandList(Condition condition);
 	public Integer getSecondhandCount();
+	public Secondhand getSecondhandDetail(Integer seqno);
+	public void deleteSecondHand(Integer seqno);
+	public void ModifySecondHand(Secondhand secondhand);
 }

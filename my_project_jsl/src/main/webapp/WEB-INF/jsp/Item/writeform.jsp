@@ -25,6 +25,12 @@ function write_validation(){
 		document.writeform.item_price.focus();
 		return false;
 	}
+	if(isNaN(document.writeform.item_price.value)){
+		alert("가격은 숫자여야 합니다.");
+		document.writeform.item_price.focus();
+		return false;
+	}
+	
 }
 </script>
 <meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">

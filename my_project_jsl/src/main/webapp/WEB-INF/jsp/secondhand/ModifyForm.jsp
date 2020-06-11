@@ -1,18 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=EUC-KR"
     pageEncoding="EUC-KR"%>
-     <%@taglib uri = "http://java.sun.com/jsp/jstl/core" prefix="c" %>
+    <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
     <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-<style type="text/css">
-td {
- text-align : center;
-}
-tr{
- height: 30px;
-}
-</style>
 <script type="text/javascript">
 function write_validation(){
 	if(document.writeform.secondhand_title.value=="") {
@@ -42,12 +34,17 @@ function write_validation(){
 </head>
 <body>
 <jsp:include page="../index/header.jsp"></jsp:include>
-<div id="wrapper">
 <c:choose>
-<c:when test="${Formal == 'YES' }">
-<h3>중고거래 게시글 작성</h3>
+<c:when test="${result=='Fail' }">
+<script type="text/javascript">
+alert("권한이 없습니다. 게시글을 작성한 회원만 수정할 수 있습니다.");
+window.location.href='../secondhand/frontpage.html';
+</script>
+</c:when>
+<c:when test="${result=='Success' }">
+<h3>중고거래 게시글 수정</h3>
 <form:form name="writeform" modelAttribute="secondhand" 
-action="../secondhand/write.html" method="POST" enctype="multipart/form-data">
+action="../secondhand/modify.html" method="POST" enctype="multipart/form-data">
 <table border="1" align="center">
 <tr><td>글제목</td><td><form:input path="secondhand_title" cssClass="secondhand_title"/></td></tr>
 <tr><td>가격</td><td><form:input path="secondhand_price"/></td></tr>
@@ -67,20 +64,13 @@ action="../secondhand/write.html" method="POST" enctype="multipart/form-data">
 <tr><td>내용</td><td><form:textarea style="width:100%; height:20%;"  path="secondhand_content"/></td></tr>
 </table>
 <form:hidden path="secondhand_writer" value="${sessionScope.User.user_id }"/>
+<form:hidden path="secondhand_seqno" value="${seqno }"/>
 <br/>
 <div align="center">
 <input type="submit" value="등록" onclick="return write_validation()"/>
 </div>
 </form:form>
 </c:when>
-<c:otherwise>
-<script>
-alert("권한이 없습니다. 일반회원만 작성할 수 있습니다.");
-history.back();
-</script>
-</c:otherwise>
 </c:choose>
-</div>
-
 </body>
 </html>

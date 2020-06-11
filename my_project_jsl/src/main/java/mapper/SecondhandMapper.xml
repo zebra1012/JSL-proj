@@ -10,7 +10,7 @@
 	to_date(#{secondhand_date},'yyyy/mm/dd/ hh24:mi:ss'))
 	</insert>
 	<select id="getSecondHandList" parameterType="model.Condition" resultType="model.Secondhand" >
-	select secondhand_seqno,secondhand_image,secondhand_title,secondhand_writer,secondhand_price,secondhand_date from (
+	select secondhand_seqno,secondhand_image,secondhand_title,secondhand_writer,secondhand_price,secondhand_date,secondhand_local from (
  		select a.*, rownum rn from (
  			(select * from secondhand order by secondhand_seqno desc)a
  			) 
@@ -19,4 +19,17 @@
 	<select id="getSecondHandCount" resultType="Integer">
 	select count(*) from secondhand
 	</select>
+	<select id="getSecondHandDetail" parameterType="Integer" resultType="model.Secondhand">
+	select * from secondhand where secondhand_seqno=#{secondhand_seqno}
+	</select>
+	<delete id="deleteSecondHand" parameterType="Integer">
+	delete from secondhand where secondhand_seqno=#{secondhand_seqno} 
+	</delete>
+	<update id="modifySecondHand" parameterType="Integer">
+	update secondhand set secondhand_title=#{secondhand_title},secondhand_local=#{secondhand_local},
+	secondhand_price=#{secondhand_price},secondhand_image=#{secondhand_image},secondhand_content=#{secondhand_content}
+	where secondhand_seqno=#{secondhand_seqno}
+	
+	</update>
+	
 </mapper>

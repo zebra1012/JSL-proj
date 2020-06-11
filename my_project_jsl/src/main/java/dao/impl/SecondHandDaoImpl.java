@@ -17,7 +17,6 @@ public class SecondHandDaoImpl implements SecondHandDao {
 	
 	public Integer getMaxSeqno() {
 		Integer seqno=session.selectOne("SecondhandMapper.getMaxSeqno");
-		System.out.println(seqno);
 		if(seqno==null) {
 			seqno=1;
 		}else seqno+=1;
@@ -35,6 +34,19 @@ public class SecondHandDaoImpl implements SecondHandDao {
 	public Integer getSecondhandCount() {
 		return session.selectOne("SecondhandMapper.getSecondHandCount");
 	}
-	
 
+	public Secondhand getSecondhandDetail(Integer seqno) {
+		return session.selectOne("SecondhandMapper.getSecondHandDetail",seqno);
+	}
+
+	public void deleteSecondHand(Integer seqno) {
+		session.delete("SecondhandMapper.deleteSecondHand", seqno);
+		
+	}
+
+	public void ModifySecondHand(Secondhand secondhand) {
+		session.update("SecondhandMapper.modifySecondHand", secondhand);
+		
+	}
+	
 }

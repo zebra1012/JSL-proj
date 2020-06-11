@@ -2,10 +2,19 @@ package model;
 
 import java.sql.Date;
 
+import org.springframework.web.multipart.MultipartFile;
+
 public class Secondhand {
 	private Integer secondhand_seqno,secondhand_price;
 	private String secondhand_title,secondhand_writer, secondhand_local,secondhand_image,secondhand_content;
 	private String secondhand_date;
+	private MultipartFile picture;
+	public MultipartFile getPicture() {
+		return picture;
+	}
+	public void setPicture(MultipartFile picture) {
+		this.picture = picture;
+	}
 	public Integer getSecondhand_seqno() {
 		return secondhand_seqno;
 	}
