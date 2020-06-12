@@ -29,7 +29,8 @@
 	update secondhand set secondhand_title=#{secondhand_title},secondhand_local=#{secondhand_local},
 	secondhand_price=#{secondhand_price},secondhand_image=#{secondhand_image},secondhand_content=#{secondhand_content}
 	where secondhand_seqno=#{secondhand_seqno}
-	
 	</update>
-	
+	<select id="getImage" parameterType="Integer" resultType="String">
+		select secondhand_image from secondhand where secondhand_seqno=#{secondhand_seqno}
+	</select>
 </mapper>

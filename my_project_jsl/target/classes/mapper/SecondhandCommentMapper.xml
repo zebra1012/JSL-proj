@@ -8,7 +8,24 @@
 		select max(comment_group) from secondhand_comment where parent_seqno=#{parent_seqno}
 	</select>
 	<select id="getMaxOrder" resultType="Integer" parameterType="model.Condition">
-		select max(comment_order) from secondhnd_comment where parent_seqno=#{parent_seqno} and 
+		select max(comment_order) from secondhand_comment where parent_seqno=#{parent_seqno} and 
 		comment_group=#{comment_group}
 	</select>
+	<insert id="insertComment" parameterType="model.Comment">
+		insert into secondhand_comment values(#{comment_seqno},#{parent_seqno},#{comment_group},
+		#{comment_order},#{comment_writer},to_date(#{comment_date},'yyyy/mm/dd/ hh24:mi:ss'),
+		#{comment_content},#{comment_pwd})
+	</insert>
+	<select id="getCommentList" parameterType="Integer" resultType="model.Comment">
+		select * from secondhand_comment where parent_seqno=#{parent_seqno} order by comment_group asc, comment_order desc
+	</select>
+	<select id="getComment" parameterType="Integer" resultType="model.Comment">
+		select * from secondhand_comment where comment_seqno=#{comment_seqno}
+	</select>
+	<delete id="deleteComment" parameterType="Integer">
+		delete from secondhand_comment where comment_seqno=#{comment_seqno}
+	</delete>
+	<update id="updateComment" parameterType="model.Comment">
+		update secondhand_comment set comment_writer=#{comment_writer},comment_content=#{comment_content} where comment_seqno=#{comment_seqno}
+	</update>
 </mapper>

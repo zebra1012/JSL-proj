@@ -48,5 +48,9 @@ public class SecondHandDaoImpl implements SecondHandDao {
 		session.update("SecondhandMapper.modifySecondHand", secondhand);
 		
 	}
+
+	public String getImage(Integer seqno) {
+		return session.selectOne("SecondhandMapper.getImage",seqno);
+	}
 	
 }

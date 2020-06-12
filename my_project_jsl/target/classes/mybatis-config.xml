@@ -6,6 +6,7 @@
 	<mappers>
 		<mapper resource="mapper/LoginMapper.xml"/>
 		<mapper resource="mapper/SecondhandMapper.xml"/>
+		<mapper resource="mapper/SecondhandCommentMapper.xml"/>
 		<mapper resource="mapper/ItemMapper.xml"/>
 	</mappers>
 </configuration>

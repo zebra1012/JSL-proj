@@ -8,6 +8,7 @@ import java.util.List;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import javax.swing.plaf.synth.SynthSplitPaneUI;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -33,6 +34,7 @@ public class SecondhandController {
 	SecondHandDao SecondHandDao;
 	@Autowired
 	SHCommentDao commentDao;
+	
 	@RequestMapping (value="/secondhand/frontpage.html")
 	public ModelAndView TofrontPage(Integer pageNo) {
 		ModelAndView mav = new ModelAndView("secondhand/frontpage");
@@ -90,11 +92,13 @@ public class SecondhandController {
 		return mav; 
 	}
 	@RequestMapping(value="/secondhand/Detail.html",method=RequestMethod.GET)
-	public ModelAndView secondhandDetail(String seqno) {
+	public ModelAndView secondhandDetail(String seqno) { //글 정보와 댓글 정보를 함께 담는다.
 		ModelAndView mav = new ModelAndView("secondhand/detail");
 		Integer no = Integer.parseInt(seqno);
 		Secondhand target = SecondHandDao.getSecondhandDetail(no);
-		mav.addObject("secondhand",target);
+		List<Comment> target_comment=commentDao.getCommentList(no);
+		mav.addObject("CommentList",target_comment); //댓글 정보
+		mav.addObject("secondhand",target); //글 정보 
 		return mav;
 	}
 	@RequestMapping(value="/secondhand/delete.html",method=RequestMethod.GET)
@@ -150,11 +154,13 @@ public class SecondhandController {
 		String FileName=null; String path=null;
 		OutputStream out = null;
 		MultipartRequest Multipart = new MultipartRequest(request,filePath,5*1024*1024,encType,new DefaultFileRenamePolicy());
-		String picture_url=Multipart.getFilesystemName("secondhand_image");
+		
 		model.setSecondhand_seqno(Integer.parseInt(Multipart.getParameter("secondhand_seqno")));
 		model.setSecondhand_title(Multipart.getParameter("secondhand_title"));
 		model.setSecondhand_price(Integer.parseInt(Multipart.getParameter("secondhand_price")));
 		model.setSecondhand_local(Multipart.getParameter("secondhand_local"));
+		String picture_url=Multipart.getFilesystemName("secondhand_image");
+		if (picture_url==null) picture_url=SecondHandDao.getImage(model.getSecondhand_seqno()); //이미지 변경을 안 하면 기존 이미지 사용
 		model.setSecondhand_image(picture_url);
 		model.setSecondhand_content(Multipart.getParameter("secondhand_content"));
 	//	SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd kk:mm:ss");
@@ -166,7 +172,7 @@ public class SecondhandController {
 		return mav; 
 	}
 	
-	@RequestMapping(value="/secondhand/commentWrite.html",method=RequestMethod.POST)
+	@RequestMapping(value="/secondhand/commentWrite.html",method=RequestMethod.POST) //기본댓글
 	public ModelAndView commentWrite(HttpServletRequest request) {
 		ModelAndView mav = new ModelAndView();
 		Comment comment=new Comment();
@@ -178,7 +184,62 @@ public class SecondhandController {
 		String strDate = dateFormat.format(Calendar.getInstance().getTime());
 		comment.setComment_date(strDate);
 		comment.setComment_seqno(commentDao.getMaxSeqno());
+		comment.setComment_group(commentDao.getMaxGroup(comment.getParent_seqno())); //그룹, 이 컨트롤러가 실행될 때 마다 +1
+		comment.setComment_order(1); //정렬, 기본 댓글이므로 무조건 1
+		commentDao.insertComment(comment);
+		mav.setViewName("redirect:../secondhand/Detail.html?seqno="+comment.getParent_seqno());
+		return mav;
+	}
+	@RequestMapping(value="secondhand/askpwd.html", method=RequestMethod.GET)
+	public ModelAndView AskPWD(String request,Integer seqno) {
+		
+		ModelAndView mav = new ModelAndView("secondhand/askresult");
+		mav.addObject("seqno",seqno);
+		if(request.equals("delete")) {
+			mav.addObject("request","delete");
+			
+		}
+		else if (request.equals("modify")) {
+			mav.addObject("request","modify");
+		}
+		else if (request.equals("reply")) {
+			mav.addObject("request","reply");
+			mav.addObject("reply",new Comment());
+		}
+		return mav;
+	}
+	@RequestMapping(value="secondhand/deleteComment.html",method=RequestMethod.GET)
+	public ModelAndView deleteComment(String pwd, Integer seqno) {
+		ModelAndView mav = new ModelAndView("secondhand/CommentResult");
+		if(pwd.equals(commentDao.getComment(seqno).getComment_pwd())) {
+			commentDao.deleteComment(seqno);
+			mav.addObject("result", "Success");
+		}else mav.addObject("result","Fail");
+		return mav;
+	}
+	@RequestMapping(value="secondhand/modifyComment.html",method=RequestMethod.GET)
+	public ModelAndView modifyComment(HttpServletRequest request) {
+		
+		ModelAndView mav = new ModelAndView("secondhand/CommentResult");
+		Integer seqno=Integer.parseInt(request.getParameter("seqno"));
+		String pwd=request.getParameter("pwd");
+		String content = request.getParameter("content");
+		String writer=request.getParameter("writer");
+		Comment temp = new Comment();
+		System.out.println(pwd);
+		temp.setComment_seqno(seqno); temp.setComment_writer(writer);
+		temp.setComment_content(content);
+		if(pwd.equals(commentDao.getComment(seqno).getComment_pwd())) {
+			commentDao.updateComment(temp);
+			mav.addObject("result", "Success");
+		}else mav.addObject("result","Fail");
+		return mav;
+	}
+	@RequestMapping(value="/secondhand/commentReply.html",method=RequestMethod.POST)
+	public ModelAndView CommentReply(Comment reply,HttpServletRequest request) {
+		Integer parent = Integer.parseInt(request.getParameter("parent"));//답글이 달릴 글번호.
 		
 		
+		return null;
 	}
 }

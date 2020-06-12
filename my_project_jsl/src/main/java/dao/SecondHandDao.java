@@ -13,4 +13,6 @@ public interface SecondHandDao {
 	public Secondhand getSecondhandDetail(Integer seqno);
 	public void deleteSecondHand(Integer seqno);
 	public void ModifySecondHand(Secondhand secondhand);
+	public String getImage(Integer seqno);
+	
 }

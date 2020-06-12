@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=EUC-KR"
     pageEncoding="EUC-KR"%>
-    <%@taglib uri = "http://java.sun.com/jsp/jstl/core" prefix="c" %>
+    <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -9,24 +9,19 @@
 </head>
 <body>
 <c:choose>
-<c:when test="${result=='YES' && Type=='Admin' }">
+<c:when test="${result == 'Success' }">
 <script type="text/javascript">
-window.location.href = '../index/showMessage.html';
+self.close();
+opener.window.location.reload();
 </script>
 </c:when>
-<c:when test="${result == 'YES' }">
+<c:otherwise>
 <script type="text/javascript">
-	self.close();
-	opener.window.location.reload();
-</script>
-</c:when>
-<c:when test="${result=='NO' }">
-<script type="text/javascript">
-	alert("해당하는 계정 정보가 존재하지 않습니다.");
+	alert("비밀번호가 일치하지 않습니다.");
 	history.back();
 </script>
-</c:when>
-</c:choose>
+</c:otherwise>
 
+</c:choose>
 </body>
 </html>
