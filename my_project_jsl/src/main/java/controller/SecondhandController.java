@@ -8,7 +8,6 @@ import java.util.List;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import javax.swing.plaf.synth.SynthSplitPaneUI;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -192,7 +191,6 @@ public class SecondhandController {
 	}
 	@RequestMapping(value="secondhand/askpwd.html", method=RequestMethod.GET)
 	public ModelAndView AskPWD(String request,Integer seqno) {
-		
 		ModelAndView mav = new ModelAndView("secondhand/askresult");
 		mav.addObject("seqno",seqno);
 		if(request.equals("delete")) {
@@ -237,9 +235,41 @@ public class SecondhandController {
 	}
 	@RequestMapping(value="/secondhand/commentReply.html",method=RequestMethod.POST)
 	public ModelAndView CommentReply(Comment reply,HttpServletRequest request) {
-		Integer parent = Integer.parseInt(request.getParameter("parent"));//답글이 달릴 글번호.
+		ModelAndView mav = new ModelAndView("secondhand/CommentResult");
+		Condition c=new Condition();
+		Integer parent = Integer.parseInt(request.getParameter("parent_seqno"));//답글이 달릴  답글번호
+		Comment parentComment=commentDao.getComment(parent);
+		String content=reply.getComment_content();
+		reply.setParent_seqno(parentComment.getParent_seqno());
+		reply.setComment_content("→"+content);
+		reply.setComment_seqno(commentDao.getMaxSeqno());
+		reply.setComment_group(parentComment.getComment_group());
+		c.setParent_seqno(reply.getParent_seqno());
+		c.setComment_group(reply.getComment_group());
+		reply.setComment_order(commentDao.getMaxOrder(c));
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd kk:mm:ss");
+		String strDate = dateFormat.format(Calendar.getInstance().getTime());
+		reply.setComment_date(strDate);
+		commentDao.insertComment(reply);
+		mav.addObject("result","Success");
+		return mav;
 		
-		
-		return null;
+	}
+	@RequestMapping(value="/secondhand/search.html",method=RequestMethod.GET)
+	public ModelAndView Search(String type,String keyword) {
+		ModelAndView mav = new ModelAndView("secondhand/frontpage");
+		if(type.equals("writer")) {
+			List<Secondhand> list= SecondHandDao.getSecondHandByWriter(keyword);
+			mav.addObject("Secondhand",list);
+		}
+		if(type.equals("title")) {
+			List<Secondhand> list = SecondHandDao.getSecondHandByTitle(keyword);
+			mav.addObject("Secondhand",list);
+		}
+		if(type.equals("content")) {
+			List<Secondhand> list  = SecondHandDao.getSecondhandByContent(keyword);
+			mav.addObject("Secondhand",list);
+		}
+		return mav;
 	}
 }

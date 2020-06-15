@@ -57,5 +57,18 @@ public class LoginDaoImpl implements LoginDao {
 		 session.update("LoginMapper.companychangePWD", user);
 		
 	}
+	public Integer visitorCheck(String date) {
+		return session.selectOne("LoginMapper.visitCheck", date);
+	}
+	public void visitorAdder(String date) {
+		session.update("LoginMapper.visitAdder", date);
+		
+	}
+	public void visitrCreate(String date) {
+		session.insert("LoginMapper.visitrCreate", date);
+		
+	}
+	
+	
 	
 }

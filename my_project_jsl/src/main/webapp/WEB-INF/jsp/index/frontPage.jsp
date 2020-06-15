@@ -18,10 +18,6 @@ table#wrapper_table {
 	margin:0 auto;
 }
 </style>
-<script type="text/javascript">
-
-
-</script>
 <meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
 <title>Insert title here</title>
 </head>

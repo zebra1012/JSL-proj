@@ -17,7 +17,7 @@ opener.window.location.reload();
 </c:when>
 <c:otherwise>
 <script type="text/javascript">
-	alert("비밀번호가 일치하지 않습니다.");
+	alert("삭제에 실패했습니다.");
 	history.back();
 </script>
 </c:otherwise>

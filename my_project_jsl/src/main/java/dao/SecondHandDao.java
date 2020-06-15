@@ -14,5 +14,8 @@ public interface SecondHandDao {
 	public void deleteSecondHand(Integer seqno);
 	public void ModifySecondHand(Secondhand secondhand);
 	public String getImage(Integer seqno);
+	public List<Secondhand> getSecondHandByWriter(String writer);
+	public List<Secondhand> getSecondHandByTitle(String title);
+	public List<Secondhand> getSecondhandByContent(String content);
 	
 }

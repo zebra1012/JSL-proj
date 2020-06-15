@@ -14,7 +14,6 @@ border-style: solid;
 </style>
 <script type="text/javascript">
 function search(){
-	alert("작동확인");
 	var keyword=document.getElementById("searchForm").value;
 	var type=document.getElementById("searchType").value;
 	window.location.href="../secondhand/search.html?type="+type+"&keyword="+keyword;

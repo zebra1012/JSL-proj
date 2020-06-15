@@ -33,4 +33,13 @@
 	<select id="getImage" parameterType="Integer" resultType="String">
 		select secondhand_image from secondhand where secondhand_seqno=#{secondhand_seqno}
 	</select>
+	<select id="getSecondHandByWriter" parameterType="String" resultType="model.Secondhand">
+	select * from secondhand where secondhand_writer like '%' || #{writer} || '%' order by secondhand_seqno desc
+	</select>
+	<select id="getSecondHandByContent" parameterType="String" resultType="model.Secondhand">
+	select * from secondhand where secondhand_content like '%' || #{content} || '%' order by secondhand_seqno desc
+	</select>
+	<select id="getSecondHandByTitle" parameterType="String" resultType="model.Secondhand">
+	select * from secondhand where secondhand_title like '%' || #{title} || '%' order by secondhand_seqno desc
+	</select>
 </mapper>

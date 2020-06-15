@@ -10,6 +10,7 @@
 		var password = document.getElementById("pwd").value;
 		var content = document.getElementById("content").value;
 		var parent = document.getElementById("parent").value;
+		var Type=document.getElementById("Type").value;
 
 		var form = document.createElement("form");
 		form.setAttribute("method", "post");
@@ -41,6 +42,12 @@
 		input.setAttribute("value", parent);
 		form.appendChild(input);
 
+		input = document.createElement("input");
+		input.setAttribute("type", "hidden");
+		input.setAttribute("name", "Type");
+		input.setAttribute("value", Type);
+		form.appendChild(input);
+		
 		form.submit();
 	}
 </script>
@@ -63,7 +70,7 @@
 				<c:forEach var="comment" items="${CommentList}">
 					<tr>
 						<td>${comment.comment_writer }</td>
-						<td width="600px">${comment.comment_content}</td>
+						<td width="600px" style="text-align:left;">${comment.comment_content}</td>
 						<td width="40px"><input type="button" onclick="window.open('../secondhand/askpwd.html?request=reply&seqno='+${comment.comment_seqno},'_blank','width=450,height=200')"
 							value="답글"></td>
 						<td width="40px"><input type="button" onclick="window.open('../secondhand/askpwd.html?request=modify&seqno='+${comment.comment_seqno},'_blank','width=450,height=200')"
@@ -88,7 +95,8 @@
 						<td rowspan="2"><textarea Id="content" cols="80" rows="5"
 								placeholder="내용을 입력해주세요."></textarea></td>
 					<tr>
-						<td><input type="hidden" value="useless" Id="pwd"></td>
+						<td><input type="hidden" value="${sessionScope.User.user_pwd }" Id="pwd"></td>
+						<input type="hidden" value="Formal" id="Type"/>
 					</tr>
 				</c:when>
 				<c:otherwise>
@@ -98,6 +106,7 @@
 								placeholder="내용을 입력해주세요."></textarea></td>
 					<tr>
 						<td><input type="password" placeholder="비밀번호" Id="pwd"></td>
+						<input type="hidden" value="other" id="Type"/>
 					</tr>
 				</c:otherwise>
 			</c:choose>

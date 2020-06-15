@@ -44,7 +44,7 @@ function write_validation(){
 <h3>상품 등록</h3>
 <form:form name="writeform" modelAttribute="Item" 
 action="../item/write.html" method="POST" enctype="multipart/form-data">
-<table align="center">
+<table border="1" align="center">
 <tr><td>상품명</td><td><form:input path="item_name"/></td></tr>
 <tr><td>상품분류</td><td><form:input path="item_code"/></td></tr>
 <tr><td>상품이미지</td><td><input type="File" name="item_image"/></td></tr>

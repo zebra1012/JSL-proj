@@ -19,31 +19,70 @@
 			</form>
 		</c:when>
 		<c:when test="${request=='modify' }">
-			<h3>댓글 수정</h3>
-			<form action="../secondhand/modifyComment.html" method="GET">
-				작성자<input type="text" name="writer" /><br /> 비밀번호 <input
-					type="password" name="pwd" /><br /> 글 내용
-				<textarea name="content"></textarea>
-				<input type="hidden" name="seqno" value="${seqno }" /> <input
-					type="submit" value="삭제">
-			</form>
+			<c:choose>
+				<c:when
+					test="${sessionScope.Type=='Formal' && not empty sessionScope.User }">
+					<h3 align="center">댓글 수정</h3>
+					<form align="center" action="../secondhand/modifyComment.html"
+						method="GET">
+						글 내용<br /> <input type="hidden"
+							value="${sessionScope.User.user_id }" name="writer" /><input
+							type="hidden" value="${sessionScope.User.user_pwd }" name="pwd" />
+						<textarea name="content"></textarea>
+						<input type="hidden" name="seqno" value="${seqno }" /> <br /> <input
+							type="submit" value="수정">
+
+					</form>
+
+				</c:when>
+				<c:otherwise>
+					<h3 align="center">댓글 수정</h3>
+					<form align="center" action="../secondhand/modifyComment.html"
+						method="GET">
+						작성자<input type="text" name="writer" /><br /> 비밀번호 <input
+							type="password" name="pwd" /> 글 내용<br />
+						<textarea name="content"></textarea>
+						<input type="hidden" name="seqno" value="${seqno }" /><br /> <input
+							type="submit" value="수정">
+					</form>
+				</c:otherwise>
+			</c:choose>
 		</c:when>
 		<c:when test="${request=='reply' }">
 			<h3>답글 작성</h3>
-			<form:form modelAttribute="reply" action="../secondhand/commentReply.html"
-				method="POST">
+			<form:form align="center" modelAttribute="reply"
+				action="../secondhand/commentReply.html" method="POST">
+				<c:choose>
+					<c:when test="${sessionScope.Type=='Formal' && not empty sessionScope.User }" >
 				<table>
-					<tr>
-						<td><form:input path="comment_writer" placeholder="작성자"/>
-						<td rowspan="2"><form:textarea path="comment_content" cols="80" rows="5"
-								placeholder="내용을 입력해주세요."/></td>
-					<tr>
-						<td><form:password path="comment_pwd" placeholder="비밀번호"/></td>
-						<input type="hidden" name="parent" value="${seqno }"/>
-					</tr>
-				</table> <br/>
-				
-				<input type="submit" value="등록"/>
+							<tr>
+								<td><form:hidden path="comment_writer" value="${sessionScope.User.user_id }" />
+								<td rowspan="2"><form:textarea path="comment_content"
+										cols="80" rows="5" placeholder="내용을 입력해주세요." /></td>
+							<tr>
+								<td><form:hidden path="comment_pwd" value="${sessionScope.User.user_pwd }" /></td>
+								<br />
+								<input type="hidden" name="parent_seqno" value="${seqno }" />
+							</tr>
+						</table>
+					</c:when>
+					<c:otherwise>
+						<table>
+							<tr>
+								<td><form:input path="comment_writer" placeholder="작성자" />
+								<td rowspan="2"><form:textarea path="comment_content"
+										cols="80" rows="5" placeholder="내용을 입력해주세요." /></td>
+							<tr>
+								<td><form:password path="comment_pwd" placeholder="비밀번호" /></td>
+								<br />
+								<input type="hidden" name="parent_seqno" value="${seqno }" />
+							</tr>
+						</table>
+					</c:otherwise>
+				</c:choose>
+				<br />
+
+				<input type="submit" value="등록" />
 			</form:form>
 		</c:when>
 	</c:choose>

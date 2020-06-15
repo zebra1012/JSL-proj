@@ -51,5 +51,4 @@ public class Comment {
 	public void setComment_pwd(String comment_pwd) {
 		this.comment_pwd = comment_pwd;
 	}
-	
 }

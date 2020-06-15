@@ -20,5 +20,8 @@ public interface LoginDao {
 	public Integer companyGetPWD(CompanyUser user);
 	public void formalChangePWD(FormalUser user);
 	public void companyChangePWD(CompanyUser user);
+	public Integer visitorCheck(String date);
+	public void visitorAdder(String date);
+	public void visitrCreate(String date);
 	
 }

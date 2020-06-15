@@ -52,5 +52,19 @@ public class SecondHandDaoImpl implements SecondHandDao {
 	public String getImage(Integer seqno) {
 		return session.selectOne("SecondhandMapper.getImage",seqno);
 	}
+
+	public List<Secondhand> getSecondHandByWriter(String writer) {
+		return session.selectList("SecondhandMapper.getSecondHandByWriter",writer);
+	}
+
+	public List<Secondhand> getSecondHandByTitle(String title) {
+		return session.selectList("SecondhandMapper.getSecondHandByTitle",title);
+	}
+
+	public List<Secondhand> getSecondhandByContent(String content) {
+		return session.selectList("SecondhandMapper.getSecondHandByContent",content);
+	}
+	
+	
 	
 }

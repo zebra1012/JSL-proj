@@ -17,7 +17,7 @@
 		#{comment_content},#{comment_pwd})
 	</insert>
 	<select id="getCommentList" parameterType="Integer" resultType="model.Comment">
-		select * from secondhand_comment where parent_seqno=#{parent_seqno} order by comment_group asc, comment_order desc
+		select * from secondhand_comment where parent_seqno=#{parent_seqno} order by comment_group asc, comment_order asc
 	</select>
 	<select id="getComment" parameterType="Integer" resultType="model.Comment">
 		select * from secondhand_comment where comment_seqno=#{comment_seqno}
