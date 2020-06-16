@@ -148,12 +148,7 @@ public class SecondhandController {
 		ServletContext context= request.getSession().getServletContext();
 		String filePath=context.getRealPath("/Secondhand_Image");
 		String encType="euc-kr";
-		
-		MultipartFile multiFile=model.getPicture();
-		String FileName=null; String path=null;
-		OutputStream out = null;
-		MultipartRequest Multipart = new MultipartRequest(request,filePath,5*1024*1024,encType,new DefaultFileRenamePolicy());
-		
+		MultipartRequest Multipart = new MultipartRequest(request,filePath,5*1024*1024,encType,new DefaultFileRenamePolicy());	
 		model.setSecondhand_seqno(Integer.parseInt(Multipart.getParameter("secondhand_seqno")));
 		model.setSecondhand_title(Multipart.getParameter("secondhand_title"));
 		model.setSecondhand_price(Integer.parseInt(Multipart.getParameter("secondhand_price")));

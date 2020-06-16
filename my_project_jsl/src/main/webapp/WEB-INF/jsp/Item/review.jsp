@@ -8,13 +8,9 @@
 <title>Insert title here</title>
 </head>
 <body>
-<jsp:include page="header.jsp"></jsp:include>
-<div align="center" id="wrapper">
-<c:if test="${reg_result=='OK' }">
-가입성공!</c:if>
-<br/>
-<a href="../index/showMessage.html">메인화면으로 돌아가기</a>
-</div>
+<div id="wrapper">
+		<h3 align="center">후기</h3>
+		<c:if test="${not empty ReviewList }">
+		</c:if>
 </body>
-
 </html>

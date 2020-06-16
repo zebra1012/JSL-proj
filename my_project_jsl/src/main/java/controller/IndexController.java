@@ -236,25 +236,23 @@ public class IndexController {
 	}
 
 	@RequestMapping(value="/index/cookiesCheck.html",method=RequestMethod.GET)
-	public ModelAndView cookiesCheck(HttpServletRequest request, HttpServletResponse response) {
-		ModelAndView mav = new ModelAndView("index/frontPage");
+	public String cookiesCheck(HttpServletRequest request, HttpServletResponse response) {
+		//ModelAndView mav = new ModelAndView("index/frontPage");
 		Cookie[] cookies=request.getCookies(); 
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
 		String strDate = dateFormat.format(Calendar.getInstance().getTime()); //오늘 날짜
-		for (int i = 0; i<cookies.length;i++) {
+		for (int i = 0; i<cookies.length;i++) { //현재 쿠키에서 방문정보를 담은 쿠키 검사. 있으면 종료
 			Cookie cookie = cookies[i];
-			if(cookie.getName().equals("visit")&&cookie.getValue().equals("OK")) break;
-			if(!cookie.getName().equals("visit")||!cookie.getValue().equals("OK")) {
-				Cookie visit = new Cookie("visit","OK");
-				visit.setMaxAge(60*60*3); // 쿠키 기간 3시간
-				visit.setPath("/");
-				Integer date =LoginDao.visitorCheck(strDate); //해당날짜가 있는지 조회
-				if (date != null) LoginDao.visitorAdder(strDate); //있으면 +1
-				else LoginDao.visitrCreate(strDate); //없으면 생성
-				response.addCookie(visit);
-			}
-		
+			if(cookie.getName().equals("visit")&&cookie.getValue().equals("OK")) 
+				return "index/frontPage";
 		}
-		return mav;
+			Cookie visit = new Cookie("visit","OK"); //없으면 쿠키를 생성한다.
+			visit.setMaxAge(60*60*3); // 쿠키 기간 3시간
+			visit.setPath("/");
+			Integer date =LoginDao.visitorCheck(strDate); //해당날짜가 있는지 조회
+			if (date != null) LoginDao.visitorAdder(strDate);
+			else LoginDao.visitrCreate(strDate);
+			response.addCookie(visit);
+			return "index/frontPage";
 	}
 }

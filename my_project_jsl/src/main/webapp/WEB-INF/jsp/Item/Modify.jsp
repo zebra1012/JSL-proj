@@ -8,13 +8,19 @@
 <title>Insert title here</title>
 </head>
 <body>
-<jsp:include page="header.jsp"></jsp:include>
-<div align="center" id="wrapper">
-<c:if test="${reg_result=='OK' }">
-가입성공!</c:if>
-<br/>
-<a href="../index/showMessage.html">메인화면으로 돌아가기</a>
-</div>
+<c:choose>
+<c:when test="${result=='Success' }">
+<script type="text/javascript">
+alert("수정되었습니다.");
+location.href="../item/itemDetail.html?seqno=${item.item_seqno }"
+</script>
+</c:when>
+<c:otherwise>
+<script type="text/javascript">
+alert("수정에 실패했습니다.");
+location.href="../item/frontpage.html"
+</script>
+</c:otherwise>
+</c:choose>
 </body>
-
 </html>

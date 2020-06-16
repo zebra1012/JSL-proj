@@ -15,4 +15,28 @@
  			) 
  	) where rn between #{startRow} and #{endRow}
 	</select>
+	<select id="getItemCount" resultType="Integer">
+	select count(*) from item
+	</select>
+	<select id="getItem" resultType="model.Item" parameterType="Integer">
+	select * from item where item_seqno=#{item_seqno}
+	</select>
+	<delete id="deleteItem" parameterType="Integer">
+	delete from item where item_seqno=#{item_seqno}
+	</delete>
+	<select id="getImage" parameterType="Integer" resultType="String"></select>
+	<update id="updateItem" parameterType="model.Item">
+	update item set item_name=#{item_name},item_writer=#{item_writer},item_code=#{item_code},
+	item_price=#{item_price}, item_stock=#{item_stock},item_state=#{item_state},
+	item_content=#{item_content},item_image=#{item_image} where item_seqno=#{item_seqno}
+	</update>
+	<select id="getItemByWriter" parameterType="String" resultType="model.Item">
+	select * from item where item_writer like '%' || #{writer} || '%' order by item_seqno desc
+	</select>
+	<select id="getItemByName" parameterType="String" resultType="model.Item">
+	select * from item where item_name like '%' || #{name} || '%' order by item_seqno desc
+	</select>
+	<select id="getItemByContent" parameterType="String" resultType="model.Item">
+	select * from item where item_content like '%' || #{content} || '%' order by item_seqno desc
+	</select>
 </mapper>
