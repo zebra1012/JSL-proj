@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 import dao.ItemDao;
 import model.Condition;
 import model.Item;
+import model.Review;
 
 @Repository
 public class ItemDaoImpl implements ItemDao {
@@ -59,8 +60,41 @@ public class ItemDaoImpl implements ItemDao {
 	public List<Item> getItemByContent(String content) {
 		return session.selectList("ItemMapper.getItemByContent", content);
 	}
-	
-	
+
+	public List<Review> getItemReview(Integer seqno) {
+		return session.selectList("ItemMapper.getItemReview", seqno);
+	}
+
+	public Integer getItemReviewMax() {
+		Integer max = session.selectOne("ItemMapper.getItemReviewMax");
+		if (max==null) max=1;
+		else max+=1;
+		return max;
+	}
+
+	public Integer getItemReviewGroup(Integer parent) {
+		Integer max= session.selectOne("ItemMapper.getItemReviewGroup",parent);
+		if (max==null) max=1;
+		else max+=1;
+		return max;
+	}
+	public void insertItemReview(Review review) {
+		session.insert("ItemMapper.insertItemReview", review);
+	}
+
+	public void deleteItemReview(Integer seqno) {
+		session.delete("ItemMapper.deleteItemReview",seqno);
+		
+	}
+
+	public Review getSingleItemReview(Integer seqno) {
+		return session.selectOne("ItemMapper.getSingleItemReview",seqno);
+	}
+
+	public void modifyItemReview(Review review) {
+		session.update("ItemMapper.modifyItemReview",review);
+		
+	}
 	
 	
 	

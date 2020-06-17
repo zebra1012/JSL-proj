@@ -39,4 +39,27 @@
 	<select id="getItemByContent" parameterType="String" resultType="model.Item">
 	select * from item where item_content like '%' || #{content} || '%' order by item_seqno desc
 	</select>
+	<select id="getItemReview" parameterType="Integer" resultType="model.Review">
+	select * from item_review where parent_seqno = #{item_seqno}
+	</select>
+	<select id="getItemReviewMax" resultType="Integer">
+	select max(review_seqno) from item_review
+	</select>
+	<select id="getItemReviewGroup" resultType="Integer" parameterType="Integer">
+	select max(review_group) from item_review where parent_seqno=#{parent}
+	</select>
+	<insert id="insertItemReview" parameterType="model.Review">
+	insert into item_review values(#{review_seqno},#{parent_seqno},#{review_group},#{review_writer},#{review_content},to_date(#{review_date},'yyyy/mm/dd hh24:mi:ss')
+	,#{review_image, jdbcType=VARCHAR},#{review_order},#{review_star})
+	</insert>
+	<delete id="deleteItemReview" parameterType="Integer">
+	delete from item_review where review_seqno=#{seqno}
+	</delete>
+	<select id="getSingleItemReview" parameterType="Integer" resultType="model.Review">
+	select * from item_review where review_seqno = #{seqno}
+	</select>
+	<update id="modifyItemReview" parameterType="model.Review">
+	update item_review set review_image=#{review_image, jdbcType=VARCHAR},review_star=#{review_star},
+	review_content=#{review_content} where review_seqno = #{review_seqno}
+	</update>
 </mapper>

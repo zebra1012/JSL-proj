@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=EUC-KR"
 	pageEncoding="EUC-KR"%>
+	<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -68,10 +69,19 @@ function changeQuantity(){
 		<div id="detail_buttons">
 			<ul>
 				<li><input type="button" value="목록으로" onclick="history.back()"></li>
+				<!--  기업회원만 아래 메뉴가 뜨게 일반 그 외는 장바구니를 넣을 것 -->
+				<c:choose>
+					<c:when test="${sessionScope.Type=='Company' && sessionScope.User.company_id == item.item_writer }">
 				<li><input type="button" value="삭제"
 					onclick="location.href='../item/delete.html?seqno='+${item.item_seqno}"></li>
 				<li><input type="button" value="수정"
 					onclick="location.href='../item/modify.html?seqno='+${item.item_seqno}"></li>
+					</c:when>
+					<c:otherwise>
+					<li><input type="button" value="담기"
+					onclick="location.href='../item/goCart.html?seqno='+${item.item_seqno}"></li>
+					</c:otherwise>
+				</c:choose>
 			</ul>
 		</div>
 		<br />

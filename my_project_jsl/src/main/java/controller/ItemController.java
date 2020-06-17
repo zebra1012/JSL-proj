@@ -1,5 +1,8 @@
 package controller;
 
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.List;
 
 import javax.servlet.ServletContext;
@@ -17,58 +20,71 @@ import com.oreilly.servlet.MultipartRequest;
 import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
 
 import dao.ItemDao;
+import model.Comment;
 import model.CompanyUser;
 import model.Condition;
 import model.Item;
-import model.Secondhand;
+import model.Review;
 
 @Controller
 public class ItemController {
 	@Autowired
 	ItemDao itemDao;
-	@RequestMapping(value="/item/frontpage.html",method=RequestMethod.GET)
+
+	@RequestMapping(value = "/item/frontpage.html", method = RequestMethod.GET)
 	public ModelAndView ToFrontPage(Integer pageNo) {
 		ModelAndView mav = new ModelAndView("Item/frontpage");
 		Condition condition = new Condition();
-		Integer total=itemDao.getItemCount();
-		if(total==null) total=0;
-		int startRow=0; int endRow=0; int pageCnt=0;
-		int currentPage=0;
-		if(pageNo==null) currentPage=1;
-		else currentPage=pageNo;
-		if(total >0) {
-			pageCnt= total/10;
-			if(total%10 >0) pageCnt++;
-			startRow=(currentPage-1)*10+1;
-			endRow=currentPage*10;
-			if(endRow > total) endRow=total;
+		Integer total = itemDao.getItemCount();
+		if (total == null)
+			total = 0;
+		int startRow = 0;
+		int endRow = 0;
+		int pageCnt = 0;
+		int currentPage = 0;
+		if (pageNo == null)
+			currentPage = 1;
+		else
+			currentPage = pageNo;
+		if (total > 0) {
+			pageCnt = total / 10;
+			if (total % 10 > 0)
+				pageCnt++;
+			startRow = (currentPage - 1) * 10 + 1;
+			endRow = currentPage * 10;
+			if (endRow > total)
+				endRow = total;
 		}
-		condition.setStartRow(startRow); condition.setEndRow(endRow);	
+		condition.setStartRow(startRow);
+		condition.setEndRow(endRow);
 		List<Item> list = itemDao.getItemList(condition);
 		mav.addObject("Items", list);
-		mav.addObject("COUNT",pageCnt);
+		mav.addObject("COUNT", pageCnt);
 		return mav;
 	}
-	@RequestMapping(value="/item/writeform.html",method=RequestMethod.GET)
+
+	@RequestMapping(value = "/item/writeform.html", method = RequestMethod.GET)
 	public ModelAndView ItemWriteForm(HttpSession session) {
 		ModelAndView mav = new ModelAndView("Item/writeform");
 		Object user = session.getAttribute("User");
-		if (user instanceof CompanyUser) {  
-			mav.addObject("Company","YES"); //세션에 일반 사용자 계정이 존재하면 YES
-			mav.addObject("Item",new Item());
-		}else {
-			mav.addObject("Company","NO"); //없으면 NO
+		if (user instanceof CompanyUser) {
+			mav.addObject("Company", "YES"); // 세션에 일반 사용자 계정이 존재하면 YES
+			mav.addObject("Item", new Item());
+		} else {
+			mav.addObject("Company", "NO"); // 없으면 NO
 		}
-		return mav;		
+		return mav;
 	}
-	@RequestMapping(value="/item/write.html",method=RequestMethod.POST) //글 작성
-	public ModelAndView WriteSeondHand(Item model,BindingResult br,HttpServletRequest request) throws Exception {
+
+	@RequestMapping(value = "/item/write.html", method = RequestMethod.POST) // 글 작성
+	public ModelAndView WriteSeondHand(Item model, BindingResult br, HttpServletRequest request) throws Exception {
 		ModelAndView mav = new ModelAndView("redirect:/item/frontpage.html");
-		ServletContext context= request.getSession().getServletContext();
-		String filePath=context.getRealPath("/Item_Image");
-		String encType="euc-kr";
-		MultipartRequest Multipart = new MultipartRequest(request,filePath,5*1024*1024,encType,new DefaultFileRenamePolicy());
-		String picture_url=Multipart.getFilesystemName("item_image");
+		ServletContext context = request.getSession().getServletContext();
+		String filePath = context.getRealPath("/Item_Image");
+		String encType = "euc-kr";
+		MultipartRequest Multipart = new MultipartRequest(request, filePath, 5 * 1024 * 1024, encType,
+				new DefaultFileRenamePolicy());
+		String picture_url = Multipart.getFilesystemName("item_image");
 		model.setItem_seqno(itemDao.getMaxSeqno());
 		model.setItem_name(Multipart.getParameter("item_name"));
 		model.setItem_writer(Multipart.getParameter("item_writer"));
@@ -79,94 +95,180 @@ public class ItemController {
 		model.setItem_state(0);
 		model.setItem_stock(0);
 		itemDao.insertItem(model);
-		return mav; 
+		return mav;
 	}
-	@RequestMapping (value="item/itemDetail.html", method=RequestMethod.GET)
+
+	@RequestMapping(value = "item/itemDetail.html", method = RequestMethod.GET)
 	public ModelAndView ItemDetail(String seqno) {
 		ModelAndView mav = new ModelAndView("Item/detail");
-		Item target=itemDao.getItem(Integer.parseInt(seqno));
-		//List<Review> list = 
+		Item target = itemDao.getItem(Integer.parseInt(seqno));
+		List<Review> list = itemDao.getItemReview(Integer.parseInt(seqno));
+		mav.addObject("ReviewList", list);
 		mav.addObject("item", target);
 		return mav;
 	}
-	@RequestMapping(value="item/delete.html",method=RequestMethod.GET)
-	public ModelAndView itemDelete(String seqno,HttpSession session) {
-		ModelAndView mav = new ModelAndView ("Item/delete");
+
+	@RequestMapping(value = "item/delete.html", method = RequestMethod.GET)
+	public ModelAndView itemDelete(String seqno, HttpSession session) {
+		ModelAndView mav = new ModelAndView("Item/delete");
 		Integer no = Integer.parseInt(seqno);
-		Item target=itemDao.getItem(no);
-		if(session.getAttribute("Type")==null||!session.getAttribute("Type").equals("Company")) { //세션에 로그인 정보가 없거나 업체 회원이 아닐 때
-			mav.addObject("result","Fail");
+		Item target = itemDao.getItem(no);
+		if (session.getAttribute("Type") == null || !session.getAttribute("Type").equals("Company")) { // 세션에 로그인 정보가
+																										// 없거나 업체 회원이 아닐
+																										// 때
+			mav.addObject("result", "Fail");
 			return mav;
 		}
-		CompanyUser CU=(CompanyUser)session.getAttribute("User");
-		if (!CU.getCompany_id().equals(target.getItem_writer())){ //상품을 등록한 업체와 다를 때
-			mav.addObject("reuslt","Fail");
+		CompanyUser CU = (CompanyUser) session.getAttribute("User");
+		if (!CU.getCompany_id().equals(target.getItem_writer())) { // 상품을 등록한 업체와 다를 때
+			mav.addObject("reuslt", "Fail");
 			return mav;
 		}
 		itemDao.deleteItem(no);
-		mav.addObject("result","Success");
+		mav.addObject("result", "Success");
 		return mav;
 	}
-	@RequestMapping(value="item/modify.html",method=RequestMethod.GET)
-	public ModelAndView itemModify(String seqno,HttpSession session) {
+
+	@RequestMapping(value = "item/modify.html", method = RequestMethod.GET)
+	public ModelAndView itemModify(String seqno, HttpSession session) {
 		ModelAndView mav = new ModelAndView("Item/modifyForm");
 		Integer no = Integer.parseInt(seqno);
-		Item target=itemDao.getItem(no);
-		if(session.getAttribute("Type")==null||!session.getAttribute("Type").equals("Company")) { //세션에 로그인 정보가 없거나 업체 회원이 아닐 때
-			mav.addObject("result","Fail");
+		Item target = itemDao.getItem(no);
+		if (session.getAttribute("Type") == null || !session.getAttribute("Type").equals("Company")) { // 세션에 로그인 정보가
+																										// 없거나 업체 회원이 아닐
+																										// 때
+			mav.addObject("result", "Fail");
 			return mav;
 		}
-		CompanyUser CU=(CompanyUser)session.getAttribute("User");
-		if (!CU.getCompany_id().equals(target.getItem_writer())){ //상품을 등록한 업체와 다를 때
-			mav.addObject("reuslt","Fail");
+		CompanyUser CU = (CompanyUser) session.getAttribute("User");
+		if (!CU.getCompany_id().equals(target.getItem_writer())) { // 상품을 등록한 업체와 다를 때
+			mav.addObject("reuslt", "Fail");
 			return mav;
 		}
-		mav.addObject("result","Success");
-		mav.addObject("seqno",no);
-		mav.addObject("item",new Item());
+		mav.addObject("result", "Success");
+		mav.addObject("seqno", no);
+		mav.addObject("item", new Item());
 		return mav;
 	}
-	@RequestMapping(value="item/modify.html",method=RequestMethod.POST)
-	public ModelAndView itemModify(Item model,BindingResult br, HttpServletRequest request) throws Exception {
+
+	@RequestMapping(value = "item/modify.html", method = RequestMethod.POST)
+	public ModelAndView itemModify(Item model, BindingResult br, HttpServletRequest request) throws Exception {
 		ModelAndView mav = new ModelAndView("Item/Modify");
-		ServletContext context= request.getSession().getServletContext();
-		String filePath=context.getRealPath("/Item_Image");
-		String encType="euc-kr";
-		MultipartRequest Multipart = new MultipartRequest(request,filePath,5*1024*1024,encType,new DefaultFileRenamePolicy());
-		
-			
+		ServletContext context = request.getSession().getServletContext();
+		String filePath = context.getRealPath("/Item_Image");
+		String encType = "euc-kr";
+		MultipartRequest Multipart = new MultipartRequest(request, filePath, 5 * 1024 * 1024, encType,
+				new DefaultFileRenamePolicy());
+
 		model.setItem_seqno(Integer.parseInt(Multipart.getParameter("item_seqno")));
 		model.setItem_name(Multipart.getParameter("item_name"));
 		model.setItem_writer(Multipart.getParameter("item_writer"));
 		model.setItem_price(Integer.parseInt(Multipart.getParameter("item_price")));
 		model.setItem_code(Integer.parseInt(Multipart.getParameter("item_code")));
 		model.setItem_content(Multipart.getParameter("item_content"));
-		String picture_url=Multipart.getFilesystemName("item_image");
-		if(picture_url==null) picture_url=itemDao.getItem(model.getItem_seqno()).getItem_image();
+		String picture_url = Multipart.getFilesystemName("item_image");
+		if (picture_url == null)
+			picture_url = itemDao.getItem(model.getItem_seqno()).getItem_image();
 		model.setItem_image(picture_url);
 		model.setItem_state(0);
 		model.setItem_stock(0);
 		itemDao.updateItem(model);
-		mav.addObject("result","Success");
-		mav.addObject("seqno",model.getItem_seqno());
-		return mav; 
-		
+		mav.addObject("result", "Success");
+		mav.addObject("seqno", model.getItem_seqno());
+		return mav;
+
 	}
-	@RequestMapping(value="item/search.html",method=RequestMethod.GET)
+
+	@RequestMapping(value = "item/search.html", method = RequestMethod.GET)
 	public ModelAndView ItemSearch(String type, String keyword) {
 		ModelAndView mav = new ModelAndView("Item/frontpage");
-		if(type.equals("writer")) {
-			List<Item> list= itemDao.getItemByWriter(keyword);
-			mav.addObject("Items",list);
+		if (type.equals("writer")) {
+			List<Item> list = itemDao.getItemByWriter(keyword);
+			mav.addObject("Items", list);
 		}
-		if(type.equals("name")) {
+		if (type.equals("name")) {
 			List<Item> list = itemDao.getItemByName(keyword);
-			mav.addObject("Items",list);
+			mav.addObject("Items", list);
 		}
-		if(type.equals("content")) {
-			List<Item> list  = itemDao.getItemByContent(keyword);
-			mav.addObject("Items",list);
+		if (type.equals("content")) {
+			List<Item> list = itemDao.getItemByContent(keyword);
+			mav.addObject("Items", list);
 		}
+		return mav;
+	}
+
+	@RequestMapping(value = "Item/writeReview.html", method = RequestMethod.GET)
+	public ModelAndView writeReview(String parent) {
+		ModelAndView mav = new ModelAndView("Item/reviewWriteForm");
+		mav.addObject("review", new Review());// 객체주입
+		mav.addObject("parent", parent);
+		return mav;
+	}
+
+	@RequestMapping(value = "Item/writeReview.html", method = RequestMethod.POST)
+	public ModelAndView writeReview(Review review, HttpServletRequest request) throws Exception {
+		ModelAndView mav = new ModelAndView("Item/reviewWriteResult");
+		ServletContext context = request.getSession().getServletContext();
+		String filePath = context.getRealPath("/Review_Image");
+		String encType = "euc-kr";
+		MultipartRequest Multipart = new MultipartRequest(request, filePath, 5 * 1024 * 1024, encType,
+				new DefaultFileRenamePolicy());
+		String picture_url = Multipart.getFilesystemName("review_image");
+		review.setReview_seqno(itemDao.getItemReviewMax());
+		review.setParent_seqno(Integer.parseInt(Multipart.getParameter("parent_seqno")));
+		review.setReview_group(itemDao.getItemReviewGroup(review.getParent_seqno()));
+		review.setReview_order(1);
+		review.setReview_writer(Multipart.getParameter("review_writer"));
+		review.setReview_content(Multipart.getParameter("review_content"));
+		review.setReview_image(picture_url);
+		review.setReview_star(Integer.parseInt(Multipart.getParameter("review_star")));
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd kk:mm:ss");
+		String strDate = dateFormat.format(Calendar.getInstance().getTime());
+		review.setReview_date(strDate);
+		mav.addObject("result", "Success");
+		mav.addObject("seqno", review.getParent_seqno());
+		itemDao.insertItemReview(review);
+		return mav;
+	}
+
+	@RequestMapping(value = "Item/askpwd.html", method = RequestMethod.GET)
+	public ModelAndView AskPwd(String request, Integer seqno) {
+		ModelAndView mav = new ModelAndView("Item/askresult");
+		mav.addObject("seqno", seqno);
+		if (request.equals("delete")) {
+			mav.addObject("request", "delete");
+
+		} else if (request.equals("modify")) {
+			mav.addObject("request", "modify");
+		}
+		return mav;
+	}
+
+	@RequestMapping(value = "Item/reviewDelete.html", method = RequestMethod.GET)
+	public ModelAndView reviewDelete(String seqno) {
+		ModelAndView mav = new ModelAndView("Item/reviewResult");
+		itemDao.deleteItemReview(Integer.parseInt(seqno));
+		mav.addObject("result", "Success");
+		return mav;
+	}
+
+	@RequestMapping(value = "/item/modifyReview.html", method = RequestMethod.POST)
+	public ModelAndView reviewModify(HttpServletRequest request) throws IOException {
+		ModelAndView mav = new ModelAndView("Item/reviewResult");
+		ServletContext context = request.getSession().getServletContext();
+		String filePath = context.getRealPath("/Review_Image");
+		String encType = "euc-kr";
+		MultipartRequest Multipart = new MultipartRequest(request, filePath, 5 * 1024 * 1024, encType,
+				new DefaultFileRenamePolicy());
+		Review target = itemDao.getSingleItemReview(Integer.parseInt(Multipart.getParameter("seqno")));
+		target.setReview_star(Integer.parseInt(Multipart.getParameter("star")));
+		String picture_url = Multipart.getFilesystemName("image");
+		if (picture_url != null) {
+			target.setReview_image(picture_url);
+		}
+		target.setReview_content(Multipart.getParameter("content"));
+		itemDao.modifyItemReview(target);
+		mav.addObject("result", "Success");
 		return mav;
 	}
 }

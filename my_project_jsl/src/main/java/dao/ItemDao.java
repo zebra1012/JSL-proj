@@ -4,6 +4,7 @@ import java.util.List;
 
 import model.Condition;
 import model.Item;
+import model.Review;
 
 public interface ItemDao {
 	public Integer getMaxSeqno();
@@ -16,4 +17,13 @@ public interface ItemDao {
 	public List<Item> getItemByWriter(String writer);
 	public List<Item> getItemByName(String name);
 	public List<Item> getItemByContent(String content);
+	
+	public List<Review> getItemReview(Integer seqno);
+	public Integer getItemReviewMax();
+	public Integer getItemReviewGroup(Integer parent);
+	public void insertItemReview(Review review);
+	public void deleteItemReview(Integer seqno);
+	public Review getSingleItemReview(Integer seqno);
+	public void modifyItemReview(Review review);
+	
 }

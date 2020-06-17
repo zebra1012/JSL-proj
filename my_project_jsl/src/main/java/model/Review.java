@@ -1,8 +1,8 @@
 package model;
 
 public class Review {
-	private Integer review_seqno,parent_seqno, review_group, review_star;
-	private String review_writer, review_content,review_date;
+	private Integer review_seqno,parent_seqno, review_group, review_star,review_order;
+	private String review_writer, review_content,review_date, review_image ;
 	public Integer getReview_seqno() {
 		return review_seqno;
 	}
@@ -44,6 +44,18 @@ public class Review {
 	}
 	public void setReview_date(String review_date) {
 		this.review_date = review_date;
+	}
+	public String getReview_image() {
+		return review_image;
+	}
+	public void setReview_image(String review_image) {
+		this.review_image = review_image;
+	}
+	public Integer getReview_order() {
+		return review_order;
+	}
+	public void setReview_order(Integer review_order) {
+		this.review_order = review_order;
 	}
 	
 }
