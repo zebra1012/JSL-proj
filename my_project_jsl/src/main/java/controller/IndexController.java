@@ -11,20 +11,24 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import dao.ItemCartDao;
 import dao.LoginDao;
 import model.AdminUser;
+import model.Cart;
 import model.CompanyUser;
 import model.FormalUser;
 
 @Controller
 public class IndexController {
 	@Autowired
+	private ItemCartDao ItemCartDao;
+	@Autowired
 	private LoginDao LoginDao;
+	private Cart cart;
 	private FormalUser FormalUser;
 	private CompanyUser CompanyUser;
 	private AdminUser AdminUser;
@@ -55,6 +59,8 @@ public class IndexController {
 					mav.addObject("result", "YES");
 					session.setAttribute("User", FormalUser);
 					session.setAttribute("Type", "Formal");
+					List<Cart> cart = ItemCartDao.getFormalCart(FormalUser.getUser_id());
+					session.setAttribute("Cart", cart);
 					session.setMaxInactiveInterval(60*60);
 				} else
 					FormalUser = null;

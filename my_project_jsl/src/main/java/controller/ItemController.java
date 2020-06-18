@@ -19,10 +19,13 @@ import org.springframework.web.servlet.ModelAndView;
 import com.oreilly.servlet.MultipartRequest;
 import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
 
+import dao.ItemCartDao;
 import dao.ItemDao;
-import model.Comment;
+import javassist.bytecode.Descriptor.Iterator;
+import model.Cart;
 import model.CompanyUser;
 import model.Condition;
+import model.FormalUser;
 import model.Item;
 import model.Review;
 
@@ -30,6 +33,8 @@ import model.Review;
 public class ItemController {
 	@Autowired
 	ItemDao itemDao;
+	@Autowired
+	ItemCartDao ICD;
 
 	@RequestMapping(value = "/item/frontpage.html", method = RequestMethod.GET)
 	public ModelAndView ToFrontPage(Integer pageNo) {

@@ -26,6 +26,11 @@ function changeQuantity(){
 	document.getElementById("totalPrice").innerText=${item.item_price} * selected;
 	
 }
+function goCart(){
+	var select=document.getElementById("quantity");
+	var selected= select.options[select.selectedIndex].value;
+	window.location.href='../itemCart/goCart.html?seqno='+${item.item_seqno}+'&quantity='+selected;
+}
 </script>
 <meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
 <title>Insert title here</title>
@@ -62,7 +67,7 @@ function changeQuantity(){
 					<option value="5">5</option>
 					</select></td>
 					<td width="50px">총금액</td>
-					<td id="totalPrice"></td>
+					<td id="totalPrice">${item.item_price }</td>
 				</tr>
 			</table>
 		</div>
@@ -79,7 +84,7 @@ function changeQuantity(){
 					</c:when>
 					<c:otherwise>
 					<li><input type="button" value="담기"
-					onclick="location.href='../item/goCart.html?seqno='+${item.item_seqno}"></li>
+					onclick="goCart()"></li>
 					</c:otherwise>
 				</c:choose>
 			</ul>

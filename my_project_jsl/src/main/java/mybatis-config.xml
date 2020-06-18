@@ -8,5 +8,6 @@
 		<mapper resource="mapper/SecondhandMapper.xml"/>
 		<mapper resource="mapper/SecondhandCommentMapper.xml"/>
 		<mapper resource="mapper/ItemMapper.xml"/>
+		<mapper resource="mapper/ItemCartMapper.xml"/>
 	</mappers>
 </configuration>

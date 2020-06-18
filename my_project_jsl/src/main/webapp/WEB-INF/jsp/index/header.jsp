@@ -59,7 +59,9 @@ div#wrapper {
 									<c:if test="${Type=='Admin' }"> 관리자 ${User.admin_id}로 로그인 되었습니다.</c:if>
 								</li>
 								<li id="top_list"><a href="../index/logout.html">로그아웃</a></li>
-								<li id="top_list"><a href="l">사이트맵</a></li>
+								<li id="top_list"><a href="../ItemCart/showCart.html">
+								<c:if test="${Type=='Formal' || Type=='Unsigned' }">장바구니</c:if></a>
+								</li>
 							</c:when>
 							<c:when test="${empty User }">
 								<li id="top_list"><a href="javascript:LoginPopup()">로그인</a></li>
