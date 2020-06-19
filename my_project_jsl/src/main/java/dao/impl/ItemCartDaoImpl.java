@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import dao.ItemCartDao;
 import model.Cart;
+import model.Shopping;
 import model.Unsigned_User;
 
 @Repository
@@ -47,6 +48,44 @@ public class ItemCartDaoImpl implements ItemCartDao {
 	public void insertUnsignedCart(Cart cart) {
 		session.insert("ItemCartMapper.insertUnsignedCart", cart);
 	}
+	public void clearFormalCart(String id) {
+		session.delete("ItemCartMapper.clearFormalCart",id);
+		
+	}
+	public void clearUnsignedCart(Integer no) {
+		session.delete("ItemCartMapper.clearUnsignedCart", no);
+	}
+	public Integer getMaxFormalShopping() {
+		Integer max= session.selectOne("ItemCartMapper.getMaxFormalShopping");
+		if (max==null) max=1;
+		else max+=1;
+		return max;
+	}
+	public Integer getMaxUnsignedShopping() {
+		Integer max= session.selectOne("ItemCartMapper.getMaxUnsignedShopping");
+		if(max==null) max=1;
+		else max+=1;
+		return max;
+	}
+	public void insertFormalShopping(Shopping target) {
+		session.insert("ItemCartMapper.insertFormalShopping", target);
+		
+	}
+	public void insertUnsignedShopping(Shopping target) {
+		session.insert("ItemCartMapper.insertUnsignedShopping",target);
+		
+	}
+	public List<Shopping> getFormalShopping(String id) {
+		return session.selectList("ItemCartMapper.getFormalShopping", id);
+		
+	}
+	public List<Shopping> getUnsignedShopping(Integer no) {
+		return session.selectList("ItemCartMapper.getUnsignedShopping",no);
+		
+	}
+	
+	
+	
 	
 	
 }

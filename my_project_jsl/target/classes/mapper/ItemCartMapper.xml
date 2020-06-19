@@ -30,4 +30,30 @@
 	<insert id="insertUnsignedCart" parameterType="model.Cart">
 		insert into unsigned_user_cart values(#{cart_seqno},#{cart_owner},#{cart_itemseqno},#{cart_quantity})
 	</insert>
+	<delete id="clearFormalCart" parameterType="String">
+		delete from user_cart where cart_owner=#{id}
+	</delete> 
+	<delete id="clearUnsignedCart" parameterType="Integer">
+		delete from unsigned_user_cart where cart_owner=#{no}
+	</delete>
+	<insert id="insertFormalShopping" parameterType="model.Shopping">
+		insert into user_shopping values(#{shopping_seqno},#{shopping_buyer},#{shopping_item},
+		#{shopping_quantity},to_date(#{shopping_date},'yyyy/mm/dd hh24:mi:ss'),#{shopping_shipment})
+	</insert>
+	<insert id="insertUnsignedShopping" parameterType="model.Shopping">
+		insert into user_shopping values(#{shopping_seqno},#{shopping_buyer},#{shopping_item},
+		#{shopping_quantity},to_date(#{shopping_date},'yyyy/mm/dd hh24:mi:ss'),#{shopping_shipment})
+	</insert>
+	<select id="getMaxFormalShopping" resultType="Integer">
+		select max(shopping_seqno) from user_shopping
+	</select>
+	<select id="getMaxUnsignedShopping" resultType="Integer">
+		select max(shopping_seqno) from unsigned_user_shopping
+	</select>
+	<select id="getFormalShopping" parameterType="String" resultType="model.Shopping">
+		select * from user_shopping where shopping_buyer=#{buyer}
+	</select>
+	<select id="getUnsignedShopping" parameterType="Integer" resultType="model.Shopping">
+		select * from unsigned_user_shopping where shopping_buyer=#{buyer}
+	</select>
 </mapper>

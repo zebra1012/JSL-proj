@@ -3,6 +3,7 @@ package dao;
 import java.util.List;
 
 import model.Cart;
+import model.Shopping;
 import model.Unsigned_User;
 
 public interface ItemCartDao {
@@ -16,4 +17,14 @@ public interface ItemCartDao {
 	public List<Cart> getUnsignedCart(Integer owner);
 	public void updateUnsignedCart(Cart cart);
 	public void insertUnsignedCart(Cart cart);
+	public void clearFormalCart(String id);
+	public void clearUnsignedCart(Integer no);
+	public Integer getMaxFormalShopping();
+	public Integer getMaxUnsignedShopping();
+	public void insertFormalShopping(Shopping target);
+	public void insertUnsignedShopping(Shopping target);
+	public List<Shopping> getFormalShopping(String id);
+	public List<Shopping> getUnsignedShopping(Integer no);
+	
+	
 }

@@ -1,8 +1,9 @@
 package model;
 
 public class Shopping { //쇼핑모델, 비회원과 일반회원이 동일한 모델을 이용한다.
-	private String shopping_date;
-	private Integer shopping_seqno,	shopping_buyer,shopping_item,shopping_quantity, shopping_shipment;
+	private String shopping_date, shopping_buyer;
+	private Integer shopping_seqno,shopping_item,shopping_quantity, shopping_shipment;
+	private Item item;
 	public String getShopping_date() {
 		return shopping_date;
 	}
@@ -15,10 +16,10 @@ public class Shopping { //쇼핑모델, 비회원과 일반회원이 동일한 �
 	public void setShopping_seqno(Integer shopping_seqno) {
 		this.shopping_seqno = shopping_seqno;
 	}
-	public Integer getShopping_buyer() {
+	public String getShopping_buyer() {
 		return shopping_buyer;
 	}
-	public void setShopping_buyer(Integer shopping_buyer) {
+	public void setShopping_buyer(String shopping_buyer) {
 		this.shopping_buyer = shopping_buyer;
 	}
 	public Integer getShopping_item() {
@@ -38,6 +39,12 @@ public class Shopping { //쇼핑모델, 비회원과 일반회원이 동일한 �
 	}
 	public void setShopping_shipment(Integer shopping_shipment) {
 		this.shopping_shipment = shopping_shipment;
+	}
+	public Item getItem() {
+		return item;
+	}
+	public void setItem(Item item) {
+		this.item = item;
 	}
 	
 	

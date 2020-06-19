@@ -29,6 +29,33 @@ div#wrapper {
 	width: 90%;
 	margin-left: 5%;
 }
+
+.hidden {
+	position: absolute;
+	top: 145px;
+	right: 455px; display : none;
+	min-width: 140px;
+	z-index: 1;
+	box-shadow: 2px 8px 16px 2px rgba(0, 0, 0, 0.2);
+	background-color: #f1f1f1;
+	display: none;
+}
+
+.hidden a {
+	display: inline;
+}
+
+.hidden a:hover {
+	background-color: #ddd;
+}
+
+#dropbtn {
+	display: inline;
+}
+
+#dropbtn:hover .hidden {
+	display: inline;
+}
 </style>
 <script type="text/javascript">
 	function LoginPopup() {
@@ -60,8 +87,11 @@ div#wrapper {
 								</li>
 								<li id="top_list"><a href="../index/logout.html">로그아웃</a></li>
 								<li id="top_list"><a href="../ItemCart/showCart.html">
-								<c:if test="${Type=='Formal' || Type=='Unsigned' }">장바구니</c:if></a>
-								</li>
+										<c:if test="${Type=='Formal' || Type=='Unsigned' }">장바구니</c:if>
+								</a>
+								<li id="top_list"><a href="../ItemCart/CheckOut.html">
+										<c:if test="${Type=='Formal' || Type=='Unsigned' }">구매목록</c:if>
+								</a></li>
 							</c:when>
 							<c:when test="${empty User }">
 								<li id="top_list"><a href="javascript:LoginPopup()">로그인</a></li>
@@ -77,13 +107,20 @@ div#wrapper {
 						id="btn" type="button" value="중고거래"
 						onclick="location.href='../secondhand/frontpage.html'" /> <input
 						id="btn" type="button" value="오픈마켓"
-						onclick="location.href='../item/frontpage.html'" /> <input
-						id="btn" type="button" value="커뮤니티"
-						onclick="location.href='../bbs/frontpage.html'" /> <input id="btn"
-						type="button" value="마이페이지"
+						onclick="location.href='../item/frontpage.html'" />
+					<div id="dropbtn">
+						<input id="btn" type="button" value="커뮤니티"
+							onclick="location.href='../bbs/frontpage.html'" />
+						<div class="hidden">
+							<a href="../bbs/toBBS.html?state=free">자유</a><br /> 
+							<a href="../bbs/toBBS.html?state=hobbit">취미</a><br />
+							<a href="../bbs/toBBS.html?state=read">읽을거리</a>
+						</div>
+					</div>
+					<input id="btn" type="button" value="마이페이지"
 						onclick="location.href='../mypage/frontpage.html'" />
-					<hr />
 				</div>
+				<hr />
 			</div>
 		</c:otherwise>
 	</c:choose>
