@@ -3,6 +3,13 @@ package model;
 public class BBS {
 	private String bbs_title,bbs_writer,bbs_image,bbs_content,bbs_date,bbs_password;
 	private Integer bbs_seqno,bbs_code,bbs_hot,bbs_state;
+	private Integer rn; //출력용 글번호
+	public Integer getRn() {
+		return rn;
+	}
+	public void setRn(Integer rn) {
+		this.rn = rn;
+	}
 	public String getBbs_title() {
 		return bbs_title;
 	}

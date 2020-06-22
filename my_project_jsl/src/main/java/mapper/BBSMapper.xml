@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="BBSMapper">
+	<select id="getMaxSeqno" resultType="Integer">
+		select max(bbs_seqno) from bbs
+	</select>
+	<insert id="insertBBS" parameterType="model.BBS">
+		insert into bbs
+		values(#{bbs_seqno},#{bbs_code},#{bbs_title},#{bbs_writer},#{bbs_image},#{bbs_content},
+		to_date(#{bbs_date},'yyyy/mm/dd
+		hh24:mi:ss'),#{bbs_hot},#{bbs_password},#{bbs_state})
+	</insert>
+	<select id="getBBSDetail" parameterType="Integer" resultType="model.BBS">
+		select * from bbs where bbs_seqno=#{bbs_seqno}
+	</select>
+	<select id="getFreeBBSList" parameterType="model.Condition"
+		resultType="model.BBS"> <!-- 게시판에 표시할 글 번호는 rownum임 seqno는 식별을 위해 가져온다. -->
+		select rn,bbs_seqno,bbs_title,bbs_writer,bbs_date,bbs_hot,bbs_state from (select
+		a.*,rownum as rn from(select * from bbs where bbs_code=1 order by
+		bbs_seqno asc)a) where rn between #{startRow} and #{endRow} order by rn desc
+	</select>
+	<select id="getFreeBBSTotal" resultType="Integer">
+		select count(*) from bbs where bbs_code=1
+	</select>
+	<update id="addHot" parameterType="Integer">
+		update bbs set bbs_hot=bbs_hot+1 where bbs_seqno=#{bbs_seqno}
+	</update>
+</mapper>
