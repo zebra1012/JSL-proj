@@ -15,4 +15,51 @@
  			) 
  	) where rn between #{startRow} and #{endRow}
 	</select>
+	<select id="getItemCount" resultType="Integer">
+	select count(*) from item
+	</select>
+	<select id="getItem" resultType="model.Item" parameterType="Integer">
+	select * from item where item_seqno=#{item_seqno}
+	</select>
+	<delete id="deleteItem" parameterType="Integer">
+	delete from item where item_seqno=#{item_seqno}
+	</delete>
+	<select id="getImage" parameterType="Integer" resultType="String"></select>
+	<update id="updateItem" parameterType="model.Item">
+	update item set item_name=#{item_name},item_writer=#{item_writer},item_code=#{item_code},
+	item_price=#{item_price}, item_stock=#{item_stock},item_state=#{item_state},
+	item_content=#{item_content},item_image=#{item_image} where item_seqno=#{item_seqno}
+	</update>
+	<select id="getItemByWriter" parameterType="String" resultType="model.Item">
+	select * from item where item_writer like '%' || #{writer} || '%' order by item_seqno desc
+	</select>
+	<select id="getItemByName" parameterType="String" resultType="model.Item">
+	select * from item where item_name like '%' || #{name} || '%' order by item_seqno desc
+	</select>
+	<select id="getItemByContent" parameterType="String" resultType="model.Item">
+	select * from item where item_content like '%' || #{content} || '%' order by item_seqno desc
+	</select>
+	<select id="getItemReview" parameterType="Integer" resultType="model.Review">
+	select * from item_review where parent_seqno = #{item_seqno}
+	</select>
+	<select id="getItemReviewMax" resultType="Integer">
+	select max(review_seqno) from item_review
+	</select>
+	<select id="getItemReviewGroup" resultType="Integer" parameterType="Integer">
+	select max(review_group) from item_review where parent_seqno=#{parent}
+	</select>
+	<insert id="insertItemReview" parameterType="model.Review">
+	insert into item_review values(#{review_seqno},#{parent_seqno},#{review_group},#{review_writer},#{review_content},to_date(#{review_date},'yyyy/mm/dd hh24:mi:ss')
+	,#{review_image, jdbcType=VARCHAR},#{review_order},#{review_star})
+	</insert>
+	<delete id="deleteItemReview" parameterType="Integer">
+	delete from item_review where review_seqno=#{seqno}
+	</delete>
+	<select id="getSingleItemReview" parameterType="Integer" resultType="model.Review">
+	select * from item_review where review_seqno = #{seqno}
+	</select>
+	<update id="modifyItemReview" parameterType="model.Review">
+	update item_review set review_image=#{review_image, jdbcType=VARCHAR},review_star=#{review_star},
+	review_content=#{review_content} where review_seqno = #{review_seqno}
+	</update>
 </mapper>

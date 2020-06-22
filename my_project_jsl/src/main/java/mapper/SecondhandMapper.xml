@@ -7,7 +7,7 @@
 	<insert id="insertSecondHand" parameterType="model.Secondhand">
 	insert into secondhand values (#{secondhand_seqno},#{secondhand_title},#{secondhand_writer},
 	#{secondhand_local},#{secondhand_price},#{secondhand_image},#{secondhand_content},
-	to_date(#{secondhand_date},'yyyy/mm/dd/ hh24:mi:ss'))
+	to_date(#{secondhand_date},'yyyy/mm/dd hh24:mi:ss'))
 	</insert>
 	<select id="getSecondHandList" parameterType="model.Condition" resultType="model.Secondhand" >
 	select secondhand_seqno,secondhand_image,secondhand_title,secondhand_writer,secondhand_price,secondhand_date,secondhand_local from (

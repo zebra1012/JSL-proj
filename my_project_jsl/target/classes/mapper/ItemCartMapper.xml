@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ItemCartMapper">
+	<select id="getFormalCart" resultType="model.Cart" parameterType="String">
+		select * from user_cart where cart_owner = #{user_id}
+	</select>
+	<select id="getMaxSeqno" resultType="Integer">
+		select max(cart_seqno) from user_cart
+	</select>
+	<insert id="insertFormalCart" parameterType="model.Cart">
+		insert into user_cart values(#{cart_seqno},#{cart_owner},#{cart_itemseqno},#{cart_quantity})
+	</insert>
+	<update id="updateFormalCart" parameterType="model.Cart">
+		update user_cart set cart_quantity =cart_quantity+#{cart_quantity} where cart_owner=#{cart_owner}
+		and cart_itemseqno=#{cart_itemseqno}
+	</update>
+	<select id="getMaxUnsignedUser" resultType="Integer">
+		select max(unsigned_no) from unsigned_user
+	</select>
+	<select id="insertUnsignedUser" parameterType="model.Unsigned_User">
+		insert into unsigned_user values(#{unsigned_no},#{unsigned_name},#{unsigned_addr},#{unsigned_phone})
+	</select>
+	<select id="getUnsignedCart" parameterType="Integer" resultType="model.Cart">
+		select * from unsigned_user_cart where cart_owner=#{owner}
+	</select>
+	<update id="updateUnsignedCart" parameterType="model.Cart">
+		update unsigned_user_cart set cart_quantity=cart_quantity+#{cart_quantity} where cart_owner=#{cart_owner}
+		and cart_itemseqno=#{cart_itemseqno}
+	</update>
+	<insert id="insertUnsignedCart" parameterType="model.Cart">
+		insert into unsigned_user_cart values(#{cart_seqno},#{cart_owner},#{cart_itemseqno},#{cart_quantity})
+	</insert>
+	<delete id="clearFormalCart" parameterType="String">
+		delete from user_cart where cart_owner=#{id}
+	</delete> 
+	<delete id="clearUnsignedCart" parameterType="Integer">
+		delete from unsigned_user_cart where cart_owner=#{no}
+	</delete>
+	<insert id="insertFormalShopping" parameterType="model.Shopping">
+		insert into user_shopping values(#{shopping_seqno},#{shopping_buyer},#{shopping_item},
+		#{shopping_quantity},to_date(#{shopping_date},'yyyy/mm/dd hh24:mi:ss'),#{shopping_shipment})
+	</insert>
+	<insert id="insertUnsignedShopping" parameterType="model.Shopping">
+		insert into user_shopping values(#{shopping_seqno},#{shopping_buyer},#{shopping_item},
+		#{shopping_quantity},to_date(#{shopping_date},'yyyy/mm/dd hh24:mi:ss'),#{shopping_shipment})
+	</insert>
+	<select id="getMaxFormalShopping" resultType="Integer">
+		select max(shopping_seqno) from user_shopping
+	</select>
+	<select id="getMaxUnsignedShopping" resultType="Integer">
+		select max(shopping_seqno) from unsigned_user_shopping
+	</select>
+	<select id="getFormalShopping" parameterType="String" resultType="model.Shopping">
+		select * from user_shopping where shopping_buyer=#{buyer}
+	</select>
+	<select id="getUnsignedShopping" parameterType="Integer" resultType="model.Shopping">
+		select * from unsigned_user_shopping where shopping_buyer=#{buyer}
+	</select>
+</mapper>
