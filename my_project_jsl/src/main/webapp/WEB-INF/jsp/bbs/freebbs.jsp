@@ -5,9 +5,13 @@
 <html>
 <head>
 <style type="text/css">
-table { border: 1px solid;}
-tr td { text-align: center;}
+table {
+	border: 1px solid;
+}
 
+tr td {
+	text-align: center;
+}
 </style>
 <meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
 <title>Insert title here</title>
@@ -15,9 +19,10 @@ tr td { text-align: center;}
 <body>
 	<jsp:include page="../index/header.jsp"></jsp:include>
 	<div id="wrapper">
-		<input type="button" value="글 작성" name="write" onclick="location.href='../bbs/writeform.html?type=free'" style="float:right;">
-		<br/>
-		<table align="center" border="1" >
+		<input type="button" value="글 작성" name="write"
+			onclick="location.href='../bbs/writeform.html?type=free'"
+			style="float: right;"> <br />
+		<table align="center" border="1">
 			<tr>
 				<th>글번호</th>
 				<th width="200px">글제목</th>
@@ -33,13 +38,30 @@ tr td { text-align: center;}
 				</c:when>
 				<c:otherwise>
 					<c:forEach items="${freebbs }" var="bbs">
-						<tr><td>${bbs.rn }</td><td><a href="../bbs/bbsDetail.html?seqno=${bbs.bbs_seqno }&rn=${bbs.rn}">${bbs.bbs_title }</a></td><td>${bbs.bbs_writer }</td>
-						<td>${bbs.bbs_hot }</td><td><font size="1">${bbs.bbs_date }</font></td></tr>
+						<tr>
+							<td>${bbs.rn }</td>
+							<td><a
+								href="../bbs/bbsDetail.html?seqno=${bbs.bbs_seqno }&rn=${bbs.rn}">${bbs.bbs_title }</a></td>
+							<td>${bbs.bbs_writer }</td>
+							<td>${bbs.bbs_hot }</td>
+							<td><font size="1">${bbs.bbs_date }</font></td>
+						</tr>
 					</c:forEach>
 				</c:otherwise>
 
 			</c:choose>
 		</table>
+		<div align="center">
+			<c:forEach var="page" begin="1" end="${COUNT}">
+				<a href="../bbs/freebbs.html?pageNo=${page }">${page }</a>
+			</c:forEach>
+			<br /> <select id="searchType">
+				<option value="writer">작성자</option>
+				<option value="title">제목</option>
+				<option value="content">내용</option>
+			</select> <input type="text" id="searchForm" /> <input type="button"
+				value="검색" name="search" onclick="javascript:search()" />
+		</div>
 	</div>
 
 </body>

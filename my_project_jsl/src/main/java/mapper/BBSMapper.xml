@@ -19,10 +19,44 @@
 		a.*,rownum as rn from(select * from bbs where bbs_code=1 order by
 		bbs_seqno asc)a) where rn between #{startRow} and #{endRow} order by rn desc
 	</select>
+	<select id="getHobbitBBSList" parameterType="model.Condition"
+		resultType="model.BBS"> <!-- 게시판에 표시할 글 번호는 rownum임 seqno는 식별을 위해 가져온다. -->
+		select rn,bbs_seqno,bbs_title,bbs_writer,bbs_date,bbs_hot,bbs_state from (select
+		a.*,rownum as rn from(select * from bbs where bbs_code=2 order by
+		bbs_seqno asc)a) where rn between #{startRow} and #{endRow} order by rn desc
+	</select>
+	<select id="getReadBBSList" parameterType="model.Condition"
+		resultType="model.BBS"> <!-- 게시판에 표시할 글 번호는 rownum임 seqno는 식별을 위해 가져온다. -->
+		select rn,bbs_seqno,bbs_title,bbs_writer,bbs_date,bbs_hot,bbs_state from (select
+		a.*,rownum as rn from(select * from bbs where bbs_code=3 order by
+		bbs_seqno asc)a) where rn between #{startRow} and #{endRow} order by rn desc
+	</select>
 	<select id="getFreeBBSTotal" resultType="Integer">
 		select count(*) from bbs where bbs_code=1
 	</select>
+	<select id="getHobbitBBSTotal" resultType="Integer">
+		select count(*) from bbs where bbs_code=2
+	</select>
+	<select id="getReadBBSTotal" resultType="Integer">
+		select count(*) from bbs where bbs_code=3
+	</select>
 	<update id="addHot" parameterType="Integer">
 		update bbs set bbs_hot=bbs_hot+1 where bbs_seqno=#{bbs_seqno}
+	</update>
+	<select id="checkHot" parameterType="model.BBS_Hot" resultType="Integer">
+		select count(*) from bbs_hot where bbs_seqno=#{bbs_seqno} and formal_user_id=#{formal_user_id}
+	</select> 
+	<insert id="addHotTable" parameterType="model.BBS_Hot">
+		insert into bbs_hot values(#{bbs_seqno},#{formal_user_id})
+	</insert>
+	<delete id="deleteBBS" parameterType="Integer">
+		delete from bbs where bbs_seqno=#{bbs_seqno}
+	</delete>
+	<select id="getBBSImage" parameterType="Integer" resultType="String"> 
+		select bbs_image from bbs where bbs_seqno=#{bbs_seqno}
+	</select>
+	<update id="modifyBBS" parameterType="model.BBS">
+		update bbs set bbs_title=#{bbs_title},bbs_writer=#{bbs_writer},bbs_image=#{bbs_image},
+		bbs_content=#{bbs_content} where bbs_seqno=#{bbs_seqno}
 	</update>
 </mapper>

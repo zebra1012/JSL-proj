@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import dao.BBSDao;
 import model.BBS;
+import model.BBS_Hot;
 import model.Condition;
 
 @Repository
@@ -42,6 +43,47 @@ public class BBSDaoImpl implements BBSDao {
 		session.update("BBSMapper.addHot", seqno);
 		
 	}
+
+	public Integer checkHot(BBS_Hot model) {
+		return session.selectOne("BBSMapper.checkHot",model);
+	}
+
+	public void addHotTable(BBS_Hot model) {
+		session.insert("BBSMapper.addHotTable", model);
+	}
+
+	public void deleteBBS(Integer seqno) {
+		session.delete("BBSMapper.deleteBBS",seqno);
+	}
+	public String getBBSImage(Integer seqno) {
+		return session.selectOne("BBSMapper.getBBSImage",seqno);
+	}
+
+	public void modifyBBS(BBS bbs) {
+		session.update("BBSMapper.modifyBBS",bbs);
+		
+	}
+
+	public Integer getHobbitBBSTotal() {
+		return session.selectOne("BBSMapper.getHobbitBBSTotal");
+	}
+
+	public Integer getReadBBSTotal() {
+		return session.selectOne("BBSMapper.getReadBBSTotal");
+	}
+
+	public List<BBS> getHobbitBBSList(Condition c) {
+		return session.selectList("BBSMapper.getHobbitBBSList", c);
+	}
+
+	public List<BBS> getReadBBSList(Condition c) {
+		return session.selectList("BBSMapper.getReadBBSList",c);
+	}
+	
+	
+	
+	
+	
 	
 	
 
