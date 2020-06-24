@@ -79,12 +79,9 @@ public class BBSDaoImpl implements BBSDao {
 	public List<BBS> getReadBBSList(Condition c) {
 		return session.selectList("BBSMapper.getReadBBSList",c);
 	}
-	
-	
-	
-	
-	
-	
-	
 
+	public List<BBS> getMineBBS(String writer) {
+		return session.selectList("BBSMapper.getMineBBS",writer);
+	}
+	
 }

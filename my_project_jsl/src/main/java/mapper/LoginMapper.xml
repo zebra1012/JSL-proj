@@ -50,4 +50,19 @@
 	<update id="companychangePWD" parameterType="model.CompanyUser">
 	update company_user set company_pwd=#{company_pwd} where company_id=#{company_id}
 	</update>
+	<update id="formalChangeInfo" parameterType="model.FormalUser">
+	update formal_user set user_pwd=#{user_pwd},user_name=#{user_name},user_email=#{user_email},
+	user_addr=#{user_addr},user_phone=#{user_phone} where user_id=#{user_id}
+	</update>
+	<delete id="formalDelete" parameterType="String">
+	delete from formal_user where user_id=#{user_id}
+	</delete>
+	<update id="companyChangeInfo" parameterType="model.CompanyUser">
+	update company_user set company_pwd=#{company_pwd},company_name=#{company_name},company_email=
+	#{company_email},company_manager=#{company_manager},company_phone=#{company_phone},company_addr=#{company_addr}
+	where company_id = #{company_id}
+	</update>
+	<delete id="companyDelete" parameterType="String">
+	delete from company_user where company_id=#{company_id}
+	</delete>
 </mapper>

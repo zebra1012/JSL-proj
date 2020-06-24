@@ -186,19 +186,17 @@ public class ItemController {
 	@RequestMapping(value = "item/search.html", method = RequestMethod.GET)
 	public ModelAndView ItemSearch(String type, String keyword) throws Exception {
 		ModelAndView mav = new ModelAndView("Item/frontpage");
-		String decoded = URLDecoder.decode(keyword,"euc-kr");
-		System.out.println(decoded);
-		System.out.println(keyword);
+		String decoded = URLDecoder.decode(keyword,"UTF-8");
 		if (type.equals("writer")) {
-			List<Item> list = itemDao.getItemByWriter(keyword);
+			List<Item> list = itemDao.getItemByWriter(decoded);
 			mav.addObject("Items", list);
 		}
 		if (type.equals("name")) {
-			List<Item> list = itemDao.getItemByName(keyword);
+			List<Item> list = itemDao.getItemByName(decoded);
 			mav.addObject("Items", list);
 		}
 		if (type.equals("content")) {
-			List<Item> list = itemDao.getItemByContent(keyword);
+			List<Item> list = itemDao.getItemByContent(decoded);
 			mav.addObject("Items", list);
 		}
 		return mav;

@@ -1,6 +1,8 @@
 package controller;
 
 import java.io.OutputStream;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
@@ -251,18 +253,19 @@ public class SecondhandController {
 		
 	}
 	@RequestMapping(value="/secondhand/search.html",method=RequestMethod.GET)
-	public ModelAndView Search(String type,String keyword) {
+	public ModelAndView Search(String type,String keyword) throws UnsupportedEncodingException {
 		ModelAndView mav = new ModelAndView("secondhand/frontpage");
+		String decoded = URLDecoder.decode(keyword,"UTF-8");
 		if(type.equals("writer")) {
-			List<Secondhand> list= SecondHandDao.getSecondHandByWriter(keyword);
+			List<Secondhand> list= SecondHandDao.getSecondHandByWriter(decoded);
 			mav.addObject("Secondhand",list);
 		}
 		if(type.equals("title")) {
-			List<Secondhand> list = SecondHandDao.getSecondHandByTitle(keyword);
+			List<Secondhand> list = SecondHandDao.getSecondHandByTitle(decoded);
 			mav.addObject("Secondhand",list);
 		}
 		if(type.equals("content")) {
-			List<Secondhand> list  = SecondHandDao.getSecondhandByContent(keyword);
+			List<Secondhand> list  = SecondHandDao.getSecondhandByContent(decoded);
 			mav.addObject("Secondhand",list);
 		}
 		return mav;

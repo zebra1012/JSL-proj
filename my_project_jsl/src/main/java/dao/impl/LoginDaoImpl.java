@@ -68,6 +68,22 @@ public class LoginDaoImpl implements LoginDao {
 		session.insert("LoginMapper.visitrCreate", date);
 		
 	}
+	public void formalChangeInfo(FormalUser user) {
+		session.update("LoginMapper.formalChangeInfo", user);
+	}
+	public void formalDelete(String id) {
+		session.delete("LoginMapper.formalDelete",id);
+	}
+	public void companyChangeInfo(CompanyUser user) {
+		session.update("LoginMapper.companyChangeInfo", user);
+	}
+	public void companyDelete(String id) {
+		session.delete("LoginMapper.companyDelete",id);
+	}
+	
+	
+	
+	
 	
 	
 	

@@ -20,7 +20,7 @@ tr td { text-align: center;}
 		<table align="center" border="1" >
 			<tr>
 				<th>글번호</th>
-				<th width="200px">글제목</th>
+				<th width="300px">글제목</th>
 				<th>작성자</th>
 				<th>추천 수</th>
 				<th>날짜</th>

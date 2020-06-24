@@ -24,5 +24,5 @@ public interface BBSDao {
 	public void deleteBBS(Integer seqno);
 	public String getBBSImage(Integer seqno);
 	public void modifyBBS(BBS bbs);
-	
+	public List<model.BBS> getMineBBS(String writer);
 }

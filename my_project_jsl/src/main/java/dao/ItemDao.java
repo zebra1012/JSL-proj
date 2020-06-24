@@ -3,6 +3,7 @@ package dao;
 import java.util.List;
 
 import model.Condition;
+import model.Customer;
 import model.Item;
 import model.Review;
 
@@ -25,5 +26,6 @@ public interface ItemDao {
 	public void deleteItemReview(Integer seqno);
 	public Review getSingleItemReview(Integer seqno);
 	public void modifyItemReview(Review review);
+	public List<Customer> getBuyer(Item item);
 	
 }

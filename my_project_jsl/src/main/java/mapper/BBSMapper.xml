@@ -59,4 +59,7 @@
 		update bbs set bbs_title=#{bbs_title},bbs_writer=#{bbs_writer},bbs_image=#{bbs_image},
 		bbs_content=#{bbs_content} where bbs_seqno=#{bbs_seqno}
 	</update>
+	<select id="getMineBBS" parameterType="String" resultType="model.BBS"> 
+		select * from bbs where bbs_writer=#{bbs_writer}
+	</select>
 </mapper>

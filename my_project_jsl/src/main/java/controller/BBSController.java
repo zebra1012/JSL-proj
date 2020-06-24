@@ -66,7 +66,7 @@ public class BBSController {
 	public ModelAndView ToFree(Integer pageNo) {
 		ModelAndView mav = new ModelAndView("bbs/freebbs");
 		Condition c = new Condition();
-		Integer total = bbsDao.getFreeBBSTotal();
+		Integer total = bbsDao.getFreeBBSTotal(); //11개 1페이지 11~2 2페이지 2~1
 		if (total == null)
 			total = 0;
 		int startRow = 0;
@@ -79,9 +79,9 @@ public class BBSController {
 			currentPage = pageNo;
 		if (total > 0) {
 			pageCnt = total / 10;
-			if (total % 10 > 0)
-				pageCnt++;
-			startRow = (currentPage - 1) * 10 + 1;
+			if (total % 10 > 0)		
+				pageCnt++;	
+			startRow = (currentPage - 1) * 10 + 1; //1페이지 맥스~맥스-10...
 			endRow = currentPage * 10;
 			if (endRow > total)
 				endRow = total;

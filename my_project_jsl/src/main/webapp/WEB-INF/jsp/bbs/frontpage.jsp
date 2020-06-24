@@ -9,12 +9,13 @@
 </head>
 <body>
 	<jsp:include page="../index/header.jsp"></jsp:include>
-	<div id="wrapper">
-		<table id="wrapper_table">
+	<div align="center" id="wrapper">
+	<h2>커뮤니티</h2>
+		<table id="wrapper_table" style="border:1px solid;">
 			<tr>
 				<td rowspan="2">
-					<div id="free_latest">
-						<h3>최근 자유게시판 글</h3>
+					<div align="center" id="free_latest">
+						<h3 onclick="location.href='../bbs/toBBS.html?state=free'">최근 자유게시판 글</h3>
 						<table border="1">
 							<tr>
 								<th width="600">제목</th>
@@ -29,8 +30,8 @@
 					</div>
 				</td>
 				<td>
-					<div id="hobbit_latest">
-						<h3>최근 취미 게시판 글</h3>
+					<div align="center" id="hobbit_latest">
+						<h3 onclick="location.href='../bbs/toBBS.html?state=hobbit'">최근 취미 게시판 글</h3>
 						<table border="1">
 							<tr >
 								<th width="600">제목</th>
@@ -47,9 +48,9 @@
 			</tr>
 			<tr>
 				<td>
-					<div id="read_latest">
-						<h3>최근 읽을거리 게시판 글</h3>
-						<table border="1">
+					<div align="center" id="read_latest" >
+						<h3 onclick="location.href='../bbs/toBBS.html?state=read'">최근 읽을거리 게시판 글</h3>
+						<table border="1" style="margin-bottom:5%;">
 							<tr>
 								<th width="600">제목</th>
 							</tr>
