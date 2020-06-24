@@ -1,7 +1,9 @@
 package controller;
 
 import java.io.IOException;
+import java.net.URLDecoder;
 import java.text.SimpleDateFormat;
+import java.util.Base64.Decoder;
 import java.util.Calendar;
 import java.util.List;
 
@@ -21,11 +23,8 @@ import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
 
 import dao.ItemCartDao;
 import dao.ItemDao;
-import javassist.bytecode.Descriptor.Iterator;
-import model.Cart;
 import model.CompanyUser;
 import model.Condition;
-import model.FormalUser;
 import model.Item;
 import model.Review;
 
@@ -185,8 +184,11 @@ public class ItemController {
 	}
 
 	@RequestMapping(value = "item/search.html", method = RequestMethod.GET)
-	public ModelAndView ItemSearch(String type, String keyword) {
+	public ModelAndView ItemSearch(String type, String keyword) throws Exception {
 		ModelAndView mav = new ModelAndView("Item/frontpage");
+		String decoded = URLDecoder.decode(keyword,"euc-kr");
+		System.out.println(decoded);
+		System.out.println(keyword);
 		if (type.equals("writer")) {
 			List<Item> list = itemDao.getItemByWriter(keyword);
 			mav.addObject("Items", list);

@@ -9,5 +9,7 @@
 		<mapper resource="mapper/SecondhandCommentMapper.xml"/>
 		<mapper resource="mapper/ItemMapper.xml"/>
 		<mapper resource="mapper/ItemCartMapper.xml"/>
+		<mapper resource="mapper/BBSMapper.xml"/>
+		<mapper resource="mapper/BBSCommentMapper.xml"/>
 	</mappers>
 </configuration>

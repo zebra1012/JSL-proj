@@ -12,11 +12,13 @@ td{text-align:center;
 border-style: solid;
 }
 </style>
-<script type="text/javascript">
+<script type="text/javascript" charset="EUC-KR">
 function search(){
 	var keyword=document.getElementById("searchForm").value;
 	var type=document.getElementById("searchType").value;
-	window.location.href="../item/search.html?type="+type+"&keyword="+keyword;
+	var encoded = encodeURI(encodeURIComponent(keyword));
+	alert(keyword);
+	location.href="../item/search.html?type="+type+"&keyword="+encoded;
 	
 }
 </script>

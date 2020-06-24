@@ -15,12 +15,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import dao.BBSDao;
 import dao.ItemCartDao;
+import dao.ItemDao;
 import dao.LoginDao;
+import dao.SecondHandDao;
 import model.AdminUser;
 import model.Cart;
 import model.CompanyUser;
+import model.Condition;
 import model.FormalUser;
+import model.Item;
+import model.Secondhand;
 
 @Controller
 public class IndexController {
@@ -28,14 +34,28 @@ public class IndexController {
 	private ItemCartDao ItemCartDao;
 	@Autowired
 	private LoginDao LoginDao;
+	@Autowired
+	private SecondHandDao secondHandDao;
+	@Autowired
+	private ItemDao itemDao;
+	@Autowired
+	private BBSDao bbsdao;
 	private Cart cart;
 	private FormalUser FormalUser;
 	private CompanyUser CompanyUser;
 	private AdminUser AdminUser;
 
 	@RequestMapping(value = "index/showMessage.html") // 메인으로
-	public String test() {
-		return "index/frontPage";
+	public ModelAndView test() {
+		ModelAndView mav = new ModelAndView("index/frontPage");
+		Condition c = new Condition();
+		c.setStartRow(1); c.setEndRow(10);
+		List<Item> item_list = itemDao.getItemList(c);
+		mav.addObject("item_list", item_list);
+		c.setEndRow(5);
+		mav.addObject("second_list",secondHandDao.getSecondHandList(c));
+		mav.addObject("free_list",bbsdao.getFreeBBSList(c));
+		return mav;
 	}
 
 	@RequestMapping(value = "/index/adminlogin.html", method = RequestMethod.GET) // 관리자 로그인JSP로, URL으로만 접속 가능

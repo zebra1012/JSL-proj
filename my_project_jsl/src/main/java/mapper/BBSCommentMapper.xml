@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="BBSCommentMapper">
+	<select id="getMaxSeqno" resultType="Integer">
+		select max(comment_seqno)
+		from bbs_comment
+	</select>
+	<select id="getMaxGroup" resultType="Integer" parameterType="Integer">
+		select max(comment_group) from bbs_comment where
+		parent_seqno=#{parent_seqno}
+	</select>
+	<select id="getMaxOrder" resultType="Integer" parameterType="model.Condition">
+		select max(comment_order) from bbs_comment where
+		parent_seqno=#{parent_seqno} and
+		comment_group=#{comment_group}
+	</select>
+	<insert id="insertBBSComment" parameterType="model.Comment">
+		insert into
+		bbs_comment
+		values(#{comment_seqno},#{parent_seqno},#{comment_group},#{comment_order},
+		#{comment_writer},to_date(#{comment_date},'yyyy/mm/dd
+		hh24:mi:ss'),#{comment_content},#{comment_pwd})
+	</insert>
+	<select id="getBBSCommentList" parameterType="Integer"
+		resultType="model.Comment">
+		select * from bbs_comment where parent_seqno=#{parent_seqno} order by comment_group asc, comment_order asc
+	</select>
+	<select id="getBBSComment" parameterType="Integer" resultType="model.Comment">
+		select * from bbs_comment where comment_seqno=#{comment_seqno}
+	</select>
+	<delete id="deleteBBSComment" parameterType="String">
+		delete from
+		bbs_comment where comment_seqno=#{comment_seqno}
+	</delete>
+	<update id="updateBBSComment" parameterType="model.Comment">
+		update
+		bbs_comment set
+		comment_writer=#{comment_writer},comment_content=#{comment_content}
+		where comment_seqno=#{comment_seqno}
+	</update>
+</mapper>
