@@ -2,7 +2,7 @@ package model;
 
 public class Customer {
 	private Integer shopping_seqno, item_seqno, item_price, shopping_quantity, shopping_shipment;
-	private String shopping_buyer;
+	private String shopping_buyer, item_name;
 	public Integer getShopping_seqno() {
 		return shopping_seqno;
 	}
@@ -39,6 +39,13 @@ public class Customer {
 	public void setShopping_buyer(String shopping_buyer) {
 		this.shopping_buyer = shopping_buyer;
 	}
+	public String getItem_name() {
+		return item_name;
+	}
+	public void setItem_name(String item_name) {
+		this.item_name = item_name;
+	}
+	
 	
 	
 }

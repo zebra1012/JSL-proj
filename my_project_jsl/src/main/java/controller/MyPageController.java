@@ -1,5 +1,6 @@
 package controller;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
@@ -40,7 +41,7 @@ public class MyPageController {
 		return "mypage/frontpage";
 	}
 	@RequestMapping(value="mypage/FormalInfo.html",method=RequestMethod.GET)
-	public ModelAndView FormalInfo() { //정보출력 출력한 정보는 세션에서 취득한다.
+	public ModelAndView FormalInfo() { //정보출력 출력할 정보는 세션에서 취득한다.
 		ModelAndView mav = new ModelAndView("mypage/frontpage");
 		mav.addObject("body", "../mypage/FormalInfo.jsp");
 		return mav;
@@ -184,19 +185,19 @@ public class MyPageController {
 		return mav;
 	}
 	
-	@RequestMapping(value="../mypage/CustomerManage.html")
-	public ModelAndView CustomerManage(HttpSession session) {
+	@RequestMapping(value="mypage/CustomerManage.html",method=RequestMethod.GET)
+	public ModelAndView CustomerManage(HttpSession session) {//구매번호(target) 고객명(target),상품명(target),금액(target),배송상태(target)
 		ModelAndView mav = new ModelAndView("mypage/frontpage");
 		CompanyUser CU = (CompanyUser)session.getAttribute("User");
-		List<Item> list=itemDao.getItemByWriter(CU.getCompany_id());
-		List<Customer> target = null;
+		List<Item> list=itemDao.getItemByWriter(CU.getCompany_id());//기업이 올린 상품 조회
+		List<Customer> target = new ArrayList<Customer>(); //고객정보를 담는다.
 		Iterator it = list.iterator();
 		while (it.hasNext()) {
-			Item i = (Item)it.next();
-			List<Customer> customerList = itemDao.getBuyer(i);
+			Item i = (Item)it.next(); //각 상품을 저장하고
+			List<Customer> customerList = itemDao.getBuyer(i); //해당 상품을 구매한 회원을 조회
 			target.addAll(customerList);
 		}
-		mav.addObject("Items",target);
+		mav.addObject("Customer",target);
 		mav.addObject("body","../mypage/CustomerManage.jsp");
 		return mav;
 		

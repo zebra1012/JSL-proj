@@ -10,6 +10,7 @@
 <body>
 	<div id="menu"
 		style="float: right; margin-right: 320px; margin-top: 80px;">
+
 		<table>
 			<tr>
 				<th>상품번호</th>
@@ -18,15 +19,25 @@
 				<th>재고</th>
 				<th>상태</th>
 			</tr>
-			<c:forEach var="item" items="Items">
+			<c:choose>
+				<c:when test="${not empty Items }">
+					<c:forEach var="item" items="${Items}">
+						<tr>
+							<td>${item.item_seqno }</td>
+							<td>${item.item_name }</td>
+							<td>${item.item_price }</td>
+							<td>${item.item_stock }</td>
+							<td>${item.item_state }</td>
+					</c:forEach>
+				</c:when>
+				<c:otherwise>
 				<tr>
-					<td>${item.item_seqno }</td>
-					<td>${item.item_name }</td>
-					<td>${item.item_price }</td>
-					<td>${item.item_stock }</td>
-					<td>${item.item_state }</td>
-			</c:forEach>
+					<td colspan="5">상품정보가 없습니다.</td>
+				</c:otherwise>
+			</c:choose>
 		</table>
+
+
 	</div>
 </body>
 </html>
