@@ -80,11 +80,14 @@ public class LoginDaoImpl implements LoginDao {
 	public void companyDelete(String id) {
 		session.delete("LoginMapper.companyDelete",id);
 	}
-	
-	
-	
-	
-	
-	
+	public Integer visitSum() {
+		return session.selectOne("LoginMapper.visitSum");
+	}
+	public Integer visitToday() {
+		return session.selectOne("LoginMapper.visitToday");
+	}
+	public void adminChangePWD(AdminUser user) {
+		session.update("LoginMapper.adminChangePWD",user);
+	}
 	
 }
