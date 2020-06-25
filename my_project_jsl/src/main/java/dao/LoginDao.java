@@ -27,5 +27,10 @@ public interface LoginDao {
 	public void formalDelete(String id);
 	public void companyChangeInfo(CompanyUser user);
 	public void companyDelete(String id);
-	
+	public Integer visitSum();
+	public Integer visitToday();
+	public void adminChangePWD(AdminUser user);
+	public List<FormalUser> getFormalAll();
+	public List<CompanyUser> getComapnyAll();
+	public List<AdminUser> getAdminAll();
 }

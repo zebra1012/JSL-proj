@@ -4,6 +4,19 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
+<script type="text/javascript">
+	function search() {
+		var keyword = document.getElementById("searchForm").value;
+		var type = document.getElementById("searchType").value;
+		if (keyword=='') {
+			alert("검색어를 입력하세요.");
+			return false;
+		}
+		var encoded = encodeURI(encodeURIComponent(keyword));
+		window.location.href = "../bbs/search.html?bbs=hobbit&type=" + type
+				+ "&keyword=" + encoded;
+	}
+</script>
 <style type="text/css">
 table { border: 1px solid;}
 tr td { text-align: center;}

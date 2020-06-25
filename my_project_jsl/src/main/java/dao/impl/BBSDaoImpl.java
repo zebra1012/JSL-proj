@@ -83,5 +83,42 @@ public class BBSDaoImpl implements BBSDao {
 	public List<BBS> getMineBBS(String writer) {
 		return session.selectList("BBSMapper.getMineBBS",writer);
 	}
+
+	public List<BBS> getFreeByWriter(String writer) {
+		return session.selectList("BBSMapper.getFreeByWriter",writer);
+	}
+
+	public List<BBS> getFreeByContent(String content) {
+		return session.selectList("BBSMapper.getFreeByContent",content);
+	}
+
+	public List<BBS> getFreeByTitle(String title) {
+		return session.selectList("BBSMapper.getFreeByTitle",title);
+	}
+
+	public List<BBS> getHobbitByWriter(String writer) {
+		return session.selectList("BBSMapper.getHobbitByWriter",writer);
+	}
+
+	public List<BBS> getHobbitByContent(String content) {
+		return session.selectList("BBSMapper.getHobbitByContent",content);
+	}
+
+	public List<BBS> getHobbitByTitle(String title) {
+		return session.selectList("BBSMapper.getHobbitByTitle",title);
+	}
+
+	public List<BBS> getReadByWriter(String writer) {
+		return session.selectList("BBSMapper.getReadByWriter",writer);
+	}
+
+	public List<BBS> getReadByContent(String content) {
+		return session.selectList("BBSMapper.getReadByContent",content);
+	}
+
+	public List<BBS> getReadByTitle(String title) {
+		return session.selectList("BBSMapper.getReadByTitle",title);
+	}
+	
 	
 }

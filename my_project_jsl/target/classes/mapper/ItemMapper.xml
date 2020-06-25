@@ -63,7 +63,7 @@
 	review_content=#{review_content} where review_seqno = #{review_seqno}
 	</update>
 	<select id="getBuyer" parameterType="model.Item" resultType="model.Customer">
-	select b.shopping_seqno,b.shopping_buyer,a.item_seqno,a.item_price,b.shopping_quantity,b.shopping_shipment from (select * from item where item_writer=#{item_writer})a,
+	select b.shopping_seqno,b.shopping_buyer,a.item_name,a.item_seqno,a.item_price,b.shopping_quantity,b.shopping_shipment from (select * from item where item_writer=#{item_writer})a,
 	(select * from user_shopping where shopping_item=#{item_seqno})b where a.item_seqno=b.shopping_item
 	</select>
 </mapper>

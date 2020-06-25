@@ -62,4 +62,31 @@
 	<select id="getMineBBS" parameterType="String" resultType="model.BBS"> 
 		select * from bbs where bbs_writer=#{bbs_writer}
 	</select>
+	<select id="getFreeByWriter" parameterType="String" resultType="model.BBS">
+	select * from bbs where bbs_code=1 and bbs_writer like '%' || #{writer} || '%' order by bbs_date desc
+	</select>
+	<select id="getFreeByContent" parameterType="String" resultType="model.BBS">
+	select * from bbs where bbs_code=1 and bbs_content like '%' || #{content} || '%' order by bbs_date desc
+	</select>
+	<select id="getFreeByTitle" parameterType="String" resultType="model.BBS">
+	select * from bbs where bbs_code=1 and bbs_title like '%' || #{title} || '%' order by bbs_date desc
+	</select>
+	<select id="getHobbitByWriter" parameterType="String" resultType="model.BBS">
+	select * from bbs where bbs_code=2 and bbs_writer like '%' || #{writer} || '%' order by bbs_date desc
+	</select>
+	<select id="getHobbitByContent" parameterType="String" resultType="model.BBS">
+	select * from bbs where bbs_code=2 and bbs_content like '%' || #{content} || '%' order by bbs_date desc
+	</select>
+	<select id="getHobbitByTitle" parameterType="String" resultType="model.BBS">
+	select * from bbs where bbs_code=2 and bbs_title like '%' || #{title} || '%' order by bbs_date desc
+	</select>
+	<select id="getReadByWriter" parameterType="String" resultType="model.BBS">
+	select * from bbs where bbs_code=3 and bbs_writer like '%' || #{writer} || '%' order by bbs_date desc
+	</select>
+	<select id="getReadByContent" parameterType="String" resultType="model.BBS">
+	select * from bbs where bbs_code=3 and bbs_content like '%' || #{content} || '%' order by bbs_date desc
+	</select>
+	<select id="getReadByTitle" parameterType="String" resultType="model.BBS">
+	select * from bbs where bbs_code=3 and bbs_title like '%' || #{title} || '%' order by bbs_date desc
+	</select>
 </mapper>

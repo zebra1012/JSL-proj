@@ -18,6 +18,10 @@ td {
 	function search() {
 		var keyword = document.getElementById("searchForm").value;
 		var type = document.getElementById("searchType").value;
+		if (keyword=='') {
+			alert("검색어를 입력하세요.");
+			return false;
+		}
 		var encoded = encodeURI(encodeURIComponent(keyword));
 		location.href = "../item/search.html?type=" + type + "&keyword="
 				+ encoded;

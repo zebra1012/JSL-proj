@@ -23,12 +23,6 @@
 	<input type="submit" value="정보변경"/>
 	</form>
 	</c:when>
-	<c:when test="${sessionScope.Type=='Admin' }">
-	<form action="../mypage/AdminChange.html" method="GET">
-	<input type="password" name="pwd" placeholder="비밀번호를 입력해주세요"/><br/>
-	<input type="submit" value="정보변경"/>
-	</form>
-	</c:when>
 	</c:choose>
 	</div>
 </body>

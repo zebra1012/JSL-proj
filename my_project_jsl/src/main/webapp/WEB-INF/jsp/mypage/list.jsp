@@ -49,7 +49,12 @@ li#menu {
 					<ul>
 						<li id="menu"><a href="../mypage/AdminStatics.html">접속통계</a></li>
 						<li id="menu"><a href="../mypage/UserManage.html">유저관리</a></li>
-						<li id="menu"><a href="../mypage/ChangePWD.html">관리자 암호변경</a></li>
+							<ul>
+								<li id="submenu"><a href="../mypage/UserManage.html?Types=Formal">일반회원관리</a></li>
+								<li id="submenu"><a href="../mypage/UserManage.html?Types=Company">업체회원관리</a></li>
+								<li id="submenu"><a href="../mypage/UserManage.html?Types=Admin">관리자 계정 관리</a></li>			
+							</ul>
+						<li id="menu"><a href="../mypage/AdminChange.html">관리자 암호변경</a></li>
 					</ul>
 				</div>
 			</div>

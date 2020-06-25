@@ -49,12 +49,13 @@ public class IndexController {
 	public ModelAndView test() {
 		ModelAndView mav = new ModelAndView("index/frontPage");
 		Condition c = new Condition();
-		c.setStartRow(1); c.setEndRow(10);
+		c.setStartRow(1);
+		c.setEndRow(10);
 		List<Item> item_list = itemDao.getItemList(c);
 		mav.addObject("item_list", item_list);
 		c.setEndRow(5);
-		mav.addObject("second_list",secondHandDao.getSecondHandList(c));
-		mav.addObject("free_list",bbsdao.getFreeBBSList(c));
+		mav.addObject("second_list", secondHandDao.getSecondHandList(c));
+		mav.addObject("free_list", bbsdao.getFreeBBSList(c));
 		return mav;
 	}
 
@@ -75,16 +76,17 @@ public class IndexController {
 		if (userType.equals("formal")) {
 			try {
 				FormalUser = LoginDao.formalGetIDPWD((String) request.getParameter("id"));
-				if (FormalUser.getUser_pwd().equals((String) request.getParameter("pwd"))) {
+				if (FormalUser.getUser_pwd().equals((String) request.getParameter("pwd"))) { // 로그인 성공
 					mav.addObject("result", "YES");
 					session.setAttribute("User", FormalUser);
 					session.setAttribute("Type", "Formal");
 					List<Cart> cart = ItemCartDao.getFormalCart(FormalUser.getUser_id());
 					session.setAttribute("Cart", cart);
-					session.setMaxInactiveInterval(60*60);
+					session.setMaxInactiveInterval(60 * 60);
 				} else
 					FormalUser = null;
-			} catch (Exception E) {E.printStackTrace();
+			} catch (Exception E) {
+				E.printStackTrace();
 			}
 		} else if (userType.equals("company")) {
 			try {
@@ -93,10 +95,11 @@ public class IndexController {
 					mav.addObject("result", "YES");
 					session.setAttribute("User", CompanyUser);
 					session.setAttribute("Type", "Company");
-					session.setMaxInactiveInterval(60*60);
+					session.setMaxInactiveInterval(60 * 60);
 				} else
 					CompanyUser = null;
-			} catch (Exception E) { E.printStackTrace();
+			} catch (Exception E) {
+				E.printStackTrace();
 			}
 		} else if (userType.equals("admin")) {
 			try {
@@ -105,7 +108,7 @@ public class IndexController {
 					mav.addObject("result", "YES");
 					session.setAttribute("User", AdminUser);
 					session.setAttribute("Type", "Admin");
-					session.setMaxInactiveInterval(60*60);
+					session.setMaxInactiveInterval(60 * 60);
 				} else
 					AdminUser = null;
 			} catch (Exception E) {
@@ -213,21 +216,24 @@ public class IndexController {
 	}
 
 	@RequestMapping(value = "index/findPWD.html", method = RequestMethod.POST)
-	public ModelAndView findIPWD(HttpServletRequest request) {
+	public ModelAndView findIPWD(HttpServletRequest request) { // 비밀번호 찾기
 		ModelAndView mav = new ModelAndView("index/findPWD");
 		String userType = request.getParameter("userType");
 		if (userType.equals("formal")) {
 			FormalUser = LoginDao.formalGetIDPWD(request.getParameter("ID"));
-			if (LoginDao.formalGetPWD(FormalUser) > 0) {
-				mav.addObject("User", FormalUser);
+			if (FormalUser != null && FormalUser.getUser_email().equals(request.getParameter("email"))
+					&& LoginDao.formalGetPWD(FormalUser) > 0) {
+				mav.addObject("tempUser", FormalUser);
 				mav.addObject("userType", "Formal");
-			}
+			} else
+				mav.addObject("result", "Fail");
 		} else if (userType.equals("company")) {
 			CompanyUser = LoginDao.companyGetIDPWD(request.getParameter("ID"));
-			if (LoginDao.companyGetPWD(CompanyUser) > 0) {
-				mav.addObject("User", CompanyUser);
+			if (CompanyUser != null && LoginDao.companyGetPWD(CompanyUser) > 0) {
+				mav.addObject("tempUser", CompanyUser);
 				mav.addObject("userType", "Company");
-			}
+			} else
+				mav.addObject("result", "Fail");
 		}
 		return mav;
 	}
@@ -261,24 +267,26 @@ public class IndexController {
 		return mav;
 	}
 
-	@RequestMapping(value="/index/cookiesCheck.html",method=RequestMethod.GET)
+	@RequestMapping(value = "/index/cookiesCheck.html", method = RequestMethod.GET)
 	public String cookiesCheck(HttpServletRequest request, HttpServletResponse response) {
-		//ModelAndView mav = new ModelAndView("index/frontPage");
-		Cookie[] cookies=request.getCookies(); 
+		// ModelAndView mav = new ModelAndView("index/frontPage");
+		Cookie[] cookies = request.getCookies();
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
-		String strDate = dateFormat.format(Calendar.getInstance().getTime()); //오늘 날짜
-		for (int i = 0; i<cookies.length;i++) { //현재 쿠키에서 방문정보를 담은 쿠키 검사. 있으면 종료
+		String strDate = dateFormat.format(Calendar.getInstance().getTime()); // 오늘 날짜
+		for (int i = 0; i < cookies.length; i++) { // 현재 쿠키에서 방문정보를 담은 쿠키 검사. 있으면 종료
 			Cookie cookie = cookies[i];
-			if(cookie.getName().equals("visit")&&cookie.getValue().equals("OK")) 
+			if (cookie.getName().equals("visit") && cookie.getValue().equals("OK"))
 				return "index/frontPage";
 		}
-			Cookie visit = new Cookie("visit","OK"); //없으면 쿠키를 생성한다.
-			visit.setMaxAge(60*60*3); // 쿠키 기간 3시간
-			visit.setPath("/");
-			Integer date =LoginDao.visitorCheck(strDate); //해당날짜가 있는지 조회
-			if (date != null) LoginDao.visitorAdder(strDate);
-			else LoginDao.visitrCreate(strDate);
-			response.addCookie(visit);
-			return "index/frontPage";
+		Cookie visit = new Cookie("visit", "OK"); // 없으면 쿠키를 생성한다.
+		visit.setMaxAge(60 * 60 * 3); // 쿠키 기간 3시간
+		visit.setPath("/");
+		Integer date = LoginDao.visitorCheck(strDate); // 해당날짜가 있는지 조회
+		if (date != null)
+			LoginDao.visitorAdder(strDate);
+		else
+			LoginDao.visitrCreate(strDate);
+		response.addCookie(visit);
+		return "index/frontPage";
 	}
 }

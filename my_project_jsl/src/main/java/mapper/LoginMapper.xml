@@ -10,6 +10,12 @@
 	<insert id="visitrCreate" parameterType="String">
 		insert into visitors values(to_date(#{today},'yyyy/MM/dd'),1)
 	</insert>
+	<select id="visitSum" resultType="Integer">
+		select sum(visitors_num) from visitors
+	</select>
+	<select id="visitToday" resultType="Integer">
+		select visitors_num from visitors where visitors_date=to_date(sysdate,'yy/MM/dd')
+	</select>
 
 <select id="formaldupcheck" parameterType="String" resultType="Integer">
 	select count(user_id) from formal_user where user_id=#{user_id} 
@@ -65,4 +71,16 @@
 	<delete id="companyDelete" parameterType="String">
 	delete from company_user where company_id=#{company_id}
 	</delete>
+	<update id="adminChangePWD" parameterType="model.AdminUser">
+	update admin_user set admin_pwd=#{admin_pwd} where admin_id=#{admin_id}
+	</update>
+	<select id="getFormalAll" resultType="model.FormalUser">
+	select * from formal_user
+	</select>
+	<select id="getComapnyAll" resultType="model.CompanyUser">
+	select * from Company_user
+	</select>
+	<select id="getAdminAll" resultType="model.AdminUser">
+	select * from admin_user
+	</select>
 </mapper>

@@ -22,7 +22,7 @@ function formal_idcheck(){ //일반유저 가입 아이디 중복체크
 		return;
 	}
 	var url="../index/idcheck.html?ID="+document.userform.user_id.value;
-	window.open(url,"_blank","width=450,height=200");
+	window.open(url,"_blank","width=450,height=200,top=300, left=450");
 }
 function formal_validation(){
 	if(document.userform.user_id.value=="") {
@@ -75,7 +75,7 @@ function com_idcheck(){
 		return;
 	}
 	var url="../index/idcheck_company.html?ID="+document.companyform.company_id.value;
-	window.open(url,"_blank","width=450,height=200");
+	window.open(url,"_blank","width=450,height=200, top=300, left=450");
 }
 function com_validation(){
 	if(document.companyform.company_reg.value==""){

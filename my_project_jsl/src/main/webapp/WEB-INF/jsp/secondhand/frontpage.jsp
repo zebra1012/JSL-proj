@@ -18,6 +18,10 @@ td {
 	function search() {
 		var keyword = document.getElementById("searchForm").value;
 		var type = document.getElementById("searchType").value;
+		if (keyword=='') {
+			alert("검색어를 입력하세요.");
+			return false;
+		}
 		var encoded = encodeURI(encodeURIComponent(keyword));
 		window.location.href = "../secondhand/search.html?type=" + type
 				+ "&keyword=" + encoded;
@@ -64,7 +68,7 @@ td {
 				<option value="title">제목</option>
 				<option value="content">내용</option>
 			</select> <input type="text" id="searchForm" /> <input type="button"
-				value="검색" name="search" onclick="javascript:search()" />
+				value="검색" name="search" onclick="return search()" />
 		</div>
 	</div>
 </body>

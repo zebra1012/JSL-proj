@@ -5,6 +5,31 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
+<script type="text/javascript">
+function validation(){
+	if(document.writeform.bbs_title.value=='') {
+		alert("글 제목을 입력하세요.");
+		document.writeform.bbs_title.focus();
+		return false;
+	}
+	if(document.writeform.bbs_writer.value=='') {
+		alert("작성자를 입력하세요.");
+		document.writeform.bbs_writer.focus();
+		return false;
+	}
+	if (document.writeform.bbs_password.value=='') {
+		alert("비밀번호를 입력하세요");
+		document.writeform.bbs_password.focus();
+		return false;
+	}
+	if(document.writeform.bbs_content.value=="") {
+		alert("글 내용을 입력하세요.");
+		document.writeform.bbs_content.focus();
+		return false;
+	}
+	
+}
+</script>
 <meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
 <title>Insert title here</title>
 </head>
@@ -40,7 +65,7 @@
 					<form:hidden path="bbs_code" value="${bbstype }" />
 					<br />
 					<div align="center">
-						<input type="submit" value="등록" />
+						<input type="submit" value="등록" onclick="return validation(this)" />
 					</div>
 				</form:form>
 			</c:when>
@@ -76,7 +101,7 @@
 					<form:hidden path="bbs_code" value="${bbstype }" />
 					<br />
 					<div align="center">
-						<input type="submit" value="등록" />
+						<input type="submit" value="등록" onclick="return validation()" />
 					</div>
 				</form:form>
 			</c:otherwise>

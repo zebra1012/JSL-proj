@@ -1,6 +1,8 @@
 package controller;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
@@ -40,11 +42,12 @@ public class BBSController {
 	public ModelAndView ToFrontPage() { // 각 게시판 정보를 받아서 넣어준다.
 		ModelAndView mav = new ModelAndView("bbs/frontpage");
 		Condition c = new Condition();
-		c.setStartRow(1); c.setEndRow(10);
+		c.setStartRow(1);
+		c.setEndRow(10);
 		mav.addObject("free_list", bbsDao.getFreeBBSList(c));
 		c.setEndRow(5);
-		mav.addObject("hobbit_list",bbsDao.getHobbitBBSList(c));
-		mav.addObject("read_list",bbsDao.getReadBBSList(c));
+		mav.addObject("hobbit_list", bbsDao.getHobbitBBSList(c));
+		mav.addObject("read_list", bbsDao.getReadBBSList(c));
 		return mav;
 	}
 
@@ -66,7 +69,7 @@ public class BBSController {
 	public ModelAndView ToFree(Integer pageNo) {
 		ModelAndView mav = new ModelAndView("bbs/freebbs");
 		Condition c = new Condition();
-		Integer total = bbsDao.getFreeBBSTotal(); //11개 1페이지 11~2 2페이지 2~1
+		Integer total = bbsDao.getFreeBBSTotal(); // 11개 1페이지 11~2 2페이지 2~1
 		if (total == null)
 			total = 0;
 		int startRow = 0;
@@ -79,9 +82,9 @@ public class BBSController {
 			currentPage = pageNo;
 		if (total > 0) {
 			pageCnt = total / 10;
-			if (total % 10 > 0)		
-				pageCnt++;	
-			startRow = (currentPage - 1) * 10 + 1; //1페이지 맥스~맥스-10...
+			if (total % 10 > 0)
+				pageCnt++;
+			startRow = (currentPage - 1) * 10 + 1; // 1페이지 맥스~맥스-10...
 			endRow = currentPage * 10;
 			if (endRow > total)
 				endRow = total;
@@ -404,6 +407,53 @@ public class BBSController {
 		mav.addObject("rn", model.getRn());
 		mav.addObject("result", "Success");
 		bbsDao.modifyBBS(model);
+		return mav;
+	}
+
+	@RequestMapping(value = "bbs/search.html", method = RequestMethod.GET)
+	public ModelAndView search(String bbs, String type, String keyword) throws UnsupportedEncodingException {
+		ModelAndView mav = new ModelAndView();
+		String decoded = URLDecoder.decode(keyword,"UTF-8");
+		List<BBS> list= null;
+		System.out.println(decoded);
+		if (bbs.equals("free")) {
+			mav.setViewName("bbs/freebbs");
+			if (type.equals("writer")) {
+				list =bbsDao.getFreeByWriter(decoded);
+				mav.addObject("freebbs", list);
+			} else if (type.equals("content")) {
+				list =bbsDao.getFreeByContent(decoded);
+				mav.addObject("freebbs", list);
+			} else if (type.equals("title")) {
+				list =bbsDao.getFreeByTitle(decoded);
+				mav.addObject("freebbs", list);
+			}
+		} else if (bbs.equals("hobbit")) {
+			mav.setViewName("bbs/hobbitbbs");
+			if (type.equals("writer")) {
+				list =bbsDao.getHobbitByTitle(decoded);
+				mav.addObject("hobbitbbs", list);
+			} else if (type.equals("content")) {
+				list =bbsDao.getHobbitByContent(decoded);
+				mav.addObject("hobbitbbs", list);
+			} else if (type.equals("title")) {
+				list =bbsDao.getHobbitByTitle(decoded);
+				mav.addObject("hobbitbbs", list);
+			}
+		} else if (bbs.equals("read")) {
+			mav.setViewName("bbs/readbbs");
+			if (type.equals("writer")) {
+				list =bbsDao.getReadByTitle(decoded);
+				mav.addObject("readbbs", list);
+			} else if (type.equals("content")) {
+				list =bbsDao.getReadByContent(decoded);
+				mav.addObject("readbbs", list);
+			} else if (type.equals("title")) {
+				list =bbsDao.getReadByTitle(decoded);
+				mav.addObject("readbbs", list);
+			}
+		}
+		
 		return mav;
 	}
 

@@ -13,6 +13,7 @@
 		var Type=document.getElementById("Type").value;
 
 		var form = document.createElement("form");
+		form.setAttribute("name","frm");
 		form.setAttribute("method", "post");
 		form.setAttribute("action", "../secondhand/commentWrite.html");
 
@@ -47,6 +48,19 @@
 		input.setAttribute("name", "Type");
 		input.setAttribute("value", Type);
 		form.appendChild(input);
+		
+		if(document.frm.writer.value=="") {
+			alert("작성자를 입력하세요.");
+			return false;
+		}
+		if (document.frm.content.value=="") {
+			alert("내용을 입력하세요.");
+			return false;
+		}
+		if(document.frm.pwd.value=="") {
+			alert("비밀번호를 입력하세요.");
+			return false;
+		}
 		
 		form.submit();
 	}
