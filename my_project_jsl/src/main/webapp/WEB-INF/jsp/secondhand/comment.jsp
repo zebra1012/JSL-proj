@@ -91,7 +91,7 @@
 							onclick="window.open('../secondhand/askpwd.html?request=reply&seqno='+${comment.comment_seqno},'_blank','width=450,height=200')"
 							value="답글"></td>
 						<td width="40px"><input type="button"
-							onclick="window.open('../secondhand/askpwd.html?request=modify&seqno='+${comment.comment_seqno},'_blank','width=450,height=200')"
+							onclick="window.open('../secondhand/askpwd.html?request=modify&seqno=${comment.comment_seqno}&type=${comment.comment_type }','_blank','width=450,height=200')"
 							value="수정" /></td>
 						<td width="40px"><input type="button"
 							onclick="window.open('../secondhand/askpwd.html?request=delete&seqno=${comment.comment_seqno}&type=${comment.comment_type }','_blank','width=450,height=200')"

@@ -73,7 +73,7 @@ public class ItemController {
 		ModelAndView mav = new ModelAndView("Item/writeform");
 		Object user = session.getAttribute("User");
 		if (user instanceof CompanyUser) {
-			mav.addObject("Company", "YES"); // 세션에 일반 사용자 계정이 존재하면 YES
+			mav.addObject("Company", "YES"); // 세션에 업체 사용자 계정이 존재하면 YES
 			mav.addObject("Item", new Item());
 		} else {
 			mav.addObject("Company", "NO"); // 없으면 NO

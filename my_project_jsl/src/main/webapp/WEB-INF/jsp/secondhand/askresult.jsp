@@ -13,7 +13,7 @@
 		<c:when test="${request=='delete' }">
 			<h3>댓글 삭제</h3>
 			<c:choose>
-				<c:when test="${sessionScope.Type != 'Formal' }">
+				<c:when test="${type==0 }">
 			
 비밀번호
 <form action="../secondhand/deleteComment.html" method="GET">
@@ -22,41 +22,53 @@
 							value="삭제">
 					</form>
 				</c:when>
+				<c:when test="${type==1 && sessionScope.Type == 'Formal'}">
+					<script type="text/javascript">
+						location.href = "../secondhand/deleteComment.html?seqno=${seqno}"
+					</script>
+				</c:when>
 				<c:otherwise>
-				<script type="text/javascript">
-				location.href="../secondhand/deleteComment.html?seqno=${seqno}"
-				</script>
+					<script type="text/javascript">
+						alert("권한이 없습니다.");
+						self.close();
+					</script>
 				</c:otherwise>
 			</c:choose>
 		</c:when>
 
 		<c:when test="${request=='modify' }">
+
 			<c:choose>
-				<c:when
-					test="${sessionScope.Type=='Formal' && not empty sessionScope.User }">
+				<c:when test="${type==1 && sessionScope.Type == 'Formal'}">
 					<h3 align="center">댓글 수정</h3>
 					<form align="center" action="../secondhand/modifyComment.html"
 						method="GET">
 						글 내용<br /> <input type="hidden"
 							value="${sessionScope.User.user_id }" name="writer" /><input
 							type="hidden" value="${sessionScope.User.user_pwd }" name="pwd" />
-						<textarea name="content"></textarea>
+						<textarea cols="20" rows="7" name="content"></textarea>
 						<input type="hidden" name="seqno" value="${seqno }" /> <br /> <input
 							type="submit" value="수정">
 
 					</form>
 
 				</c:when>
-				<c:otherwise>
+				<c:when test="${type==0 }">
 					<h3 align="center">댓글 수정</h3>
 					<form align="center" action="../secondhand/modifyComment.html"
 						method="GET">
-						작성자<input type="text" name="writer" /><br /> 비밀번호 <input
-							type="password" name="pwd" /> 글 내용<br />
-						<textarea name="content"></textarea>
+						작성자<br/><input type="text" name="writer" /><br /> 비밀번호<br/><input
+							type="password" name="pwd" /><br/> 글 내용<br />
+						<textarea cols="20" rows="7" name="content"></textarea>
 						<input type="hidden" name="seqno" value="${seqno }" /><br /> <input
 							type="submit" value="수정">
 					</form>
+				</c:when>
+				<c:otherwise>
+					<script type="text/javascript">
+						alert("권한이 없습니다.");
+						self.close();
+					</script>
 				</c:otherwise>
 			</c:choose>
 		</c:when>

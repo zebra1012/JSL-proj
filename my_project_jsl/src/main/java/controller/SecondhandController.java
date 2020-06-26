@@ -187,19 +187,29 @@ public class SecondhandController {
 		return mav;
 	}
 	@RequestMapping(value="secondhand/askpwd.html", method=RequestMethod.GET)
-	public ModelAndView AskPWD(String request,Integer seqno) {
+	public ModelAndView AskPWD(HttpServletRequest request) {
 		ModelAndView mav = new ModelAndView("secondhand/askresult");
+		Integer seqno = Integer.parseInt(request.getParameter("seqno"));
+		String req = request.getParameter("request");
+		String temp = request.getParameter("type");
+		Integer type=null;
+		if(temp!=null) {
+			type=Integer.parseInt(temp);
+		}
 		mav.addObject("seqno",seqno);
-		if(request.equals("delete")) {
+		if(req.equals("delete")) {
 			mav.addObject("request","delete");
+			mav.addObject("type",type);
 			
 		}
-		else if (request.equals("modify")) {
+		else if (req.equals("modify")) {
 			mav.addObject("request","modify");
+			mav.addObject("type",type);
 		}
-		else if (request.equals("reply")) {
+		else if (req.equals("reply")) {
 			mav.addObject("request","reply");
 			mav.addObject("reply",new Comment());
+			
 		}
 		return mav;
 	}
