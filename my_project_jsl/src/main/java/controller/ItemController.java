@@ -25,6 +25,7 @@ import dao.ItemCartDao;
 import dao.ItemDao;
 import model.CompanyUser;
 import model.Condition;
+import model.FormalUser;
 import model.Item;
 import model.Review;
 
@@ -203,8 +204,13 @@ public class ItemController {
 	}
 
 	@RequestMapping(value = "Item/writeReview.html", method = RequestMethod.GET)
-	public ModelAndView writeReview(String parent) {
+	public ModelAndView writeReview(String parent,HttpSession session) {
 		ModelAndView mav = new ModelAndView("Item/reviewWriteForm");
+		String type=(String)session.getAttribute("Type");
+		if(type.equals("Formal")) {
+			FormalUser FU = (FormalUser)session.getAttribute("User");
+			//쇼핑DB에서 itemseqno와 FU아이디를 이용해서 검색한다.
+		}
 		mav.addObject("review", new Review());// 객체주입
 		mav.addObject("parent", parent);
 		return mav;

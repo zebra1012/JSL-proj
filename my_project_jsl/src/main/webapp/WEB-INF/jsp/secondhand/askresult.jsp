@@ -12,12 +12,24 @@
 	<c:choose>
 		<c:when test="${request=='delete' }">
 			<h3>댓글 삭제</h3>
+			<c:choose>
+				<c:when test="${sessionScope.Type != 'Formal' }">
+			
 비밀번호
 <form action="../secondhand/deleteComment.html" method="GET">
-				<input type="password" name="pwd" /> <input type="hidden"
-					name="seqno" value="${seqno }" /> <input type="submit" value="삭제">
-			</form>
+						<input type="password" name="pwd" /> <input type="hidden"
+							name="seqno" value="${seqno }" /> <input type="submit"
+							value="삭제">
+					</form>
+				</c:when>
+				<c:otherwise>
+				<script type="text/javascript">
+				location.href="../secondhand/deleteComment.html?seqno=${seqno}"
+				</script>
+				</c:otherwise>
+			</c:choose>
 		</c:when>
+
 		<c:when test="${request=='modify' }">
 			<c:choose>
 				<c:when
@@ -53,14 +65,17 @@
 			<form:form align="center" modelAttribute="reply"
 				action="../secondhand/commentReply.html" method="POST">
 				<c:choose>
-					<c:when test="${sessionScope.Type=='Formal' && not empty sessionScope.User }" >
-				<table>
+					<c:when
+						test="${sessionScope.Type=='Formal' && not empty sessionScope.User }">
+						<table>
 							<tr>
-								<td><form:hidden path="comment_writer" value="${sessionScope.User.user_id }" />
+								<td><form:hidden path="comment_writer"
+										value="${sessionScope.User.user_id }" />
 								<td rowspan="2"><form:textarea path="comment_content"
 										cols="80" rows="5" placeholder="내용을 입력해주세요." /></td>
 							<tr>
-								<td><form:hidden path="comment_pwd" value="${sessionScope.User.user_pwd }" /></td>
+								<td><form:hidden path="comment_pwd"
+										value="${sessionScope.User.user_pwd }" /></td>
 								<br />
 								<input type="hidden" name="parent_seqno" value="${seqno }" />
 							</tr>

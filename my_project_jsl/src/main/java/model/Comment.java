@@ -1,7 +1,7 @@
 package model;
 
 public class Comment {
-	private Integer comment_seqno,parent_seqno,comment_group,comment_order;
+	private Integer comment_seqno,parent_seqno,comment_group,comment_order,comment_type;
 	private String comment_date,comment_content,comment_pwd,comment_writer;
 	public String getComment_writer() {
 		return comment_writer;
@@ -51,4 +51,11 @@ public class Comment {
 	public void setComment_pwd(String comment_pwd) {
 		this.comment_pwd = comment_pwd;
 	}
+	public Integer getComment_type() {
+		return comment_type;
+	}
+	public void setComment_type(Integer comment_type) {
+		this.comment_type = comment_type;
+	}
+	
 }
