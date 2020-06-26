@@ -4,6 +4,11 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
+<style type="text/css">
+tr td th {
+	border: 1px;
+}
+</style>
 <meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
 <title>Insert title here</title>
 </head>
@@ -18,7 +23,7 @@
 		<c:when test="${Authorization == 'Positive'}">
 			<c:choose>
 				<c:when test="${Types=='Formal' }">
-					<table>
+					<table border="1">
 						<tr>
 							<th>ID</th>
 							<th>이름</th>
@@ -38,7 +43,7 @@
 					</table>
 				</c:when>
 				<c:when test="${Types=='Company' }">
-					<table>
+					<table border="1">
 						<tr>
 							<th>ID</th>
 							<th>상호</th>
@@ -58,25 +63,33 @@
 					</table>
 				</c:when>
 				<c:when test="${Types=='Admin' }">
-				<tr><th>관리자 계정</th><th>관리자 권한</th></tr>
-				<c:forEach var="user" items="${Users }">
-					<tr>
-						<td>${user.admin_id }</td>
-							<c:choose>
-								<c:when test="${user.admin_power ==0 }">
-									<td>마스터</td>
-								</c:when>
-								<c:when test="${user.admin_power ==1 }">
-									<td>중고</td>
-								</c:when>
-								<c:when test="${user.admin_power ==2 }">
-									<td>오픈마켓</td>
-								</c:when>
-								<c:when test="${user.admin_power==3 }">
-									<td>게시판</td>
-								</c:when>
-							</c:choose></c:forEach>
+					<table border="1">
+						<tr>
+							<th>관리자 계정</th>
+							<th>관리자 권한</th>
+						</tr>
+						<c:forEach var="user" items="${Users }">
+							<tr>
+								<td>${user.admin_id }</td>
+								<c:choose>
+									<c:when test="${user.admin_power ==0 }">
+										<td>마스터</td>
+									</c:when>
+									<c:when test="${user.admin_power ==1 }">
+										<td>중고</td>
+									</c:when>
+									<c:when test="${user.admin_power ==2 }">
+										<td>오픈마켓</td>
+									</c:when>
+									<c:when test="${user.admin_power==3 }">
+										<td>게시판</td>
+									</c:when>
+								</c:choose>
+						</c:forEach>
+					</table>
+					<input type="button" value="관리자 추가" onclick="location.href='../mypage/AdminAdd.html'"/>
 				</c:when>
+
 			</c:choose>
 		</c:when>
 	</c:choose>

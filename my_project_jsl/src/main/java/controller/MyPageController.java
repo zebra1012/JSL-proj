@@ -9,6 +9,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
@@ -262,7 +263,6 @@ public class MyPageController {
 				return mav;
 			}
 			else {
-				System.out.println("여기온다고?");
 				mav.addObject("Authorization", "Positive");
 				mav.addObject("Types", "Admin");
 				List<AdminUser> list = loginDao.getAdminAll();
@@ -289,7 +289,19 @@ public class MyPageController {
 			session.invalidate();
 		}
 		else mav.addObject("result","Fail");
+		return mav;	
+	}
+	@RequestMapping(value="mypage/AdminAdd.html",method=RequestMethod.GET)
+	public ModelAndView AdminAdd() {
+		ModelAndView mav = new ModelAndView("mypage/frontpage");
+		mav.addObject("admin",new AdminUser());
+		mav.addObject("body","../mypage/Adminadd.jsp");
 		return mav;
-		
+	}
+	@RequestMapping(value="mypage/Adminadd.html",method=RequestMethod.POST)
+	public ModelAndView AdminAdd(AdminUser AU, BindingResult br) {
+		ModelAndView mav = new ModelAndView("redirect:../mypage/UserManage.html?Types=Admin");
+		loginDao.insertAdmin(AU);
+		return mav;
 	}
 }

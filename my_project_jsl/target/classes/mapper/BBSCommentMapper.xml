@@ -19,7 +19,7 @@
 		bbs_comment
 		values(#{comment_seqno},#{parent_seqno},#{comment_group},#{comment_order},
 		#{comment_writer},to_date(#{comment_date},'yyyy/mm/dd
-		hh24:mi:ss'),#{comment_content},#{comment_pwd})
+		hh24:mi:ss'),#{comment_content},#{comment_pwd},#{comment_type})
 	</insert>
 	<select id="getBBSCommentList" parameterType="Integer"
 		resultType="model.Comment">

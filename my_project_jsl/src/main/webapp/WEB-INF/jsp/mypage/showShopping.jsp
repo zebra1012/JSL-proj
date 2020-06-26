@@ -9,8 +9,13 @@
 </head>
 <body>
 <div id="wrapper">
-<h3>구매목록</h3>
+<h3 align="center">구매목록</h3>
 <table align="center">
+<c:choose>
+<c:when test="${empty Shopping }">
+<tr><td colspan="6">구매한 상품이 없습니다.</td>
+</c:when>
+<c:otherwise>
 <tr><td>구매일</td><td>상품명</td><td>가격</td><td>수량</td><td>총액</td><td>배송상태</td>
 <c:forEach var="shopping" items="${Shopping }">
 <tr><td>${shopping.shopping_date }</td><td>${shopping.item.item_name }</td>
@@ -19,7 +24,8 @@
 <td><c:if test="${shopping.shopping_shipment=='1'}">배송중</c:if></td>
 </tr>
 </c:forEach>
-
+</c:otherwise>
+</c:choose>
 </table>
 
 </div>

@@ -25,6 +25,7 @@ public interface ItemCartDao {
 	public void insertUnsignedShopping(Shopping target);
 	public List<Shopping> getFormalShopping(String id);
 	public List<Shopping> getUnsignedShopping(Integer no);
+	public List<Shopping> getItemFromUserShopping(String buyer);
 	
 	
 }

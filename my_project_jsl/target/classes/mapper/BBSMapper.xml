@@ -6,7 +6,7 @@
 	</select>
 	<insert id="insertBBS" parameterType="model.BBS">
 		insert into bbs
-		values(#{bbs_seqno},#{bbs_code},#{bbs_title},#{bbs_writer},#{bbs_image},#{bbs_content},
+		values(#{bbs_seqno},#{bbs_code},#{bbs_title},#{bbs_writer},#{bbs_image,jdbcType=VARCHAR},#{bbs_content},
 		to_date(#{bbs_date},'yyyy/mm/dd
 		hh24:mi:ss'),#{bbs_hot},#{bbs_password},#{bbs_state})
 	</insert>
@@ -56,7 +56,7 @@
 		select bbs_image from bbs where bbs_seqno=#{bbs_seqno}
 	</select>
 	<update id="modifyBBS" parameterType="model.BBS">
-		update bbs set bbs_title=#{bbs_title},bbs_writer=#{bbs_writer},bbs_image=#{bbs_image},
+		update bbs set bbs_title=#{bbs_title},bbs_writer=#{bbs_writer},bbs_image=#{bbs_image,jdbcType=VARCHAR},
 		bbs_content=#{bbs_content} where bbs_seqno=#{bbs_seqno}
 	</update>
 	<select id="getMineBBS" parameterType="String" resultType="model.BBS"> 

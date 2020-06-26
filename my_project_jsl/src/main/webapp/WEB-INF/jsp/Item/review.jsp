@@ -40,7 +40,7 @@ border:none;
 						</td>
 						
 						<c:choose>
-						<c:when test="${sessionScope.Type =='Admin' || (sessionScope.Type=='Formal' && sessionScope.User.user_id==review.review_writer) }">
+						<c:when test="${sessionScope.Type =='Admin' &&(sessionScope.User.admin_power == 0 || sessionScope.User.admin_power == 2) || (sessionScope.Type=='Formal' && sessionScope.User.user_id==review.review_writer) }">
 						<td id="btn" width="500px" style="text-align: left;">${review.review_content}</td>
 						<td id="btn" width="40px"><input type="button"
 							onclick="window.open('../Item/askpwd.html?request=modify&seqno='+${review.review_seqno},'_blank','width=450,height=200')"

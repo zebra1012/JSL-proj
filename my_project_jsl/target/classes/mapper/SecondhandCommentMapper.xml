@@ -14,7 +14,7 @@
 	<insert id="insertComment" parameterType="model.Comment">
 		insert into secondhand_comment values(#{comment_seqno},#{parent_seqno},#{comment_group},
 		#{comment_order},#{comment_writer},to_date(#{comment_date},'yyyy/mm/dd/ hh24:mi:ss'),
-		#{comment_content},#{comment_pwd})
+		#{comment_content},#{comment_pwd},#{comment_type})
 	</insert>
 	<select id="getCommentList" parameterType="Integer" resultType="model.Comment">
 		select * from secondhand_comment where parent_seqno=#{parent_seqno} order by comment_group asc, comment_order asc

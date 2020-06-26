@@ -5,11 +5,11 @@
 	select max(item_seqno) from item
 	</select>
 	<insert id="insertItem" parameterType="model.Item">
-	insert into item values(#{item_seqno},#{item_name},#{item_writer},
-	#{item_code},#{item_price},#{item_stock},#{item_state},#{item_content},#{item_image})
+	insert into item values(#{item_seqno},#{item_name},#{item_writer}
+	,#{item_price},#{item_stock},#{item_state},#{item_content},#{item_image})
 	</insert>
 	<select id="getItemList" resultType="model.Item" parameterType="model.Condition">
-	select item_seqno,item_name,item_writer,item_code,item_price,item_stock,item_state,item_content,item_image from (
+	select item_seqno,item_name,item_writer,item_price,item_stock,item_state,item_content,item_image from (
  		select a.*, rownum rn from (
  			(select * from item order by item_seqno desc)a
  			) 
@@ -26,7 +26,7 @@
 	</delete>
 	<select id="getImage" parameterType="Integer" resultType="String"></select>
 	<update id="updateItem" parameterType="model.Item">
-	update item set item_name=#{item_name},item_writer=#{item_writer},item_code=#{item_code},
+	update item set item_name=#{item_name},item_writer=#{item_writer},
 	item_price=#{item_price}, item_stock=#{item_stock},item_state=#{item_state},
 	item_content=#{item_content},item_image=#{item_image} where item_seqno=#{item_seqno}
 	</update>

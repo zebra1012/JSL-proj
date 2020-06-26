@@ -52,8 +52,7 @@ div#detail_buttons {
 						<tr height="300px">
 							<td colspan="5"><img alt="" width="200px"
 								src="${pageContext.request.contextPath }/BBS_Image/${target.bbs_image }" />
-								<br />
-								<br/>
+								<br /> <br />
 								<div style="clear: both"></div> ${target.bbs_content }</td>
 						</tr>
 						<tr>
@@ -63,15 +62,38 @@ div#detail_buttons {
 					</table>
 					<div id="detail_buttons">
 						<ul>
-							<li><input type="button" value="목록으로"
-								onclick="history.back()"></li>
-							<li><input type="button" value="삭제"
-								onclick="location.href='../bbs/delete.html?seqno='+${target.bbs_seqno}"></li>
-							<li><input type="button" value="수정"
-								onclick="location.href='../bbs/modify.html?seqno='+${target.bbs_seqno}+'&rn='+${target.rn}"></li>
+							<c:choose>
+								<c:when test="${target.bbs_code==1 }">
+									<li><input type="button" value="목록으로"
+										onclick="location.href='../bbs/toBBS.html?state=free'"></li>
+								</c:when>
+								<c:when test="${target.bbs_code==2 }">
+									<li><input type="button" value="목록으로"
+										onclick="location.href='../bbs/toBBS.html?state=hobbit'"></li>
+								</c:when>
+								<c:when test="${target.bbs_code==3 }">
+									<li><input type="button" value="목록으로"
+										onclick="location.href='../bbs/toBBS.html?state=read'"></li>
+								</c:when>
+							</c:choose>
+
+							<c:choose>
+								<c:when test="${target.bbs_state ==1 }">
+									<li><input type="button" value="삭제"
+										onclick="location.href='../bbs/delete.html?seqno=${target.bbs_seqno}"></li>
+									<li><input type="button" value="수정"
+										onclick="location.href='../bbs/modify.html?seqno='+${target.bbs_seqno}+'&rn='+${target.rn}"></li>
+								</c:when>
+								<c:when test="${target.bbs_state==0 }">
+									<li><input type="button" value="삭제"
+										onclick="window.open('../bbs/askpwdBBS.html?request=delete&seqno=${target.bbs_seqno}','_blank','width=450,height=200')"></li>
+									<li><input type="button" value="수정"
+										onclick="window.open('../bbs/askpwdBBS.html?request=modify&seqno=${target.bbs_seqno}&rn=${target.rn }','_blank','width=450,height=200')"></li>
+								</c:when>
+							</c:choose>
 						</ul>
 					</div>
-					<br/>
+					<br />
 					<hr>
 					<jsp:include page="../bbs/comment.jsp"></jsp:include>
 				</div>

@@ -8,6 +8,7 @@
 <title>Insert title here</title>
 </head>
 <body>
+<h3 align="center">${sessionScope.User.user_id }님의 게시글 </h3>
 	<table align="center" border="1">
 		<tr>
 			<th width="300px">글제목</th>

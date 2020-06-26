@@ -48,7 +48,7 @@ li#menu {
 					id="menu_list">
 					<ul>
 						<li id="menu"><a href="../mypage/AdminStatics.html">立加烹拌</a></li>
-						<li id="menu"><a href="../mypage/UserManage.html">蜡历包府</a></li>
+						<li id="menu">蜡历包府</li>
 							<ul>
 								<li id="submenu"><a href="../mypage/UserManage.html?Types=Formal">老馆雀盔包府</a></li>
 								<li id="submenu"><a href="../mypage/UserManage.html?Types=Company">诀眉雀盔包府</a></li>

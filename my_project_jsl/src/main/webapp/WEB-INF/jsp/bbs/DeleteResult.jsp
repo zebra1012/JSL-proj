@@ -21,6 +21,20 @@ alert("삭제되었습니다.");
 window.location.href="../bbs/toBBS.html?state=${Type}"
 </script>
 </c:when>
+<c:when test="${result == 'bbsSuccess' }">
+<script type="text/javascript">
+alert("삭제되었습니다.");
+self.close();
+opener.location.href="../bbs/toBBS.html?state=${Type}"
+</script>
+</c:when>
+<c:when test="${result == 'bbsFail' }">
+<script type="text/javascript">
+alert("비밀번호가 일치하지 않습니다.");
+self.close();
+opener.reload();
+</script>
+</c:when>
 </c:choose>
 </body>
 </html>

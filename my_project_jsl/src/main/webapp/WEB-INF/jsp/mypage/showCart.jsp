@@ -11,7 +11,7 @@
 	<div id="wrapper">
 		<c:choose>
 			<c:when test="${sessionScope.Type == 'Formal' }">
-				<h3>${sessionScope.User.user_id }님의장바구니</h3>
+				<h3 align="center">${sessionScope.User.user_id }님의장바구니</h3>
 			</c:when>
 		</c:choose>
 		<table align="center">

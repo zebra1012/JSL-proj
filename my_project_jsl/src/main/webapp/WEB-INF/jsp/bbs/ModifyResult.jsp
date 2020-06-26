@@ -15,7 +15,13 @@ alert("변경되었습니다.");
 window.location.href="../bbs/bbsDetail.html?seqno="+${seqno}+"&rn="+${rn}
 </script>
 </c:when>
-
+<c:when test="${result=='bbsSuccess'}">
+<script type="text/javascript">
+alert("변경되었습니다.");
+self.close();
+opener.location.href="../bbs/bbsDetail.html?seqno="+${seqno}+"&rn="+${rn};
+</script>
+</c:when>
 </c:choose>
 </body>
 </html>

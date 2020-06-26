@@ -1,19 +1,13 @@
 package model;
 
 public class Item {
-	private Integer item_seqno,item_code,item_price,item_stock,item_state;
+	private Integer item_seqno,item_price,item_stock,item_state;
 	private String item_name,item_writer,item_content,item_image;
 	public Integer getItem_seqno() {
 		return item_seqno;
 	}
 	public void setItem_seqno(Integer item_seqno) {
 		this.item_seqno = item_seqno;
-	}
-	public Integer getItem_code() {
-		return item_code;
-	}
-	public void setItem_code(Integer item_code) {
-		this.item_code = item_code;
 	}
 	public Integer getItem_price() {
 		return item_price;

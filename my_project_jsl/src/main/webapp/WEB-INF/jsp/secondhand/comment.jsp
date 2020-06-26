@@ -11,56 +11,51 @@
 		var content = document.getElementById("content").value;
 		var parent = document.getElementById("parent").value;
 		var Type=document.getElementById("Type").value;
-
+		if(writer=="") {
+			alert("작성자를 입력하세요.");
+			return false;
+		}
+		if (content=="") {
+			alert("내용을 입력하세요.");
+			return false;
+		}
+		if(password=="") {
+			alert("비밀번호를 입력하세요.");
+			return false;
+		}
+		
+		
 		var form = document.createElement("form");
 		form.setAttribute("name","frm");
 		form.setAttribute("method", "post");
 		form.setAttribute("action", "../secondhand/commentWrite.html");
-
 		document.body.appendChild(form);
-
 		var input = document.createElement("input");
 		input.setAttribute("type", "hidden");
 		input.setAttribute("name", "writer");
 		input.setAttribute("value", writer);
 		form.appendChild(input);
-
 		input = document.createElement("input");
 		input.setAttribute("type", "hidden");
 		input.setAttribute("name", "pwd");
 		input.setAttribute("value", password);
 		form.appendChild(input);
-
 		input = document.createElement("input");
 		input.setAttribute("type", "hidden");
 		input.setAttribute("name", "content");
 		input.setAttribute("value", content);
 		form.appendChild(input);
-
 		input = document.createElement("input");
 		input.setAttribute("type", "hidden");
 		input.setAttribute("name", "parent");
 		input.setAttribute("value", parent);
 		form.appendChild(input);
-
 		input = document.createElement("input");
 		input.setAttribute("type", "hidden");
 		input.setAttribute("name", "Type");
 		input.setAttribute("value", Type);
 		form.appendChild(input);
 		
-		if(document.frm.writer.value=="") {
-			alert("작성자를 입력하세요.");
-			return false;
-		}
-		if (document.frm.content.value=="") {
-			alert("내용을 입력하세요.");
-			return false;
-		}
-		if(document.frm.pwd.value=="") {
-			alert("비밀번호를 입력하세요.");
-			return false;
-		}
 		
 		form.submit();
 	}
@@ -84,18 +79,19 @@
 				<c:forEach var="comment" items="${CommentList}">
 					<tr>
 						<td>${comment.comment_writer }</td>
-						<td width="600px" style="text-align:left;">${comment.comment_content}</td>
-						<td width="40px"><input type="button" onclick="window.open('../secondhand/askpwd.html?request=reply&seqno='+${comment.comment_seqno},'_blank','width=450,height=200')"
+						<td width="600px" style="text-align: left;">${comment.comment_content}</td>
+						<td width="40px"><input type="button"
+							onclick="window.open('../secondhand/askpwd.html?request=reply&seqno='+${comment.comment_seqno},'_blank','width=600,height=300,top=250, left=400')"
 							value="답글"></td>
-						<td width="40px"><input type="button" onclick="window.open('../secondhand/askpwd.html?request=modify&seqno='+${comment.comment_seqno},'_blank','width=450,height=200')"
+						<td width="40px"><input type="button"
+							onclick="window.open('../secondhand/askpwd.html?request=modify&seqno=${comment.comment_seqno}&type=${comment.comment_type }','_blank','width=450,height=300,top=250, left=400')"
 							value="수정" /></td>
-						<td width="40px"><input type="button" onclick="window.open('../secondhand/askpwd.html?request=delete&seqno='+${comment.comment_seqno},'_blank','width=450,height=200')"
-							value="삭제"/></td>
+						<td width="40px"><input type="button"
+							onclick="window.open('../secondhand/askpwd.html?request=delete&seqno=${comment.comment_seqno}&type=${comment.comment_type }','_blank','width=450,height=300,top=250, left=400')"
+							value="삭제" /></td>
 						<td><font size="1">${comment.comment_date }</font></td>
 					</tr>
-					<div id="hidden">
-					
-					</div>
+					<div id="hidden"></div>
 				</c:forEach>
 			</table>
 		</c:if>
@@ -109,9 +105,11 @@
 						<td rowspan="2"><textarea Id="content" cols="80" rows="5"
 								placeholder="내용을 입력해주세요."></textarea></td>
 					<tr>
-						<td><input type="hidden" value="${sessionScope.User.user_pwd }" Id="pwd"></td>
-						<input type="hidden" value="Formal" id="Type"/>
+						<td><input type="hidden"
+							value="${sessionScope.User.user_pwd }" Id="pwd"></td>
+
 					</tr>
+					<input type="hidden" value="Formal" id="Type" />
 				</c:when>
 				<c:otherwise>
 					<tr>
@@ -120,14 +118,15 @@
 								placeholder="내용을 입력해주세요."></textarea></td>
 					<tr>
 						<td><input type="password" placeholder="비밀번호" Id="pwd"></td>
-						<input type="hidden" value="other" id="Type"/>
+
 					</tr>
+					<input type="hidden" value="other" id="Type" />
 				</c:otherwise>
 			</c:choose>
 		</table>
 		<input type="hidden" value="${secondhand.secondhand_seqno}"
 			Id="parent" /> <input type="button" value="등록"
-			onclick="javscript:submit()" /><input type="button" value="목록으로"
+			onclick="return submit()" /><input type="button" value="목록으로"
 			onclick="history.back()" />
 	</div>
 </body>
