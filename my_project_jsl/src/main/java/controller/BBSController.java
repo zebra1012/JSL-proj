@@ -179,7 +179,7 @@ public class BBSController {
 	}
 
 	@RequestMapping(value = "bbs/write.html", method = RequestMethod.POST)
-	public ModelAndView BBSWrite(BBS bbs, BindingResult br, HttpServletRequest request) throws IOException {
+	public ModelAndView BBSWrite(BBS bbs, BindingResult br, HttpServletRequest request,HttpSession session) throws IOException {
 		ModelAndView mav = new ModelAndView();
 
 		ServletContext context = request.getSession().getServletContext();
@@ -202,7 +202,12 @@ public class BBSController {
 		bbs.setBbs_writer(Multipart.getParameter("bbs_writer"));
 		bbs.setBbs_hot(0);
 		bbs.setBbs_password(Multipart.getParameter("bbs_password"));
-		bbs.setBbs_state(1);
+		try {
+		if(session.getAttribute("Type").equals("Formal")) bbs.setBbs_state(1); //회원
+		else bbs.setBbs_state(0); //비회원
+		} catch (NullPointerException e) {
+			bbs.setBbs_state(0);
+		}
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd kk:mm:ss");
 		String strDate = dateFormat.format(Calendar.getInstance().getTime());
 		bbs.setBbs_date(strDate);
@@ -346,9 +351,7 @@ public class BBSController {
 		FormalUser FU = null;
 		try {
 			FU = (FormalUser) session.getAttribute("User");
-			if (FU == null)
-				throw new NullPointerException(); // User가 null일 때 예외를 발생시킨다.
-		} catch (Exception E) { // 세션속성 유저가 없거나 세션속성 유저가 일반유저가 아닐 때
+		} catch (NullPointerException E) {
 			mav.addObject("result", "Fail");
 			return mav;
 		}
@@ -358,6 +361,28 @@ public class BBSController {
 		} else
 			mav.addObject("result", "Fail"); // 세션 유저 아이디가 글쓴이와 같지 않을 때
 		mav.addObject("Type", bbsType);
+		return mav;
+	}
+	@RequestMapping(value = "/bbs/delete.html", method = RequestMethod.POST)
+	public ModelAndView bbsDelete(HttpServletRequest request) {
+		ModelAndView mav = new ModelAndView("bbs/DeleteResult");
+		Integer seqno = Integer.parseInt(request.getParameter("seqno"));
+		String pwd=request.getParameter("pwd");
+		BBS target = bbsDao.getBBSDetail(seqno);
+		Integer code = target.getBbs_code();
+		String bbsType = "";
+		if (code == 1)
+			bbsType = "free";
+		else if (code == 2)
+			bbsType = "hobbit";
+		else if (code == 3)
+			bbsType = "read";
+		if(target.getBbs_password().equals(pwd)) {
+			bbsDao.deleteBBS(seqno);
+			mav.addObject("result", "bbsSuccess");
+		}
+		else mav.addObject("result","bbsFail");
+		mav.addObject("Type",bbsType);
 		return mav;
 	}
 
@@ -405,9 +430,32 @@ public class BBSController {
 		model.setRn(Integer.parseInt(Multipart.getParameter("rn")));
 		mav.addObject("seqno", model.getBbs_seqno());
 		mav.addObject("rn", model.getRn());
+		String ispop = Multipart.getParameter("bbs_password");
+		if(ispop.equals("popup")) {
+			mav.addObject("result", "bbsSuccess");
+		}
+		else 
 		mav.addObject("result", "Success");
 		bbsDao.modifyBBS(model);
 		return mav;
+	}
+	@RequestMapping(value="bbs/modifyBBS.html",method=RequestMethod.POST)
+	public ModelAndView modifyBBS(HttpServletRequest request) {
+		ModelAndView mav = new ModelAndView("bbs/bbsmodify");
+		Integer seqno = Integer.parseInt(request.getParameter("seqno"));
+		Integer rn= Integer.parseInt(request.getParameter("rn"));
+		String pwd=request.getParameter("pwd");
+		BBS target = bbsDao.getBBSDetail(seqno);
+		target.setRn(rn);
+		if(target.getBbs_password().equals(pwd)) {
+			mav.addObject("seqno", target.getBbs_seqno());
+			mav.addObject("bbs", target);
+			mav.addObject("result", "Success");
+
+		}else
+			mav.addObject("result", "Fail");
+		return mav;
+		
 	}
 
 	@RequestMapping(value = "bbs/search.html", method = RequestMethod.GET)
@@ -455,6 +503,24 @@ public class BBSController {
 		}
 		
 		return mav;
+	}
+	@RequestMapping(value="bbs/askpwdBBS.html")
+	public ModelAndView askpwdBBS(HttpServletRequest request) {
+		ModelAndView mav = new ModelAndView("bbs/askresultBBS");
+		Integer seqno = Integer.parseInt(request.getParameter("seqno"));
+		String req = (String)request.getParameter("request");
+		
+		if (req.equals("delete")) {
+			mav.addObject("request",req);
+		}
+		else if (req.equals("modify")) {
+			mav.addObject("request",req);
+			Integer rn = Integer.parseInt(request.getParameter("rn"));
+			mav.addObject("rn",rn);
+		}
+		mav.addObject("seqno",seqno);
+		return mav;
+		
 	}
 
 }

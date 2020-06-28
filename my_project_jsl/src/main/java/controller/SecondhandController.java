@@ -22,6 +22,7 @@ import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
 
 import dao.SHCommentDao;
 import dao.SecondHandDao;
+import model.AdminUser;
 import model.Comment;
 import model.Condition;
 import model.FormalUser;
@@ -105,6 +106,19 @@ public class SecondhandController {
 		ModelAndView mav = new ModelAndView("secondhand/DeleteResult");
 		Integer no = Integer.parseInt(seqno);
 		Secondhand target = SecondHandDao.getSecondhandDetail(no);
+		String usertype=(String)session.getAttribute("Type");
+		if (usertype.equals("Admin")) { //관리자이면
+			AdminUser AU = (AdminUser) session.getAttribute("User");
+			if(AU.getAdmin_power()==0 || AU.getAdmin_power()==1) { //관리자의 권한이 마스터거나 중고거래이ㅕㄴ
+				SecondHandDao.deleteSecondHand(no);
+				mav.addObject("result","Success");
+			}
+			else  //그 외
+				mav.addObject("result","Fail");
+			return mav;
+			
+		}
+		else {
 		FormalUser FU=null;
 		try {
 			FU =(FormalUser)session.getAttribute("User"); 
@@ -119,6 +133,7 @@ public class SecondhandController {
 		}
 		else mav.addObject("result","Fail"); //세션 유저 아이디가 글쓴이와 같지 않을 때
 		return mav;
+		}
 	}
 	@RequestMapping(value="secondhand/modify.html",method=RequestMethod.GET)
 	public ModelAndView secondhandModify(HttpSession session,String seqno) { //삭제와 동일하지만 수정폼으로 연결해준다.

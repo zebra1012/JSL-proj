@@ -11,17 +11,16 @@
 		var content = document.getElementById("content").value;
 		var parent = document.getElementById("parent").value;
 		var Type=document.getElementById("Type").value;
-
 		if(writer=="") {
-			alert("ÀÛ¼ºÀÚ¸¦ ÀÔ·ÂÇÏ¼¼¿ä.");
+			alert("ï¿½Û¼ï¿½ï¿½Ú¸ï¿½ ï¿½Ô·ï¿½ï¿½Ï¼ï¿½ï¿½ï¿½.");
 			return false;
 		}
 		if (content=="") {
-			alert("³»¿ëÀ» ÀÔ·ÂÇÏ¼¼¿ä.");
+			alert("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ô·ï¿½ï¿½Ï¼ï¿½ï¿½ï¿½.");
 			return false;
 		}
 		if(password=="") {
-			alert("ºñ¹Ð¹øÈ£¸¦ ÀÔ·ÂÇÏ¼¼¿ä.");
+			alert("ï¿½ï¿½Ð¹ï¿½È£ï¿½ï¿½ ï¿½Ô·ï¿½ï¿½Ï¼ï¿½ï¿½ï¿½.");
 			return false;
 		}
 		
@@ -30,33 +29,27 @@
 		form.setAttribute("name","frm");
 		form.setAttribute("method", "post");
 		form.setAttribute("action", "../secondhand/commentWrite.html");
-
 		document.body.appendChild(form);
-
 		var input = document.createElement("input");
 		input.setAttribute("type", "hidden");
 		input.setAttribute("name", "writer");
 		input.setAttribute("value", writer);
 		form.appendChild(input);
-
 		input = document.createElement("input");
 		input.setAttribute("type", "hidden");
 		input.setAttribute("name", "pwd");
 		input.setAttribute("value", password);
 		form.appendChild(input);
-
 		input = document.createElement("input");
 		input.setAttribute("type", "hidden");
 		input.setAttribute("name", "content");
 		input.setAttribute("value", content);
 		form.appendChild(input);
-
 		input = document.createElement("input");
 		input.setAttribute("type", "hidden");
 		input.setAttribute("name", "parent");
 		input.setAttribute("value", parent);
 		form.appendChild(input);
-
 		input = document.createElement("input");
 		input.setAttribute("type", "hidden");
 		input.setAttribute("name", "Type");
@@ -74,13 +67,13 @@
 </head>
 <body>
 	<div id="wrapper">
-		<h3 align="center">´ñ±Û</h3>
+		<h3 align="center">ï¿½ï¿½ï¿½</h3>
 		<c:if test="${not empty CommentList }">
 			<table border="1">
 				<tr>
-					<td>ÀÛ¼ºÀÚ</td>
-					<td colspan="4" width="720px">³»¿ë</td>
-					<td>ÀÛ¼ºÀÏ</td>
+					<td>ï¿½Û¼ï¿½ï¿½ï¿½</td>
+					<td colspan="4" width="720px">ï¿½ï¿½ï¿½ï¿½</td>
+					<td>ï¿½Û¼ï¿½ï¿½ï¿½</td>
 				</tr>
 
 				<c:forEach var="comment" items="${CommentList}">
@@ -88,14 +81,14 @@
 						<td>${comment.comment_writer }</td>
 						<td width="600px" style="text-align: left;">${comment.comment_content}</td>
 						<td width="40px"><input type="button"
-							onclick="window.open('../secondhand/askpwd.html?request=reply&seqno='+${comment.comment_seqno},'_blank','width=450,height=200')"
-							value="´ä±Û"></td>
+							onclick="window.open('../secondhand/askpwd.html?request=reply&seqno='+${comment.comment_seqno},'_blank','width=600,height=300,top=250, left=400')"
+							value="ï¿½ï¿½ï¿½"></td>
 						<td width="40px"><input type="button"
-							onclick="window.open('../secondhand/askpwd.html?request=modify&seqno=${comment.comment_seqno}&type=${comment.comment_type }','_blank','width=450,height=200')"
-							value="¼öÁ¤" /></td>
+							onclick="window.open('../secondhand/askpwd.html?request=modify&seqno=${comment.comment_seqno}&type=${comment.comment_type }','_blank','width=450,height=300,top=250, left=400')"
+							value="ï¿½ï¿½ï¿½ï¿½" /></td>
 						<td width="40px"><input type="button"
-							onclick="window.open('../secondhand/askpwd.html?request=delete&seqno=${comment.comment_seqno}&type=${comment.comment_type }','_blank','width=450,height=200')"
-							value="»èÁ¦" /></td>
+							onclick="window.open('../secondhand/askpwd.html?request=delete&seqno=${comment.comment_seqno}&type=${comment.comment_type }','_blank','width=450,height=300,top=250, left=400')"
+							value="ï¿½ï¿½ï¿½ï¿½" /></td>
 						<td><font size="1">${comment.comment_date }</font></td>
 					</tr>
 					<div id="hidden"></div>
@@ -110,7 +103,7 @@
 						<td><input type="hidden"
 							value="${sessionScope.User.user_id }" Id="writer">
 						<td rowspan="2"><textarea Id="content" cols="80" rows="5"
-								placeholder="³»¿ëÀ» ÀÔ·ÂÇØÁÖ¼¼¿ä."></textarea></td>
+								placeholder="ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ô·ï¿½ï¿½ï¿½ï¿½Ö¼ï¿½ï¿½ï¿½."></textarea></td>
 					<tr>
 						<td><input type="hidden"
 							value="${sessionScope.User.user_pwd }" Id="pwd"></td>
@@ -120,11 +113,11 @@
 				</c:when>
 				<c:otherwise>
 					<tr>
-						<td><input type="text" placeholder="ÀÛ¼ºÀÚ" Id="writer">
+						<td><input type="text" placeholder="ï¿½Û¼ï¿½ï¿½ï¿½" Id="writer">
 						<td rowspan="2"><textarea Id="content" cols="80" rows="5"
-								placeholder="³»¿ëÀ» ÀÔ·ÂÇØÁÖ¼¼¿ä."></textarea></td>
+								placeholder="ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ô·ï¿½ï¿½ï¿½ï¿½Ö¼ï¿½ï¿½ï¿½."></textarea></td>
 					<tr>
-						<td><input type="password" placeholder="ºñ¹Ð¹øÈ£" Id="pwd"></td>
+						<td><input type="password" placeholder="ï¿½ï¿½Ð¹ï¿½È£" Id="pwd"></td>
 
 					</tr>
 					<input type="hidden" value="other" id="Type" />
@@ -132,8 +125,8 @@
 			</c:choose>
 		</table>
 		<input type="hidden" value="${secondhand.secondhand_seqno}"
-			Id="parent" /> <input type="button" value="µî·Ï"
-			onclick="return submit()" /><input type="button" value="¸ñ·ÏÀ¸·Î"
+			Id="parent" /> <input type="button" value="ï¿½ï¿½ï¿½"
+			onclick="return submit()" /><input type="button" value="ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½"
 			onclick="history.back()" />
 	</div>
 </body>

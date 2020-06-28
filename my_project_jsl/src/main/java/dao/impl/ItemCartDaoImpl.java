@@ -83,6 +83,10 @@ public class ItemCartDaoImpl implements ItemCartDao {
 		return session.selectList("ItemCartMapper.getUnsignedShopping",no);
 		
 	}
+	public List<Shopping> getItemFromUserShopping(String buyer) {
+		return session.selectList("ItemCartMapper.getItemFromUserShopping",buyer);
+	}
+	
 	
 	
 	

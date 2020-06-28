@@ -61,7 +61,7 @@ div#wrapper {
 	function LoginPopup() {
 		window
 				.open("../index/login.html", "로그인",
-						"status=no,location=no,toolbars=no,scrollbars=no,height=300,width=600")
+						"status=no,location=no,toolbars=no,scrollbars=no,height=300,width=600,top=250, left=400")
 	}
 </script>
 <meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">

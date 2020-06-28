@@ -33,4 +33,5 @@ public interface LoginDao {
 	public List<FormalUser> getFormalAll();
 	public List<CompanyUser> getComapnyAll();
 	public List<AdminUser> getAdminAll();
+	public void insertAdmin(AdminUser user);
 }

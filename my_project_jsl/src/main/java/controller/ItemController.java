@@ -3,8 +3,8 @@ package controller;
 import java.io.IOException;
 import java.net.URLDecoder;
 import java.text.SimpleDateFormat;
-import java.util.Base64.Decoder;
 import java.util.Calendar;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.servlet.ServletContext;
@@ -23,11 +23,13 @@ import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
 
 import dao.ItemCartDao;
 import dao.ItemDao;
+import model.AdminUser;
 import model.CompanyUser;
 import model.Condition;
 import model.FormalUser;
 import model.Item;
 import model.Review;
+import model.Shopping;
 
 @Controller
 public class ItemController {
@@ -94,7 +96,6 @@ public class ItemController {
 		model.setItem_name(Multipart.getParameter("item_name"));
 		model.setItem_writer(Multipart.getParameter("item_writer"));
 		model.setItem_price(Integer.parseInt(Multipart.getParameter("item_price")));
-		model.setItem_code(Integer.parseInt(Multipart.getParameter("item_code")));
 		model.setItem_content(Multipart.getParameter("item_content"));
 		model.setItem_image(picture_url);
 		model.setItem_state(0);
@@ -118,16 +119,20 @@ public class ItemController {
 		ModelAndView mav = new ModelAndView("Item/delete");
 		Integer no = Integer.parseInt(seqno);
 		Item target = itemDao.getItem(no);
-		if (session.getAttribute("Type") == null || !session.getAttribute("Type").equals("Company")) { // 세션에 로그인 정보가
-																										// 없거나 업체 회원이 아닐
-																										// 때
-			mav.addObject("result", "Fail");
-			return mav;
+		String userType=(String)session.getAttribute("Type");
+		if (userType.equals("Company")) {
+			CompanyUser CU = (CompanyUser) session.getAttribute("User");
+			if (!CU.getCompany_id().equals(target.getItem_writer())) { // 상품을 등록한 업체와 다를 때
+				mav.addObject("reuslt", "Fail");
+				return mav;
+			}
 		}
-		CompanyUser CU = (CompanyUser) session.getAttribute("User");
-		if (!CU.getCompany_id().equals(target.getItem_writer())) { // 상품을 등록한 업체와 다를 때
-			mav.addObject("reuslt", "Fail");
-			return mav;
+		if(userType.equals("Admin")) {
+			AdminUser AU = (AdminUser) session.getAttribute("User");
+			if(AU.getAdmin_power()!=0 || AU.getAdmin_power()!=2) {
+				mav.addObject("result","Fail");
+				return mav;
+			}
 		}
 		itemDao.deleteItem(no);
 		mav.addObject("result", "Success");
@@ -169,7 +174,6 @@ public class ItemController {
 		model.setItem_name(Multipart.getParameter("item_name"));
 		model.setItem_writer(Multipart.getParameter("item_writer"));
 		model.setItem_price(Integer.parseInt(Multipart.getParameter("item_price")));
-		model.setItem_code(Integer.parseInt(Multipart.getParameter("item_code")));
 		model.setItem_content(Multipart.getParameter("item_content"));
 		String picture_url = Multipart.getFilesystemName("item_image");
 		if (picture_url == null)
@@ -204,15 +208,26 @@ public class ItemController {
 	}
 
 	@RequestMapping(value = "Item/writeReview.html", method = RequestMethod.GET)
-	public ModelAndView writeReview(String parent,HttpSession session) {
+
+	public ModelAndView writeReview(Integer parent,HttpSession session) {
 		ModelAndView mav = new ModelAndView("Item/reviewWriteForm");
 		String type=(String)session.getAttribute("Type");
+		List<Shopping> list = null;
+		boolean flag=false;
 		if(type.equals("Formal")) {
 			FormalUser FU = (FormalUser)session.getAttribute("User");
-			//쇼핑DB에서 itemseqno와 FU아이디를 이용해서 검색한다.
+			list=ICD.getItemFromUserShopping(FU.getUser_id());
+			Iterator it = list.iterator();
+			while(it.hasNext()) {
+				Shopping s = (Shopping)it.next();
+				if (s.getShopping_seqno()==parent) {
+					flag=true;
+				}
+			}
 		}
 		mav.addObject("review", new Review());// 객체주입
 		mav.addObject("parent", parent);
+		if(flag) mav.addObject("Bought","YES");
 		return mav;
 	}
 

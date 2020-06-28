@@ -83,4 +83,7 @@
 	<select id="getAdminAll" resultType="model.AdminUser">
 	select * from admin_user
 	</select>
+	<insert id="insertAdmin" parameterType="model.AdminUser">
+	insert into admin_user values(#{admin_id},#{admin_pwd},#{admin_power})
+	</insert>
 </mapper>

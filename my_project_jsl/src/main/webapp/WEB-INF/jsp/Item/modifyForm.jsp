@@ -5,6 +5,31 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
+<script type="text/javascript">
+function validation(){
+	if(document.writeform.item_name.value=='') {
+		alert("상품명을 입력해주세요.");
+		document.writeform.item_name.focus();
+		return false;
+	}
+	if(document.writeform.item_price.value=='') {
+		alert("상품가격을 입력해주세요.");
+		document.writeform.item_price.focus();
+		return false;
+	}
+	if (isNaN(document.writeform.item_price.value)) {
+		alert("가격은 숫자여야 합니다.");
+		document.writeform.item_price.focus();
+		return false;
+	}
+	if (document.writeform.item_content.value=='') {
+		alert("상품설명은 입력해야 합니다.");
+		document.writeform.item_content.focus();
+		return false;
+	}
+	
+}
+</script>
 <meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
 <title>Insert title here</title>
 </head>
@@ -26,7 +51,6 @@ action="../item/modify.html" method="POST" enctype="multipart/form-data">
 <table border="1" align="center">
 <tr><td>상품명</td><td><form:input path="item_name"/></td></tr>
 <tr><td>가격</td><td><form:input path="item_price"/></td></tr>
-<tr><td>분류코드</td><td><form:input path="item_code"/></td></tr>
 <tr><td>이미지</td><td><input type="File" name="item_image"/></td></tr>
 <tr><td>내용</td><td><form:textarea style="width:100%; height:20%;"  path="item_content"/></td></tr>
 </table>
@@ -34,7 +58,7 @@ action="../item/modify.html" method="POST" enctype="multipart/form-data">
 <form:hidden path="item_seqno" value="${seqno }"/>
 <br/>
 <div align="center">
-<input type="submit" value="등록"/>
+<input type="submit" onclick="return validation()" value="등록"/>
 </div>
 </form:form>
 </c:when>

@@ -11,8 +11,9 @@
 <body>
 <jsp:include page="../index/header.jsp"></jsp:include>
 <div id="wrapper" align="center">
+<c:choose>
+<c:when test="${Bought =='YES' }">
 <h3>상품 후기 작성</h3>
-
 
 <form:form modelAttribute="review" action="../Item/writeReview.html" method="POST" name="form" enctype="multipart/form-data">
 <form:hidden path="review_writer" value="${sessionScope.User.user_id }"/>
@@ -28,6 +29,14 @@
 </table>
 <input type="submit" value="등록"/> <input type="button" value="돌아가기"/>
 </form:form>
+</c:when>
+<c:otherwise>
+<script type="text/javascript"> 
+alert("구매 이력이 있어야 후기를 남길 수 있습니다.");
+location.href="../item/itemDetail.html?seqno=${parent}";
+</script>
+</c:otherwise>
+</c:choose>
 </div>
 </body>
 </html>

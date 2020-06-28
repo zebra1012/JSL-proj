@@ -98,6 +98,10 @@ public class LoginDaoImpl implements LoginDao {
 	public List<AdminUser> getAdminAll() {
 		return session.selectList("LoginMapper.getAdminAll");
 	}
+	public void insertAdmin(AdminUser user) {
+		session.insert("LoginMapper.insertAdmin", user);
+	}
+	
 	
 	
 	

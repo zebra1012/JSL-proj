@@ -4,22 +4,29 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
+<style type="text/css">
+tr td th {
+border: 1px;
+}
+</style>
 <meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
 <title>Insert title here</title>
 </head>
 <body>
 	<div id="menu"
 		style="float: right; margin-right: 320px; margin-top: 80px;">
-		<table>
-			<tr>
-				<th>구매번호</th>
-				<th>고객명</th>
-				<th>상품명</th>
-				<th>금액</th>
-				<th>배송상태</th>
-			</tr>
+		<table border="1">
+
 			<c:choose>
+
 				<c:when test="${not empty Customer }">
+					<tr>
+						<th>구매번호</th>
+						<th>고객명</th>
+						<th>상품명</th>
+						<th>금액</th>
+						<th>배송상태</th>
+					</tr>
 					<c:forEach var="customer" items="${Customer}">
 						<tr>
 							<td>${customer.shopping_seqno }</td>
