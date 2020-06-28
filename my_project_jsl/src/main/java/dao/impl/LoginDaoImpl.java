@@ -68,6 +68,40 @@ public class LoginDaoImpl implements LoginDao {
 		session.insert("LoginMapper.visitrCreate", date);
 		
 	}
+	public void formalChangeInfo(FormalUser user) {
+		session.update("LoginMapper.formalChangeInfo", user);
+	}
+	public void formalDelete(String id) {
+		session.delete("LoginMapper.formalDelete",id);
+	}
+	public void companyChangeInfo(CompanyUser user) {
+		session.update("LoginMapper.companyChangeInfo", user);
+	}
+	public void companyDelete(String id) {
+		session.delete("LoginMapper.companyDelete",id);
+	}
+	public Integer visitSum() {
+		return session.selectOne("LoginMapper.visitSum");
+	}
+	public Integer visitToday() {
+		return session.selectOne("LoginMapper.visitToday");
+	}
+	public void adminChangePWD(AdminUser user) {
+		session.update("LoginMapper.adminChangePWD",user);
+	}
+	public List<FormalUser> getFormalAll() {
+		return session.selectList("LoginMapper.getFormalAll");
+	}
+	public List<CompanyUser> getComapnyAll() {
+		return session.selectList("LoginMapper.getComapnyAll");	
+	}
+	public List<AdminUser> getAdminAll() {
+		return session.selectList("LoginMapper.getAdminAll");
+	}
+	public void insertAdmin(AdminUser user) {
+		session.insert("LoginMapper.insertAdmin", user);
+	}
+	
 	
 	
 	

@@ -52,43 +52,6 @@
 						</div>
 					</form:form>
 				</c:when>
-				<c:otherwise>
-					<!-- 일반회원이 아닐 때 비밀번호와 작성자를 입력받는다. -->
-					<form:form name="writeform" modelAttribute="BBS"
-						action="../bbs/modify.html" method="POST"
-						enctype="multipart/form-data">
-						<table border="1" align="center">
-							<tr>
-								<td>글제목</td>
-								<td><form:input path="bbs_title" /></td>
-							</tr>
-							<tr>
-								<td>작성자</td>
-								<td><form:input path="bbs_writer" /></td>
-							</tr>
-							<tr>
-								<td>비밀번호</td>
-								<td><form:password path="bbs_password" /></td>
-							</tr>
-							<tr>
-								<td>이미지</td>
-								<td><input type="File" name="bbs_image" /></td>
-							</tr>
-							<tr>
-								<td>내용</td>
-								<td><form:textarea style="width:100%; height:20%;"
-										path="bbs_content" /></td>
-							</tr>
-
-						</table>
-						<form:hidden path="bbs_seqno" value="${seqno }"/>
-						<form:hidden path="rn" value="${rn }"/>
-						<br />
-						<div align="center">
-							<input type="submit" value="등록" />
-						</div>
-					</form:form>
-				</c:otherwise>
 			</c:choose>
 		</c:when>
 	</c:choose>

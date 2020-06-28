@@ -1,6 +1,7 @@
 package controller;
 
-import java.io.OutputStream;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
@@ -14,7 +15,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.oreilly.servlet.MultipartRequest;
@@ -22,6 +22,7 @@ import com.oreilly.servlet.multipart.DefaultFileRenamePolicy;
 
 import dao.SHCommentDao;
 import dao.SecondHandDao;
+import model.AdminUser;
 import model.Comment;
 import model.Condition;
 import model.FormalUser;
@@ -105,6 +106,19 @@ public class SecondhandController {
 		ModelAndView mav = new ModelAndView("secondhand/DeleteResult");
 		Integer no = Integer.parseInt(seqno);
 		Secondhand target = SecondHandDao.getSecondhandDetail(no);
+		String usertype=(String)session.getAttribute("Type");
+		if (usertype.equals("Admin")) { //관리자이면
+			AdminUser AU = (AdminUser) session.getAttribute("User");
+			if(AU.getAdmin_power()==0 || AU.getAdmin_power()==1) { //관리자의 권한이 마스터거나 중고거래이ㅕㄴ
+				SecondHandDao.deleteSecondHand(no);
+				mav.addObject("result","Success");
+			}
+			else  //그 외
+				mav.addObject("result","Fail");
+			return mav;
+			
+		}
+		else {
 		FormalUser FU=null;
 		try {
 			FU =(FormalUser)session.getAttribute("User"); 
@@ -119,6 +133,7 @@ public class SecondhandController {
 		}
 		else mav.addObject("result","Fail"); //세션 유저 아이디가 글쓴이와 같지 않을 때
 		return mav;
+		}
 	}
 	@RequestMapping(value="secondhand/modify.html",method=RequestMethod.GET)
 	public ModelAndView secondhandModify(HttpSession session,String seqno) { //삭제와 동일하지만 수정폼으로 연결해준다.
@@ -170,6 +185,8 @@ public class SecondhandController {
 	public ModelAndView commentWrite(HttpServletRequest request) {
 		ModelAndView mav = new ModelAndView();
 		Comment comment=new Comment();
+		if (request.getParameter("Type").equals("Formal")) comment.setComment_type(1); //일반회원
+		else comment.setComment_type(0); //일반회원이 아님
 		comment.setComment_writer(request.getParameter("writer"));
 		comment.setComment_pwd(request.getParameter("pwd"));
 		comment.setComment_content(request.getParameter("content"));
@@ -185,29 +202,52 @@ public class SecondhandController {
 		return mav;
 	}
 	@RequestMapping(value="secondhand/askpwd.html", method=RequestMethod.GET)
-	public ModelAndView AskPWD(String request,Integer seqno) {
+	public ModelAndView AskPWD(HttpServletRequest request) {
 		ModelAndView mav = new ModelAndView("secondhand/askresult");
+		Integer seqno = Integer.parseInt(request.getParameter("seqno"));
+		String req = request.getParameter("request");
+		String temp = request.getParameter("type");
+		Integer type=null;
+		if(temp!=null) {
+			type=Integer.parseInt(temp);
+		}
 		mav.addObject("seqno",seqno);
-		if(request.equals("delete")) {
+		if(req.equals("delete")) {
 			mav.addObject("request","delete");
+			mav.addObject("type",type);
 			
 		}
-		else if (request.equals("modify")) {
+		else if (req.equals("modify")) {
 			mav.addObject("request","modify");
+			mav.addObject("type",type);
 		}
-		else if (request.equals("reply")) {
+		else if (req.equals("reply")) {
 			mav.addObject("request","reply");
 			mav.addObject("reply",new Comment());
+			
 		}
 		return mav;
 	}
 	@RequestMapping(value="secondhand/deleteComment.html",method=RequestMethod.GET)
-	public ModelAndView deleteComment(String pwd, Integer seqno) {
+	public ModelAndView deleteComment(HttpServletRequest request,HttpSession session) {
 		ModelAndView mav = new ModelAndView("secondhand/CommentResult");
-		if(pwd.equals(commentDao.getComment(seqno).getComment_pwd())) {
-			commentDao.deleteComment(seqno);
-			mav.addObject("result", "Success");
-		}else mav.addObject("result","Fail");
+		String pwd = request.getParameter("pwd");
+		Integer seqno = Integer.parseInt(request.getParameter("seqno"));
+		if (pwd!=null) {
+			if(pwd.equals(commentDao.getComment(seqno).getComment_pwd())) {
+				commentDao.deleteComment(seqno);
+				mav.addObject("result", "Success");
+			}else mav.addObject("result","Fail");
+		}
+		else { //비밀번호가 없다. =일반회원이다.
+			String type=(String)session.getAttribute("Type");
+			FormalUser user=(FormalUser)session.getAttribute("User");
+			Comment c = commentDao.getComment(seqno);
+			if (c.getComment_writer().equals(user.getUser_id())) {
+				commentDao.deleteComment(seqno);
+				mav.addObject("result","Success");
+			}else mav.addObject("result","Fail");
+		}
 		return mav;
 	}
 	@RequestMapping(value="secondhand/modifyComment.html",method=RequestMethod.GET)
@@ -218,8 +258,8 @@ public class SecondhandController {
 		String pwd=request.getParameter("pwd");
 		String content = request.getParameter("content");
 		String writer=request.getParameter("writer");
+		System.out.println(content);
 		Comment temp = new Comment();
-		System.out.println(pwd);
 		temp.setComment_seqno(seqno); temp.setComment_writer(writer);
 		temp.setComment_content(content);
 		if(pwd.equals(commentDao.getComment(seqno).getComment_pwd())) {
@@ -251,18 +291,19 @@ public class SecondhandController {
 		
 	}
 	@RequestMapping(value="/secondhand/search.html",method=RequestMethod.GET)
-	public ModelAndView Search(String type,String keyword) {
+	public ModelAndView Search(String type,String keyword) throws UnsupportedEncodingException {
 		ModelAndView mav = new ModelAndView("secondhand/frontpage");
+		String decoded = URLDecoder.decode(keyword,"UTF-8");
 		if(type.equals("writer")) {
-			List<Secondhand> list= SecondHandDao.getSecondHandByWriter(keyword);
+			List<Secondhand> list= SecondHandDao.getSecondHandByWriter(decoded);
 			mav.addObject("Secondhand",list);
 		}
 		if(type.equals("title")) {
-			List<Secondhand> list = SecondHandDao.getSecondHandByTitle(keyword);
+			List<Secondhand> list = SecondHandDao.getSecondHandByTitle(decoded);
 			mav.addObject("Secondhand",list);
 		}
 		if(type.equals("content")) {
-			List<Secondhand> list  = SecondHandDao.getSecondhandByContent(keyword);
+			List<Secondhand> list  = SecondHandDao.getSecondhandByContent(decoded);
 			mav.addObject("Secondhand",list);
 		}
 		return mav;

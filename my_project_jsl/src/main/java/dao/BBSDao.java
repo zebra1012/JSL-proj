@@ -24,5 +24,14 @@ public interface BBSDao {
 	public void deleteBBS(Integer seqno);
 	public String getBBSImage(Integer seqno);
 	public void modifyBBS(BBS bbs);
-	
+	public List<model.BBS> getMineBBS(String writer);
+	public List<BBS> getFreeByWriter(String writer);
+	public List<BBS> getFreeByContent(String content);
+	public List<BBS> getFreeByTitle(String title);
+	public List<BBS> getHobbitByWriter(String writer);
+	public List<BBS> getHobbitByContent(String content);
+	public List<BBS> getHobbitByTitle(String title);
+	public List<BBS> getReadByWriter(String writer);
+	public List<BBS> getReadByContent(String content);
+	public List<BBS> getReadByTitle(String title);
 }

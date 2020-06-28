@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import dao.ItemDao;
 import model.Condition;
+import model.Customer;
 import model.Item;
 import model.Review;
 
@@ -95,6 +96,12 @@ public class ItemDaoImpl implements ItemDao {
 		session.update("ItemMapper.modifyItemReview",review);
 		
 	}
+
+	public List<Customer> getBuyer(Item item) {
+		return session.selectList("ItemMapper.getBuyer", item);
+	}
+	
+	
 	
 	
 	

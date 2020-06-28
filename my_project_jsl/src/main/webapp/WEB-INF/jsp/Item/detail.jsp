@@ -73,10 +73,11 @@ function goCart(){
 		</div>
 		<div id="detail_buttons">
 			<ul>
-				<li><input type="button" value="목록으로" onclick="history.back()"></li>
+				<li><input type="button" value="목록으로" onclick="location.href='../item/frontpage.html'"></li>
 				<!--  기업회원만 아래 메뉴가 뜨게 일반 그 외는 장바구니를 넣을 것 -->
 				<c:choose>
-					<c:when test="${sessionScope.Type=='Company' && sessionScope.User.company_id == item.item_writer }">
+					<c:when test="${(sessionScope.Type=='Company' && sessionScope.User.company_id == item.item_writer)||
+					sessionScope.Type=='Admin' && (sessionScope.User.admin_power==0 || sessionScope.User.admin_power==2) }">
 				<li><input type="button" value="삭제"
 					onclick="location.href='../item/delete.html?seqno='+${item.item_seqno}"></li>
 				<li><input type="button" value="수정"

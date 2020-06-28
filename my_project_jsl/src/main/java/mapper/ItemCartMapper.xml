@@ -56,4 +56,7 @@
 	<select id="getUnsignedShopping" parameterType="Integer" resultType="model.Shopping">
 		select * from unsigned_user_shopping where shopping_buyer=#{buyer}
 	</select>
+	<select id="getItemFromUserShopping" resultType="model.Shopping" parameterType="String">
+		select * from user_shopping where shopping_buyer=#{buyer}
+	</select>
 </mapper>

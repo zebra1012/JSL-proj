@@ -13,6 +13,19 @@ tr td {
 	text-align: center;
 }
 </style>
+<script type="text/javascript">
+	function search() {
+		var keyword = document.getElementById("searchForm").value;
+		var type = document.getElementById("searchType").value;
+		if (keyword == '') {
+			alert("검색어를 입력하세요.");
+			return false;
+		}
+		var encoded = encodeURI(encodeURIComponent(keyword));
+		window.location.href = "../bbs/search.html?bbs=free&type=" + type
+				+ "&keyword=" + encoded;
+	}
+</script>
 <meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
 <title>Insert title here</title>
 </head>
@@ -25,7 +38,7 @@ tr td {
 		<table align="center" border="1">
 			<tr>
 				<th>글번호</th>
-				<th width="200px">글제목</th>
+				<th width="300px">글제목</th>
 				<th>작성자</th>
 				<th>추천 수</th>
 				<th>날짜</th>
@@ -39,9 +52,15 @@ tr td {
 				<c:otherwise>
 					<c:forEach items="${freebbs }" var="bbs">
 						<tr>
-							<td>${bbs.rn }</td>
-							<td><a
-								href="../bbs/bbsDetail.html?seqno=${bbs.bbs_seqno }&rn=${bbs.rn}">${bbs.bbs_title }</a></td>
+							<td><c:if test="${bbs.rn==null}">0</c:if> <c:if
+									test="${bbs.rn !=null }">${bbs.rn }</c:if></td>
+							<td><c:if test="${bbs.rn==null}">
+									<a href="../bbs/bbsDetail.html?seqno=${bbs.bbs_seqno }&rn=0">${bbs.bbs_title }</a>
+								</c:if>
+								<c:if test="${bbs.rn !=null }">
+									<a
+										href="../bbs/bbsDetail.html?seqno=${bbs.bbs_seqno }&rn=${bbs.rn}">${bbs.bbs_title }</a>
+								</c:if></td>
 							<td>${bbs.bbs_writer }</td>
 							<td>${bbs.bbs_hot }</td>
 							<td><font size="1">${bbs.bbs_date }</font></td>

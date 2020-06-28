@@ -30,9 +30,19 @@ function write_validation(){
 		document.writeform.secondhand_price.focus();
 		return false;
 	}
-	if(document.writeform.secondhand_local.value==""){
-		alert("거래지역을 입력하세요.");
+	if(document.writeform.secondhand_local.value=="0") {
+		alert("지역을 선택하세요.");
 		document.writeform.secondhand_local.focus();
+		return false;
+	}
+	if(document.writeform.secondhand_image.value=="") {
+		alert("이미지를 등록해주세요.");
+		document.writeform.secondhand_image.focus();
+		return false;
+	}
+	if(document.writeform.secondhand_content.value==""){
+		alert("내용을을 입력하세요.");
+		document.writeform.secondhand_content.focus();
 		return false;
 	}
 }
@@ -53,6 +63,7 @@ action="../secondhand/write.html" method="POST" enctype="multipart/form-data">
 <tr><td>가격</td><td><form:input path="secondhand_price"/></td></tr>
 <tr><td>이미지</td><td><input type="File" name="secondhand_image"/></td></tr>
 <tr><td>거래지역</td><td><form:select path="secondhand_local">
+<form:option value="0">지역을 선택하세요.</form:option>
 <form:option value="서울">서울</form:option>
 <form:option value="경기">경기</form:option>
 <form:option value="강원">강원</form:option>
@@ -76,7 +87,7 @@ action="../secondhand/write.html" method="POST" enctype="multipart/form-data">
 <c:otherwise>
 <script>
 alert("권한이 없습니다. 일반회원만 작성할 수 있습니다.");
-history.back();
+location.href="../secondhand/frontpage.html"
 </script>
 </c:otherwise>
 </c:choose>

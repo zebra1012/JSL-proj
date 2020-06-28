@@ -49,7 +49,7 @@ function validate(){
 <form action="../index/logincheck.html" name="frm" method="POST">
 <input type="radio" name="userType" value="formal"/>일반회원<input type="radio" name="userType" value="company"/>업체회원<br/>
 아이디 <input type="text" name="id"/> <br/>
-패스워드 <input type="text" name="pwd"/><br/>
+패스워드 <input type="password" name="pwd"/><br/>
 <input type="button" value="로그인" onclick="return validate()"/><br/>
 </form>
 <a href="javascript:entry()">회원가입</a> <a href="javascript:findAccount()">아이디/PWD 찾기</a>

@@ -1,6 +1,8 @@
 package controller;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
@@ -40,11 +42,12 @@ public class BBSController {
 	public ModelAndView ToFrontPage() { // 각 게시판 정보를 받아서 넣어준다.
 		ModelAndView mav = new ModelAndView("bbs/frontpage");
 		Condition c = new Condition();
-		c.setStartRow(1); c.setEndRow(10);
+		c.setStartRow(1);
+		c.setEndRow(10);
 		mav.addObject("free_list", bbsDao.getFreeBBSList(c));
 		c.setEndRow(5);
-		mav.addObject("hobbit_list",bbsDao.getHobbitBBSList(c));
-		mav.addObject("read_list",bbsDao.getReadBBSList(c));
+		mav.addObject("hobbit_list", bbsDao.getHobbitBBSList(c));
+		mav.addObject("read_list", bbsDao.getReadBBSList(c));
 		return mav;
 	}
 
@@ -66,7 +69,7 @@ public class BBSController {
 	public ModelAndView ToFree(Integer pageNo) {
 		ModelAndView mav = new ModelAndView("bbs/freebbs");
 		Condition c = new Condition();
-		Integer total = bbsDao.getFreeBBSTotal();
+		Integer total = bbsDao.getFreeBBSTotal(); // 11개 1페이지 11~2 2페이지 2~1
 		if (total == null)
 			total = 0;
 		int startRow = 0;
@@ -81,7 +84,7 @@ public class BBSController {
 			pageCnt = total / 10;
 			if (total % 10 > 0)
 				pageCnt++;
-			startRow = (currentPage - 1) * 10 + 1;
+			startRow = (currentPage - 1) * 10 + 1; // 1페이지 맥스~맥스-10...
 			endRow = currentPage * 10;
 			if (endRow > total)
 				endRow = total;
@@ -176,7 +179,7 @@ public class BBSController {
 	}
 
 	@RequestMapping(value = "bbs/write.html", method = RequestMethod.POST)
-	public ModelAndView BBSWrite(BBS bbs, BindingResult br, HttpServletRequest request) throws IOException {
+	public ModelAndView BBSWrite(BBS bbs, BindingResult br, HttpServletRequest request,HttpSession session) throws IOException {
 		ModelAndView mav = new ModelAndView();
 
 		ServletContext context = request.getSession().getServletContext();
@@ -199,7 +202,12 @@ public class BBSController {
 		bbs.setBbs_writer(Multipart.getParameter("bbs_writer"));
 		bbs.setBbs_hot(0);
 		bbs.setBbs_password(Multipart.getParameter("bbs_password"));
-		bbs.setBbs_state(1);
+		try {
+		if(session.getAttribute("Type").equals("Formal")) bbs.setBbs_state(1); //회원
+		else bbs.setBbs_state(0); //비회원
+		} catch (NullPointerException e) {
+			bbs.setBbs_state(0);
+		}
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd kk:mm:ss");
 		String strDate = dateFormat.format(Calendar.getInstance().getTime());
 		bbs.setBbs_date(strDate);
@@ -343,9 +351,7 @@ public class BBSController {
 		FormalUser FU = null;
 		try {
 			FU = (FormalUser) session.getAttribute("User");
-			if (FU == null)
-				throw new NullPointerException(); // User가 null일 때 예외를 발생시킨다.
-		} catch (Exception E) { // 세션속성 유저가 없거나 세션속성 유저가 일반유저가 아닐 때
+		} catch (NullPointerException E) {
 			mav.addObject("result", "Fail");
 			return mav;
 		}
@@ -355,6 +361,28 @@ public class BBSController {
 		} else
 			mav.addObject("result", "Fail"); // 세션 유저 아이디가 글쓴이와 같지 않을 때
 		mav.addObject("Type", bbsType);
+		return mav;
+	}
+	@RequestMapping(value = "/bbs/delete.html", method = RequestMethod.POST)
+	public ModelAndView bbsDelete(HttpServletRequest request) {
+		ModelAndView mav = new ModelAndView("bbs/DeleteResult");
+		Integer seqno = Integer.parseInt(request.getParameter("seqno"));
+		String pwd=request.getParameter("pwd");
+		BBS target = bbsDao.getBBSDetail(seqno);
+		Integer code = target.getBbs_code();
+		String bbsType = "";
+		if (code == 1)
+			bbsType = "free";
+		else if (code == 2)
+			bbsType = "hobbit";
+		else if (code == 3)
+			bbsType = "read";
+		if(target.getBbs_password().equals(pwd)) {
+			bbsDao.deleteBBS(seqno);
+			mav.addObject("result", "bbsSuccess");
+		}
+		else mav.addObject("result","bbsFail");
+		mav.addObject("Type",bbsType);
 		return mav;
 	}
 
@@ -402,9 +430,97 @@ public class BBSController {
 		model.setRn(Integer.parseInt(Multipart.getParameter("rn")));
 		mav.addObject("seqno", model.getBbs_seqno());
 		mav.addObject("rn", model.getRn());
+		String ispop = Multipart.getParameter("bbs_password");
+		if(ispop.equals("popup")) {
+			mav.addObject("result", "bbsSuccess");
+		}
+		else 
 		mav.addObject("result", "Success");
 		bbsDao.modifyBBS(model);
 		return mav;
+	}
+	@RequestMapping(value="bbs/modifyBBS.html",method=RequestMethod.POST)
+	public ModelAndView modifyBBS(HttpServletRequest request) {
+		ModelAndView mav = new ModelAndView("bbs/bbsmodify");
+		Integer seqno = Integer.parseInt(request.getParameter("seqno"));
+		Integer rn= Integer.parseInt(request.getParameter("rn"));
+		String pwd=request.getParameter("pwd");
+		BBS target = bbsDao.getBBSDetail(seqno);
+		target.setRn(rn);
+		if(target.getBbs_password().equals(pwd)) {
+			mav.addObject("seqno", target.getBbs_seqno());
+			mav.addObject("bbs", target);
+			mav.addObject("result", "Success");
+
+		}else
+			mav.addObject("result", "Fail");
+		return mav;
+		
+	}
+
+	@RequestMapping(value = "bbs/search.html", method = RequestMethod.GET)
+	public ModelAndView search(String bbs, String type, String keyword) throws UnsupportedEncodingException {
+		ModelAndView mav = new ModelAndView();
+		String decoded = URLDecoder.decode(keyword,"UTF-8");
+		List<BBS> list= null;
+		System.out.println(decoded);
+		if (bbs.equals("free")) {
+			mav.setViewName("bbs/freebbs");
+			if (type.equals("writer")) {
+				list =bbsDao.getFreeByWriter(decoded);
+				mav.addObject("freebbs", list);
+			} else if (type.equals("content")) {
+				list =bbsDao.getFreeByContent(decoded);
+				mav.addObject("freebbs", list);
+			} else if (type.equals("title")) {
+				list =bbsDao.getFreeByTitle(decoded);
+				mav.addObject("freebbs", list);
+			}
+		} else if (bbs.equals("hobbit")) {
+			mav.setViewName("bbs/hobbitbbs");
+			if (type.equals("writer")) {
+				list =bbsDao.getHobbitByTitle(decoded);
+				mav.addObject("hobbitbbs", list);
+			} else if (type.equals("content")) {
+				list =bbsDao.getHobbitByContent(decoded);
+				mav.addObject("hobbitbbs", list);
+			} else if (type.equals("title")) {
+				list =bbsDao.getHobbitByTitle(decoded);
+				mav.addObject("hobbitbbs", list);
+			}
+		} else if (bbs.equals("read")) {
+			mav.setViewName("bbs/readbbs");
+			if (type.equals("writer")) {
+				list =bbsDao.getReadByTitle(decoded);
+				mav.addObject("readbbs", list);
+			} else if (type.equals("content")) {
+				list =bbsDao.getReadByContent(decoded);
+				mav.addObject("readbbs", list);
+			} else if (type.equals("title")) {
+				list =bbsDao.getReadByTitle(decoded);
+				mav.addObject("readbbs", list);
+			}
+		}
+		
+		return mav;
+	}
+	@RequestMapping(value="bbs/askpwdBBS.html")
+	public ModelAndView askpwdBBS(HttpServletRequest request) {
+		ModelAndView mav = new ModelAndView("bbs/askresultBBS");
+		Integer seqno = Integer.parseInt(request.getParameter("seqno"));
+		String req = (String)request.getParameter("request");
+		
+		if (req.equals("delete")) {
+			mav.addObject("request",req);
+		}
+		else if (req.equals("modify")) {
+			mav.addObject("request",req);
+			Integer rn = Integer.parseInt(request.getParameter("rn"));
+			mav.addObject("rn",rn);
+		}
+		mav.addObject("seqno",seqno);
+		return mav;
+		
 	}
 
 }

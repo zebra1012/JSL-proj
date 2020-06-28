@@ -30,6 +30,17 @@ function write_validation(){
 		document.writeform.item_price.focus();
 		return false;
 	}
+	if(document.writeform.item_image.value=='') {
+		alert("이미지를 등록하세요.");
+		document.writeform.item_price.focus();
+		return false;
+	}
+	if(document.writeform.item_content.value=='') {
+		alert("상품정보를 입력하세요.");
+		document.writeform.item_content.focus();
+		return false;
+	}
+	
 	
 }
 </script>
@@ -46,9 +57,8 @@ function write_validation(){
 action="../item/write.html" method="POST" enctype="multipart/form-data">
 <table border="1" align="center">
 <tr><td>상품명</td><td><form:input path="item_name"/></td></tr>
-<tr><td>상품분류</td><td><form:input path="item_code"/></td></tr>
-<tr><td>상품이미지</td><td><input type="File" name="item_image"/></td></tr>
 <tr><td>상품가격</td><td><form:input path="item_price"/></td></tr>
+<tr><td>상품이미지</td><td><input type="File" name="item_image"/></td></tr>
 <tr><td>상품 설명</td><td><form:textarea path="item_content"/></td></tr>
 </table>
 <form:hidden path="item_writer" value="${sessionScope.User.company_id }"/>
