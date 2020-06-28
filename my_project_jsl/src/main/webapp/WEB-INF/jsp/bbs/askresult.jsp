@@ -12,16 +12,40 @@
 	<c:choose>
 		<c:when test="${request=='delete' }">
 			<h3>댓글 삭제</h3>
+			<c:choose>
+				<c:when test="${type==0 }">
+			
+			
 비밀번호
 <form action="../bbs/deleteComment.html" method="GET">
-				<input type="password" name="pwd" /> <input type="hidden"
-					name="seqno" value="${seqno }" /> <input type="submit" value="삭제">
-			</form>
+						<input type="password" name="pwd" /> <input type="hidden"
+							name="seqno" value="${seqno }" /> <input type="submit"
+							value="삭제">
+					</form>
+				</c:when>
+				<c:when test="${type==1 && sessionScope.Type == 'Formal'}">
+					<script type="text/javascript">
+						location.href = "../bbs/deleteComment.html?seqno=${seqno}"
+					</script>
+				</c:when>
+				<c:when
+					test="${sessionScope.Type=='Admin' &&( sessionScope.User.admin_power==0 || sessionScope.User.admin_power==3) }">
+					<script type="text/javascript">
+						location.href = "../bbs/deleteComment.html?seqno=${seqno}"
+					</script>
+				</c:when>
+				<c:otherwise>
+					<script type="text/javascript">
+						alert("권한이 없습니다.");
+						self.close();
+					</script>
+				</c:otherwise>
+			</c:choose>
 		</c:when>
+
 		<c:when test="${request=='modify' }">
 			<c:choose>
-				<c:when
-					test="${sessionScope.Type=='Formal' && not empty sessionScope.User }">
+				<c:when test="${type==1 && sessionScope.Type == 'Formal'}">
 					<h3 align="center">댓글 수정</h3>
 					<form align="center" action="../bbs/modifyComment.html"
 						method="GET">
@@ -33,18 +57,24 @@
 							type="submit" value="수정">
 
 					</form>
-
 				</c:when>
-				<c:otherwise>
+				<c:when test="${type==0 }">
 					<h3 align="center">댓글 수정</h3>
 					<form align="center" action="../bbs/modifyComment.html"
 						method="GET">
-						작성자<input type="text" name="writer" /><br /> 비밀번호 <input
-							type="password" name="pwd" /> <br />글 내용
-						<textarea name="content"></textarea>
+						작성자<br />
+						<input type="text" name="writer" /><br />비밀번호<br />
+						<input type="password" name="pwd" /><br />글 내용<br />
+						<textarea cols="20" rows="7" name="content"></textarea>
 						<input type="hidden" name="seqno" value="${seqno }" /><br /> <input
 							type="submit" value="수정">
 					</form>
+				</c:when>
+				<c:otherwise>
+					<script type="text/javascript">
+						alert("권한이 없습니다.");
+						self.close();
+					</script>
 				</c:otherwise>
 			</c:choose>
 		</c:when>
@@ -53,14 +83,17 @@
 			<form:form align="center" modelAttribute="reply"
 				action="../bbs/commentReply.html" method="POST">
 				<c:choose>
-					<c:when test="${sessionScope.Type=='Formal' && not empty sessionScope.User }" >
-				<table>
+					<c:when
+						test="${sessionScope.Type=='Formal' && not empty sessionScope.User }">
+						<table>
 							<tr>
-								<td><form:hidden path="comment_writer" value="${sessionScope.User.user_id }" />
+								<td><form:hidden path="comment_writer"
+										value="${sessionScope.User.user_id }" />
 								<td rowspan="2"><form:textarea path="comment_content"
 										cols="80" rows="5" placeholder="내용을 입력해주세요." /></td>
 							<tr>
-								<td><form:hidden path="comment_pwd" value="${sessionScope.User.user_pwd }" /></td>
+								<td><form:hidden path="comment_pwd"
+										value="${sessionScope.User.user_pwd }" /></td>
 								<br />
 								<input type="hidden" name="parent_seqno" value="${seqno }" />
 							</tr>

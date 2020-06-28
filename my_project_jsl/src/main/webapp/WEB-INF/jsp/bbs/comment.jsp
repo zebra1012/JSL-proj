@@ -78,11 +78,11 @@
 					<tr>
 						<td>${comment.comment_writer }</td>
 						<td width="600px" style="text-align:left;">${comment.comment_content}</td>
-						<td width="40px"><input type="button" onclick="window.open('../bbs/askpwd.html?request=reply&seqno='+${comment.comment_seqno},'_blank','width=450,height=200')"
+						<td width="40px"><input type="button" onclick="window.open('../bbs/askpwd.html?request=reply&seqno=${comment.comment_seqno}','_blank','width=450,height=200')"
 							value="답글"></td>
-						<td width="40px"><input type="button" onclick="window.open('../bbs/askpwd.html?request=modify&seqno='+${comment.comment_seqno},'_blank','width=450,height=200')"
+						<td width="40px"><input type="button" onclick="window.open('../bbs/askpwd.html?request=modify&seqno=${comment.comment_seqno}&type=${comment.comment_type }','_blank','width=450,height=200')"
 							value="수정" /></td>
-						<td width="40px"><input type="button" onclick="window.open('../bbs/askpwd.html?request=delete&seqno='+${comment.comment_seqno},'_blank','width=450,height=200')"
+						<td width="40px"><input type="button" onclick="window.open('../bbs/askpwd.html?request=delete&seqno=${comment.comment_seqno}&type=${comment.comment_type }','_blank','width=450,height=200')"
 							value="삭제"/></td>
 						<td><font size="1">${comment.comment_date }</font></td>
 					</tr>
@@ -103,7 +103,7 @@
 								placeholder="내용을 입력해주세요."></textarea></td>
 					<tr>
 						<td><input type="hidden" value="${sessionScope.User.user_pwd }" Id="pwd"></td>
-						<input type="hidden" value="Formal" id="Type"/>
+						<input type="hidden" value="Formal" id="type"/>
 					</tr>
 				</c:when>
 				<c:otherwise>
@@ -113,7 +113,7 @@
 								placeholder="내용을 입력해주세요."></textarea></td>
 					<tr>
 						<td><input type="password" placeholder="비밀번호" Id="pwd"></td>
-						<input type="hidden" value="other" id="Type"/>
+						<input type="hidden" value="other" id="type"/>
 					</tr>
 				</c:otherwise>
 			</c:choose>

@@ -49,12 +49,70 @@ public class IndexController {
 	public ModelAndView test() {
 		ModelAndView mav = new ModelAndView("index/frontPage");
 		Condition c = new Condition();
-		c.setStartRow(1);
-		c.setEndRow(10);
+		Integer total = itemDao.getItemCount();
+		if (total == null)
+			total = 0;
+		int startRow = 0;
+		int endRow = 0;
+		int pageCnt = 0;
+		if (total > 0) {
+			pageCnt = total / 10;
+			int reminder = total % 10;
+			if (total % 10 > 0)
+				pageCnt++;
+			endRow = (pageCnt - 1) * 10 + reminder;
+			if (pageCnt - 1 == 0)
+				startRow = 1;
+			else
+				startRow = (pageCnt - 2) * 10 + reminder + 1;
+			if (endRow > total)
+				endRow = total;
+		}
+		c.setStartRow(startRow);
+		c.setEndRow(endRow);
 		List<Item> item_list = itemDao.getItemList(c);
 		mav.addObject("item_list", item_list);
-		c.setEndRow(5);
+		
+		total = secondHandDao.getMaxSeqno();
+		startRow = 0;
+		endRow = 0;
+		pageCnt = 0;
+		if (total > 0) {
+			pageCnt = total / 5;
+			int reminder = total % 5;
+			if (total % 5 > 0)
+				pageCnt++;
+			endRow = (pageCnt - 1) * 5 + reminder;
+			if (pageCnt - 1 == 0)
+				startRow = 1;
+			else
+				startRow = (pageCnt - 2) * 5 + reminder + 1;
+			if (endRow > total)
+				endRow = total;
+		}
+		c.setStartRow(startRow);
+		c.setEndRow(endRow);
 		mav.addObject("second_list", secondHandDao.getSecondHandList(c));
+		
+		total = bbsdao.getFreeBBSTotal();
+		startRow = 0;
+		endRow = 0;
+		pageCnt = 0;
+		if (total > 0) {
+			pageCnt = total / 5;
+			int reminder = total % 5;
+			if (total % 5 > 0)
+				pageCnt++;
+			endRow = (pageCnt - 1) * 5 + reminder;
+			if (pageCnt - 1 == 0)
+				startRow = 1;
+			else
+				startRow = (pageCnt - 2) * 5 + reminder + 1;
+			if (endRow > total)
+				endRow = total;
+		}
+		c.setStartRow(startRow);
+		c.setEndRow(endRow);
 		mav.addObject("free_list", bbsdao.getFreeBBSList(c));
 		return mav;
 	}

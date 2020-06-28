@@ -11,15 +11,15 @@
 <body>
 	<c:choose>
 		<c:when test="${request=='delete' }">
-			<h3>ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½</h3>
+			<h3>´ñ±Û »èÁ¦</h3>
 			<c:choose>
 				<c:when test="${type==0 }">
 			
-ï¿½ï¿½Ð¹ï¿½È£
+ºñ¹Ð¹øÈ£
 <form action="../secondhand/deleteComment.html" method="GET">
 						<input type="password" name="pwd" /> <input type="hidden"
 							name="seqno" value="${seqno }" /> <input type="submit"
-							value="ï¿½ï¿½ï¿½ï¿½">
+							value="»èÁ¦">
 					</form>
 				</c:when>
 				<c:when test="${type==1 && sessionScope.Type == 'Formal'}">
@@ -27,14 +27,14 @@
 						location.href = "../secondhand/deleteComment.html?seqno=${seqno}"
 					</script>
 				</c:when>
-				<c:when test="${sessionScope.Type=='Admin'|| sessionScope.User.admin_power==0 || sessionScope.User.admin_power==1 }">
+				<c:when test="${sessionScope.Type=='Admin' &&( sessionScope.User.admin_power==0 || sessionScope.User.admin_power==1) }">
 					<script type="text/javascript">
 						location.href = "../secondhand/deleteComment.html?seqno=${seqno}"
 					</script>
 				</c:when>
 				<c:otherwise>
 					<script type="text/javascript">
-						alert("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½.");
+						alert("±ÇÇÑÀÌ ¾ø½À´Ï´Ù.");
 						self.close();
 					</script>
 				</c:otherwise>
@@ -45,40 +45,40 @@
 
 			<c:choose>
 				<c:when test="${type==1 && sessionScope.Type == 'Formal'}">
-					<h3 align="center">ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½</h3>
+					<h3 align="center">´ñ±Û ¼öÁ¤</h3>
 					<form align="center" action="../secondhand/modifyComment.html"
 						method="GET">
-						ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½<br /> <input type="hidden"
+						±Û ³»¿ë<br /> <input type="hidden"
 							value="${sessionScope.User.user_id }" name="writer" /><input
 							type="hidden" value="${sessionScope.User.user_pwd }" name="pwd" />
 						<textarea cols="20" rows="7" name="content"></textarea>
 						<input type="hidden" name="seqno" value="${seqno }" /> <br /> <input
-							type="submit" value="ï¿½ï¿½ï¿½ï¿½">
+							type="submit" value="¼öÁ¤">
 
 					</form>
 
 				</c:when>
 				<c:when test="${type==0 }">
-					<h3 align="center">ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½</h3>
+					<h3 align="center">´ñ±Û ¼öÁ¤</h3>
 					<form align="center" action="../secondhand/modifyComment.html"
 						method="GET">
-						ï¿½Û¼ï¿½ï¿½ï¿½<br/><input type="text" name="writer" /><br /> ï¿½ï¿½Ð¹ï¿½È£<br/><input
-							type="password" name="pwd" /><br/> ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½<br />
+						ÀÛ¼ºÀÚ<br/><input type="text" name="writer" /><br />ºñ¹Ð¹øÈ£<br/><input
+							type="password" name="pwd" /><br/>±Û ³»¿ë<br />
 						<textarea cols="20" rows="7" name="content"></textarea>
 						<input type="hidden" name="seqno" value="${seqno }" /><br /> <input
-							type="submit" value="ï¿½ï¿½ï¿½ï¿½">
+							type="submit" value="¼öÁ¤">
 					</form>
 				</c:when>
 				<c:otherwise>
 					<script type="text/javascript">
-						alert("ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½Ï´ï¿½.");
+						alert("±ÇÇÑÀÌ ¾ø½À´Ï´Ù.");
 						self.close();
 					</script>
 				</c:otherwise>
 			</c:choose>
 		</c:when>
 		<c:when test="${request=='reply' }">
-			<h3 align="center">ï¿½ï¿½ï¿½ ï¿½Û¼ï¿½</h3>
+			<h3 align="center">´ä±Û ÀÛ¼º</h3>
 			<form:form align="center" modelAttribute="reply"
 				action="../secondhand/commentReply.html" method="POST">
 				<c:choose>
@@ -89,7 +89,7 @@
 								<td><form:hidden path="comment_writer"
 										value="${sessionScope.User.user_id }" />
 								<td rowspan="2"><form:textarea path="comment_content"
-										cols="80" rows="5" placeholder="ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ô·ï¿½ï¿½ï¿½ï¿½Ö¼ï¿½ï¿½ï¿½." /></td>
+										cols="80" rows="5" placeholder="³»¿ëÀ» ÀÔ·ÂÇØÁÖ¼¼¿ä." /></td>
 							<tr>
 								<td><form:hidden path="comment_pwd"
 										value="${sessionScope.User.user_pwd }" /></td>
@@ -101,11 +101,11 @@
 					<c:otherwise>
 						<table>
 							<tr>
-								<td><form:input path="comment_writer" placeholder="ï¿½Û¼ï¿½ï¿½ï¿½" />
+								<td><form:input path="comment_writer" placeholder="ÀÛ¼ºÀÚ" />
 								<td rowspan="2"><form:textarea path="comment_content"
-										cols="80" rows="5" placeholder="ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½Ô·ï¿½ï¿½ï¿½ï¿½Ö¼ï¿½ï¿½ï¿½." /></td>
+										cols="80" rows="5" placeholder="³»¿ëÀ» ÀÔ·ÂÇØÁÖ¼¼¿ä." /></td>
 							<tr>
-								<td><form:password path="comment_pwd" placeholder="ï¿½ï¿½Ð¹ï¿½È£" /></td>
+								<td><form:password path="comment_pwd" placeholder="ºñ¹Ð¹øÈ£" /></td>
 								<br />
 								<input type="hidden" name="parent_seqno" value="${seqno }" />
 							</tr>
@@ -114,7 +114,7 @@
 				</c:choose>
 				<br />
 
-				<input type="submit" value="ï¿½ï¿½ï¿½" />
+				<input type="submit" value="µî·Ï" />
 			</form:form>
 		</c:when>
 	</c:choose>

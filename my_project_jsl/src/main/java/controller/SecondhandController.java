@@ -45,12 +45,16 @@ public class SecondhandController {
 		int currentPage=0;
 		if(pageNo==null) currentPage=1;
 		else currentPage=pageNo;
-		if(total >0) {
-			pageCnt= total/10;
-			if(total%10 >0) pageCnt++;
-			startRow=(currentPage-1)*10+1;
-			endRow=currentPage*10;
-			if(endRow > total) endRow=total;
+		if (total > 0) {
+			pageCnt = total / 10;
+			int reminder = total%10;
+			if (total % 10 > 0)
+				pageCnt++;
+			endRow = (pageCnt-currentPage)*10+reminder;
+			if (pageCnt-currentPage==0) startRow=1;
+			else startRow = (pageCnt-currentPage-1)*10+reminder+1;
+			if (endRow > total)
+				endRow = total;
 		}
 		condition.setStartRow(startRow); condition.setEndRow(endRow);	
 		List<Secondhand> list = SecondHandDao.getSecondHandList(condition);

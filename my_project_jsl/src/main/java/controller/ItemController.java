@@ -55,10 +55,12 @@ public class ItemController {
 			currentPage = pageNo;
 		if (total > 0) {
 			pageCnt = total / 10;
+			int reminder = total%10;
 			if (total % 10 > 0)
 				pageCnt++;
-			startRow = (currentPage - 1) * 10 + 1;
-			endRow = currentPage * 10;
+			endRow = (pageCnt-currentPage)*10+reminder;
+			if (pageCnt-currentPage==0) startRow=1;
+			else startRow = (pageCnt-currentPage-1)*10+reminder+1;
 			if (endRow > total)
 				endRow = total;
 		}
@@ -126,17 +128,31 @@ public class ItemController {
 				mav.addObject("reuslt", "Fail");
 				return mav;
 			}
-		}
-		if(userType.equals("Admin")) {
-			AdminUser AU = (AdminUser) session.getAttribute("User");
-			if(AU.getAdmin_power()!=0 || AU.getAdmin_power()!=2) {
-				mav.addObject("result","Fail");
+			else {
+				itemDao.deleteItem(no);
+				mav.addObject("result", "Success");
 				return mav;
 			}
 		}
-		itemDao.deleteItem(no);
-		mav.addObject("result", "Success");
-		return mav;
+		else if(userType.equals("Admin")) {
+			AdminUser AU = (AdminUser) session.getAttribute("User");
+			System.out.println(AU.getAdmin_power() != 0);
+			System.out.println(AU.getAdmin_power() !=2);
+			if(AU.getAdmin_power() == 0 || AU.getAdmin_power() ==2) {
+				itemDao.deleteItem(no);
+				mav.addObject("result", "Success");
+				return mav;
+			}
+			else {
+				mav.addObject("reuslt", "Fail");
+				return mav;
+			}
+		}
+		else {
+			mav.addObject("result","Fail");
+			return mav;
+		}
+		
 	}
 
 	@RequestMapping(value = "item/modify.html", method = RequestMethod.GET)

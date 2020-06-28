@@ -8,7 +8,7 @@
 function goHot(){
 	if(${sessionScope.Type == 'Formal'}) {
 	alert("추천했습니다.");
-	location.href="../bbs/bbsDetail.html?seqno=${target.bbs_seqno}&rn=${target.rn}&hot=yes&id=${sessionScope.User.user_id}";
+	location.href="../bbs/bbsDetail.html?seqno=${target.bbs_seqno}&rn=${target.rn}&hot=yes";
 	}
 	else{
 		alert("권한이 없습니다. 일반회원만 추천 할 수 있습니다.");
@@ -80,7 +80,7 @@ div#detail_buttons {
 							<c:choose>
 								<c:when test="${target.bbs_state ==1 }">
 									<li><input type="button" value="삭제"
-										onclick="location.href='../bbs/delete.html?seqno=${target.bbs_seqno}"></li>
+										onclick="location.href='../bbs/delete.html?seqno=${target.bbs_seqno}'"></li>
 									<li><input type="button" value="수정"
 										onclick="location.href='../bbs/modify.html?seqno='+${target.bbs_seqno}+'&rn='+${target.rn}"></li>
 								</c:when>
