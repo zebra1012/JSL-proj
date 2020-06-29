@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=EUC-KR"
 	pageEncoding="EUC-KR"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib prefix="fmt" uri= "http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -49,10 +50,10 @@ td {
 				<c:forEach items="${Secondhand }" var="Secondhand">
 					<tr height="50px" onclick="location.href='../secondhand/Detail.html?seqno=${Secondhand.secondhand_seqno }'">
 						<td width="50px">${Secondhand.secondhand_seqno }</td>
-						<td width="100px"><img alt="" width="100px"
+						<td width="100px"><img alt="" width="50px" height="50px"
 							src="${pageContext.request.contextPath }/Secondhand_Image/${Secondhand.secondhand_image }" /></td>
 						<td>${Secondhand.secondhand_title }</td>
-						<td>${Secondhand.secondhand_price }</td>
+						<td>£Ü<fmt:formatNumber value="${Secondhand.secondhand_price }" type="number"/></td>
 						<td>${Secondhand.secondhand_writer }</td>
 						<td>${Secondhand.secondhand_date }</td>
 					</tr>
@@ -61,7 +62,7 @@ td {
 		</div>
 		<div>
 			<c:forEach var="page" begin="1" end="${COUNT}">
-				<a href="../secondhand/frontpage.html?pgeNo=${page }">${page }</a>
+				<a href="../secondhand/frontpage.html?pageNo=${page }">${page }</a>
 			</c:forEach>
 			<br /> <select id="searchType">
 				<option value="writer">ÀÛ¼ºÀÚ</option>

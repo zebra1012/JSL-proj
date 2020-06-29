@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=EUC-KR" 
 	pageEncoding="EUC-KR"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib prefix="fmt" uri= "http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -43,8 +44,8 @@ table#wrapper_table {
 								<tr
 									onclick="location.href='../item/itemDetail.html?seqno=${item.item_seqno }'">
 									<td>${item.item_name }</td>
-									<td>${item.item_price }</td>
-									<td><img alt="" width="100px"
+									<td>£Ü<fmt:formatNumber value="${item.item_price }" type="number"/></td>
+									<td><img alt="" width="100px" height="100px"
 										src="${pageContext.request.contextPath }/Item_Image/${item.item_image }" /></td>
 							</c:forEach>
 						</table>
@@ -64,9 +65,9 @@ table#wrapper_table {
 								<tr
 									onclick="location.href='../secondhand/Detail.html?seqno=${secondhand.secondhand_seqno }'">
 									<td>${secondhand.secondhand_title }</td>
-									<td>${secondhand.secondhand_price }</td>
-									<td>${secondhand.secondhand_local }</td>
-									<td><img alt="" width="100px"
+									<td>£Ü<fmt:formatNumber value="${secondhand.secondhand_price }" type="number"/></td>
+									<td width="50px">${secondhand.secondhand_local }</td>
+									<td><img alt="" width="100px" height="100px"
 										src="${pageContext.request.contextPath }/Secondhand_Image/${secondhand.secondhand_image }" /></td>
 							</c:forEach>
 						</table>
@@ -82,7 +83,7 @@ table#wrapper_table {
 								<th width="600">Á¦¸ñ</th>
 							</tr>
 							<c:forEach var="freebbs" items="${free_list }">
-								<tr height="50px"
+								<tr height="100px" height="100px"
 									onclick="location.href='../bbs/bbsDetail.html?seqno=${freebbs.bbs_seqno }&rn=${freebbs.rn}'">
 									<td>${freebbs.bbs_title }</td>
 								</tr>

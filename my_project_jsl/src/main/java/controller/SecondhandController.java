@@ -49,12 +49,14 @@ public class SecondhandController {
 			pageCnt = total / 10;
 			int reminder = total%10;
 			if (total % 10 > 0)
-				pageCnt++;
+				pageCnt++; //10개 1페이지 1~10 12개 총2개 1페이지 3-12
+			if (reminder==0) reminder=10;
 			endRow = (pageCnt-currentPage)*10+reminder;
-			if (pageCnt-currentPage==0) startRow=1;
-			else startRow = (pageCnt-currentPage-1)*10+reminder+1;
+			startRow = (pageCnt-currentPage-1)*10+reminder+1;
 			if (endRow > total)
 				endRow = total;
+			if(startRow<0) 
+				startRow=1;
 		}
 		condition.setStartRow(startRow); condition.setEndRow(endRow);	
 		List<Secondhand> list = SecondHandDao.getSecondHandList(condition);

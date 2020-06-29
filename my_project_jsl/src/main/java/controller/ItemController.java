@@ -58,11 +58,13 @@ public class ItemController {
 			int reminder = total%10;
 			if (total % 10 > 0)
 				pageCnt++;
+			if (reminder==0) reminder=10;
 			endRow = (pageCnt-currentPage)*10+reminder;
-			if (pageCnt-currentPage==0) startRow=1;
-			else startRow = (pageCnt-currentPage-1)*10+reminder+1;
+			startRow = (pageCnt-currentPage-1)*10+reminder+1;
 			if (endRow > total)
 				endRow = total;
+			if(startRow<0) 
+				startRow=1;
 		}
 		condition.setStartRow(startRow);
 		condition.setEndRow(endRow);
@@ -136,8 +138,6 @@ public class ItemController {
 		}
 		else if(userType.equals("Admin")) {
 			AdminUser AU = (AdminUser) session.getAttribute("User");
-			System.out.println(AU.getAdmin_power() != 0);
-			System.out.println(AU.getAdmin_power() !=2);
 			if(AU.getAdmin_power() == 0 || AU.getAdmin_power() ==2) {
 				itemDao.deleteItem(no);
 				mav.addObject("result", "Success");

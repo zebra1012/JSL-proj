@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=EUC-KR"
 	pageEncoding="EUC-KR"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib prefix="fmt" uri= "http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -50,10 +51,10 @@ td {
 					<tr height="50px"
 						onclick="location.href='../item/itemDetail.html?seqno=${item.item_seqno }'">
 						<td width="50px">${item.item_seqno }</td>
-						<td width="100px"><img alt="" width="100px"
+						<td width="50px"><img alt="" width="50px" height="50px"
 							src="${pageContext.request.contextPath }/Item_Image/${item.item_image }" /></td>
 						<td>${item.item_name }</td>
-						<td>${item.item_price }</td>
+						<td>£‹<fmt:formatNumber value="${item.item_price }" type="number"/></td>
 						<td>${item.item_writer }</td>
 					</tr>
 				</c:forEach>
@@ -61,7 +62,7 @@ td {
 		</div>
 		<div>
 			<c:forEach var="page" begin="1" end="${COUNT}">
-				<a href="../item/frontpage.html?pgeNo=${page }">${page }</a>
+				<a href="../item/frontpage.html?pageNo=${page }">${page }</a>
 			</c:forEach>
 			<br /> <select id="searchType">
 				<option value="writer">ªÛ»£</option>

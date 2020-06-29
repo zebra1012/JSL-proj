@@ -51,13 +51,13 @@ public class BBSController {
 			int reminder = total % 10;
 			if (total % 10 > 0)
 				pageCnt++;
-			endRow = (pageCnt - 1) * 10 + reminder;
-			if (pageCnt - 1 == 0)
-				startRow = 1;
-			else
-				startRow = (pageCnt - 2) * 10 + reminder + 1;
+			if (reminder==0) reminder=10;
+			endRow = (pageCnt-1)*10+reminder;
+			startRow = (pageCnt-2)*10+reminder+1;
 			if (endRow > total)
 				endRow = total;
+			if(startRow<0) 
+				startRow=1;
 		}
 		c.setStartRow(startRow);
 		c.setEndRow(endRow);
@@ -72,13 +72,13 @@ public class BBSController {
 			int reminder = total % 5;
 			if (total % 5 > 0)
 				pageCnt++;
-			endRow = (pageCnt - 1) * 5 + reminder;
-			if (pageCnt - 1 == 0)
-				startRow = 1;
-			else
-				startRow = (pageCnt - 2) * 5 + reminder + 1;
+			if (reminder==0) reminder=5;
+			endRow = (pageCnt-1)*5+reminder;
+			startRow = (pageCnt-2)*5+reminder+1;
 			if (endRow > total)
 				endRow = total;
+			if(startRow<0) 
+				startRow=1;
 		}
 		c.setStartRow(startRow);
 		c.setEndRow(endRow);
@@ -93,13 +93,13 @@ public class BBSController {
 			int reminder = total % 5;
 			if (total % 5 > 0)
 				pageCnt++;
-			endRow = (pageCnt - 1) * 5 + reminder;
-			if (pageCnt - 1 == 0)
-				startRow = 1;
-			else
-				startRow = (pageCnt - 2) * 5 + reminder + 1;
+			if (reminder==0) reminder=5;
+			endRow = (pageCnt-1)*5+reminder;
+			startRow = (pageCnt-2)*5+reminder+1;
 			if (endRow > total)
 				endRow = total;
+			if(startRow<0) 
+				startRow=1;
 		}
 		c.setStartRow(startRow);
 		c.setEndRow(endRow);
@@ -141,13 +141,13 @@ public class BBSController {
 			int reminder = total % 10;
 			if (total % 10 > 0)
 				pageCnt++;
-			endRow = (pageCnt - currentPage) * 10 + reminder;
-			if (pageCnt - currentPage == 0)
-				startRow = 1;
-			else
-				startRow = (pageCnt - currentPage - 1) * 10 + reminder + 1;
+			if (reminder==0) reminder=10;
+			endRow = (pageCnt-currentPage)*10+reminder;
+			startRow = (pageCnt-currentPage-1)*10+reminder+1;
 			if (endRow > total)
 				endRow = total;
+			if(startRow<0) 
+				startRow=1;
 		}
 		c.setStartRow(startRow);
 		c.setEndRow(endRow);
@@ -178,13 +178,13 @@ public class BBSController {
 			int reminder = total % 10;
 			if (total % 10 > 0)
 				pageCnt++;
-			endRow = (pageCnt - currentPage) * 10 + reminder;
-			if (pageCnt - currentPage == 0)
-				startRow = 1;
-			else
-				startRow = (pageCnt - currentPage - 1) * 10 + reminder + 1;
+			if (reminder==0) reminder=10;
+			endRow = (pageCnt-currentPage)*10+reminder;
+			startRow = (pageCnt-currentPage-1)*10+reminder+1;
 			if (endRow > total)
 				endRow = total;
+			if(startRow<0) 
+				startRow=1;
 		}
 		c.setStartRow(startRow);
 		c.setEndRow(endRow);
@@ -215,13 +215,13 @@ public class BBSController {
 			int reminder = total % 10;
 			if (total % 10 > 0)
 				pageCnt++;
-			endRow = (pageCnt - currentPage) * 10 + reminder;
-			if (pageCnt - currentPage == 0)
-				startRow = 1;
-			else
-				startRow = (pageCnt - currentPage - 1) * 10 + reminder + 1;
+			if (reminder==0) reminder=10;
+			endRow = (pageCnt-currentPage)*10+reminder;
+			startRow = (pageCnt-currentPage-1)*10+reminder+1;
 			if (endRow > total)
 				endRow = total;
+			if(startRow<0) 
+				startRow=1;
 		}
 		c.setStartRow(startRow);
 		c.setEndRow(endRow);

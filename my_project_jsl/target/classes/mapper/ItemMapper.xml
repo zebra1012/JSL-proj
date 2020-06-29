@@ -11,9 +11,9 @@
 	<select id="getItemList" resultType="model.Item" parameterType="model.Condition">
 	select item_seqno,item_name,item_writer,item_price,item_stock,item_state,item_content,item_image from (
  		select a.*, rownum rn from (
- 			(select * from item order by item_seqno desc)a
+ 			(select * from item order by item_seqno asc)a
  			) 
- 	) where rn between #{startRow} and #{endRow}
+ 	) where rn between #{startRow} and #{endRow} order by rn desc
 	</select>
 	<select id="getItemCount" resultType="Integer">
 	select count(*) from item

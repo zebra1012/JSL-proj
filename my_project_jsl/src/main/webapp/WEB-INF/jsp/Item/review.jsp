@@ -6,16 +6,17 @@
 <head>
 <style type="text/css">
 table#review {
-border:1px solid;
-border-collapse: collapse;
-}
-tr,td{
-border:1px solid;
-}
-td#btn{
-border:none;
+	border: 1px solid;
+	border-collapse: collapse;
 }
 
+tr, td {
+	border: 1px solid;
+}
+
+td#btn {
+	border: none;
+}
 </style>
 
 <meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
@@ -24,6 +25,14 @@ border:none;
 <body>
 	<div id="wrapper">
 		<h3 align="center">후기</h3>
+		<c:choose>
+			<c:when test="${sessionScope.Type=='Formal' }">
+				<input type="button" value="후기 작성 "
+					style="float: right; margin-right: 10%"
+					onclick="window.location.href='../Item/writeReview.html?parent=${item.item_seqno}'" />
+			</c:when>
+		</c:choose>
+		<br/><br/>
 		<c:if test="${not empty ReviewList }">
 			<table id="review">
 				<tr>
@@ -38,20 +47,21 @@ border:none;
 						<td><img alt="" width="100px"
 							src="${pageContext.request.contextPath }/Review_Image/${review.review_image }" />
 						</td>
-						
+
 						<c:choose>
-						<c:when test="${sessionScope.Type =='Admin' &&(sessionScope.User.admin_power == 0 || sessionScope.User.admin_power == 2) || (sessionScope.Type=='Formal' && sessionScope.User.user_id==review.review_writer) }">
-						<td id="btn" width="500px" style="text-align: left;">${review.review_content}</td>
-						<td id="btn" width="40px"><input type="button"
-							onclick="window.open('../Item/askpwd.html?request=modify&seqno='+${review.review_seqno},'_blank','width=450,height=200')"
-							value="수정"></td>
-						<td id="btn" width="40px"><input type="button"
-							onclick="window.open('../Item/askpwd.html?request=delete&seqno='+${review.review_seqno},'_blank','width=450,height=200')"
-							value="삭제" /></td>
-						</c:when>
-						<c:otherwise>			
-						<td id="btn" colspan="3" width="500px" style="text-align: left;">${review.review_content}
-						</c:otherwise>
+							<c:when
+								test="${sessionScope.Type =='Admin' &&(sessionScope.User.admin_power == 0 || sessionScope.User.admin_power == 2) || (sessionScope.Type=='Formal' && sessionScope.User.user_id==review.review_writer) }">
+								<td id="btn" width="500px" style="text-align: left;">${review.review_content}</td>
+								<td id="btn" width="40px"><input type="button"
+									onclick="window.open('../Item/askpwd.html?request=modify&seqno='+${review.review_seqno},'_blank','width=450,height=200')"
+									value="수정"></td>
+								<td id="btn" width="40px"><input type="button"
+									onclick="window.open('../Item/askpwd.html?request=delete&seqno='+${review.review_seqno},'_blank','width=450,height=200')"
+									value="삭제" /></td>
+							</c:when>
+							<c:otherwise>
+								<td id="btn" colspan="3" width="500px" style="text-align: left;">${review.review_content}
+							</c:otherwise>
 						</c:choose>
 						<td>${review.review_writer }</td>
 						<td>${review.review_star }</td>
@@ -61,12 +71,7 @@ border:none;
 				</c:forEach>
 			</table>
 		</c:if>
-		<c:choose>
-			<c:when test="${sessionScope.Type=='Formal' }">
-				<input type="button" value="후기 작성 " style="float: right; margin-right:10%"
-				onclick="window.location.href='../Item/writeReview.html?parent=${item.item_seqno}'" />
-			</c:when>
-		</c:choose>
+
 	</div>
 </body>
 </html>

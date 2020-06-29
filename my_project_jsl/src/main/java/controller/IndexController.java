@@ -133,13 +133,16 @@ public class IndexController {
 		String userType = (String) request.getParameter("userType");
 		if (userType.equals("formal")) {
 			try {
+				System.out.println("1");
 				FormalUser = LoginDao.formalGetIDPWD((String) request.getParameter("id"));
 				if (FormalUser.getUser_pwd().equals((String) request.getParameter("pwd"))) { // 로그인 성공
 					mav.addObject("result", "YES");
+					System.out.println("2");
 					session.setAttribute("User", FormalUser);
 					session.setAttribute("Type", "Formal");
 					List<Cart> cart = ItemCartDao.getFormalCart(FormalUser.getUser_id());
 					session.setAttribute("Cart", cart);
+					System.out.println("3");
 					session.setMaxInactiveInterval(60 * 60);
 				} else
 					FormalUser = null;

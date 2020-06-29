@@ -29,7 +29,7 @@ function validate(){
 <form action="../index/logincheck.html" name="frm" method="POST">
 <input type="hidden" name="userType" value="admin"/>
 아이디 <input type="text" name="id"/> <br/>
-패스워드 <input type="text" name="pwd"/><br/>
+패스워드 <input type="password" name="pwd"/><br/>
 <input type="button" value="로그인" onclick="return validate()"/><br/>
 </form>
 </div>

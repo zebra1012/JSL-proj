@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=EUC-KR"
 	pageEncoding="EUC-KR"%>
 	<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+	<%@ taglib prefix="fmt" uri= "http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -52,7 +53,7 @@ function goCart(){
 				</tr>
 				<tr>
 					<td width="50px">°¡°Ý</td>
-					<td colspan="3">${item.item_price }</td>
+					<td colspan="3"><fmt:formatNumber value="${item.item_price }" type="number"/>£Ü</td>
 				</tr>
 				<tr>
 					<td colspan="4" height="200px">${item.item_content }</td>
@@ -67,7 +68,7 @@ function goCart(){
 					<option value="5">5</option>
 					</select></td>
 					<td width="50px">ÃÑ±Ý¾×</td>
-					<td id="totalPrice">${item.item_price }</td>
+					<td id="totalPrice"><fmt:formatNumber value="${item.item_price }" type="number"/>£Ü</td>
 				</tr>
 			</table>
 		</div>

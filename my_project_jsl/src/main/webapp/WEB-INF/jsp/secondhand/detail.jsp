@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=EUC-KR"
     pageEncoding="EUC-KR"%>
+    <%@ taglib prefix="fmt" uri= "http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -24,7 +25,7 @@ margin-right:22%;
 <div id="detail">
 <table border="1">
 <tr><td>${secondhand.secondhand_seqno}</td><td colspan="2">${secondhand.secondhand_title }</td><td>${secondhand.secondhand_writer }</td>
-<td>${secondhand.secondhand_price }</td><td>${secondhand.secondhand_date }</td></tr>
+<td>£Ü<fmt:formatNumber value="${secondhand.secondhand_price }" type="number"/></td><td>${secondhand.secondhand_date }</td></tr>
 <tr height="200px"><td colspan="2"><img alt="" width="300px" src="${pageContext.request.contextPath }/Secondhand_Image/${secondhand.secondhand_image }"/></td>
 <td colspan="4">${secondhand.secondhand_content }</td></tr>
 </table>

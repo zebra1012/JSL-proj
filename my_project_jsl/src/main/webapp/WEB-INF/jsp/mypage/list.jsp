@@ -13,7 +13,7 @@ li#menu {
 <title>Insert title here</title>
 </head>
 <body>
-	<h3 align="center">마이페이지</h3>
+	
 	<c:choose>
 		<c:when test="${sessionScope.Type=='Formal' }">
 			<div id="content" align="center">

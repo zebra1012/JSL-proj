@@ -18,6 +18,7 @@
 		</c:when>
 
 		<c:otherwise>
+		<h3 align="center">마이페이지</h3>
 			<jsp:include page="../mypage/list.jsp"></jsp:include>
 			<c:choose>
 				<c:when test="${empty body }">

@@ -33,10 +33,10 @@ tr td th {
 							<td>${item.item_price }</td>
 							<c:choose>
 								<c:when test="${item.item_state ==0}">
-								<td>품절</td>
+								<td>판매중</td>
 								</c:when>
 								<c:when test="${tiem.item_state ==1 }">
-								<td>판매중</td>
+								<td>품절</td>
 								</c:when>
 							</c:choose>
 					</c:forEach>

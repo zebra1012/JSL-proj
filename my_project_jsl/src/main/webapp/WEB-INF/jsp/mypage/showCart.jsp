@@ -1,9 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=EUC-KR"
 	pageEncoding="EUC-KR"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib prefix="fmt" uri= "http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
+<style type="text/css">
+tr td { border :1px solid;}
+</style>
 <meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
 <title>Insert title here</title>
 </head>
@@ -33,9 +37,9 @@
 							<td><img alt="" width="100px"
 								src="${pageContext.request.contextPath }/Item_Image/${items.item.item_image }" /></td>
 							<td colspan="4">${items.item.item_name}</td>
-							<td>${items.item.item_price }</td>
+							<td>￦<fmt:formatNumber value="${items.item.item_price }" type="number"/></td>
 							<td>${items.cart_quantity }</td>
-							<td>${items.item.item_price * items.cart_quantity }</td>
+							<td>￦<fmt:formatNumber value="${items.item.item_price * items.cart_quantity }" type="number"/></td>
 						</tr>
 					</c:forEach>
 				</c:otherwise>

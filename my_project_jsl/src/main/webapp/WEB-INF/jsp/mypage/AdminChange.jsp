@@ -26,7 +26,7 @@
 					<td><input type="password" name="pwdcheck"/>
 				</tr>
 				<tr>
-					<td><input type="submit" value="변경" /></td>
+					<td colspan="2" style="text-align:center"><input type="submit" value="변경"/></td>
 				</tr>
 			</table>
 		</form>

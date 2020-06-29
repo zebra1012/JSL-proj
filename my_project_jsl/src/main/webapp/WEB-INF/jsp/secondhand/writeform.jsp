@@ -55,7 +55,7 @@ function write_validation(){
 <div id="wrapper">
 <c:choose>
 <c:when test="${Formal == 'YES' }">
-<h3>중고거래 게시글 작성</h3>
+<h3 align="center">중고거래 게시글 작성</h3>
 <form:form name="writeform" modelAttribute="secondhand" 
 action="../secondhand/write.html" method="POST" enctype="multipart/form-data">
 <table border="1" align="center">

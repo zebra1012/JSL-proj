@@ -160,12 +160,13 @@ public class ItemCartController {
 				s.setShopping_seqno(itemCartDao.getMaxFormalShopping());
 				s.setShopping_buyer(user.getUser_id());
 				s.setShopping_quantity(c.getCart_quantity());
-				s.setShopping_item(c.getCart_seqno());
+				s.setShopping_item(c.getCart_itemseqno());
 				s.setShopping_shipment(1);
 				s.setShopping_date(strDate);
 				itemCartDao.insertFormalShopping(s);
 			}
 			itemCartDao.clearFormalCart(user.getUser_id()); //해당 유저 카트 초기화
+			list = itemCartDao.getFormalCart(user.getUser_id());
 			session.setAttribute("Cart", list); //Cart 값을 교체한다.
 		}
 		else if (type.equals("Unsigned")) {

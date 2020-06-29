@@ -12,6 +12,18 @@
 		var parent = document.getElementById("parent").value;
 		var Type=document.getElementById("Type").value;
 		var RN = document.getElementById("RN").value;
+		if(writer=="") {
+			alert("작성자를 입력하세요.");
+			return false;
+		}
+		if (content=="") {
+			alert("내용을 입력하세요.");
+			return false;
+		}
+		if(password=="") {
+			alert("비밀번호를 입력하세요.");
+			return false;
+		}
 		
 		var form = document.createElement("form");
 		form.setAttribute("method", "post");
@@ -121,7 +133,7 @@
 		<input type="hidden" value="${target.bbs_seqno}"
 			Id="parent" />
 		<input type="hidden" value="${target.rn }" Id="RN"/> <input type="button" value="등록"
-			onclick="javscript:submit()" /><input type="button" value="목록으로"
+			onclick="return submit()" /><input type="button" value="목록으로"
 			onclick="history.back()" />
 	</div>
 </body>

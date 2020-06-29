@@ -42,7 +42,7 @@ window.location.href='../secondhand/frontpage.html';
 </script>
 </c:when>
 <c:when test="${result=='Success' }">
-<h3>중고거래 게시글 수정</h3>
+<h3 align="center">중고거래 게시글 수정</h3>
 <form:form name="writeform" modelAttribute="secondhand" 
 action="../secondhand/modify.html" method="POST" enctype="multipart/form-data">
 <table border="1" align="center">

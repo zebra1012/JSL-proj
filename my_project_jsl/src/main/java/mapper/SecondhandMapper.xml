@@ -12,9 +12,9 @@
 	<select id="getSecondHandList" parameterType="model.Condition" resultType="model.Secondhand" >
 	select secondhand_seqno,secondhand_image,secondhand_title,secondhand_writer,secondhand_price,secondhand_date,secondhand_local from (
  		select a.*, rownum rn from (
- 			(select * from secondhand order by secondhand_seqno desc)a
+ 			(select * from secondhand order by secondhand_seqno asc)a
  			) 
- 	) where rn between #{startRow} and #{endRow}
+ 	) where rn between #{startRow} and #{endRow} order by rn desc
 	</select>
 	<select id="getSecondHandCount" resultType="Integer">
 	select count(*) from secondhand

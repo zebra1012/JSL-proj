@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=EUC-KR"
 	pageEncoding="EUC-KR"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib prefix="fmt" uri= "http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -18,10 +19,10 @@ text-align: center;
 	<div id="wrapper">
 		<c:choose>
 			<c:when test="${sessionScope.Type == 'Formal' }">
-				<h3>${sessionScope.User.user_id }´ÔÀÇÀå¹Ù±¸´Ï</h3>
+				<h3 align="center">${sessionScope.User.user_id }´ÔÀÇÀå¹Ù±¸´Ï</h3>
 			</c:when>
 			<c:when test="${sessionScope.Type=='Unsigned' }">
-				<h3>${sessionScope.User.unsigned_name }´ÔÀÇÀå¹Ù±¸´Ï</h3>
+				<h3 align="center">${sessionScope.User.unsigned_name }´ÔÀÇÀå¹Ù±¸´Ï</h3>
 			</c:when>
 		</c:choose>
 		<table align="center" >
@@ -43,9 +44,9 @@ text-align: center;
 							<td><img alt="" width="100px"
 								src="${pageContext.request.contextPath }/Item_Image/${items.item.item_image }" /></td>
 							<td colspan="4">${items.item.item_name}</td>
-							<td>${items.item.item_price }</td>
+							<td><fmt:formatNumber value="${items.item.item_price }" type="number"/></td>
 							<td>${items.cart_quantity }</td>
-							<td>${items.item.item_price * items.cart_quantity }</td>
+							<td><fmt:formatNumber value="${items.item.item_price * items.cart_quantity }" type="number"/></td>
 						</tr>
 					</c:forEach>
 				</c:otherwise>

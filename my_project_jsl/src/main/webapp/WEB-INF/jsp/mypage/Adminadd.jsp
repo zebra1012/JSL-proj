@@ -32,6 +32,8 @@ function validation(){
 <title>Insert title here</title>
 </head>
 <body>
+<br><br/><br/><br/><br/>
+<div align="center">
 		<form:form action="../mypage/Adminadd.html" name="frm" method="POST"
 			modelAttribute="admin">
 			<table>
@@ -59,5 +61,6 @@ function validation(){
 			<input type="submit" value="µî·Ï" onclick="return validation()" />
 
 		</form:form>
+		</div>
 </body>
 </html>
