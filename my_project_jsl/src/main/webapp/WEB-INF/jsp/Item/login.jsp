@@ -40,7 +40,7 @@ function validate(){
 </head>
 <body>
 <div align="center" id="wrapper">
-<h3>로그인</h3>
+<h3 align="center">로그인</h3>
 <a href="javascript:unsigned()">비회원으로 주문하기</a>
 <form action="../index/logincheck.html" name="frm" method="POST">
 아이디 <input type="text" name="id"/> <br/>

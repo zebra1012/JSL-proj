@@ -147,7 +147,7 @@ public class IndexController {
 				} else
 					FormalUser = null;
 			} catch (Exception E) {
-				E.printStackTrace();
+				mav.addObject("result", "NO");
 			}
 		} else if (userType.equals("company")) {
 			try {
@@ -160,7 +160,7 @@ public class IndexController {
 				} else
 					CompanyUser = null;
 			} catch (Exception E) {
-				E.printStackTrace();
+				mav.addObject("result", "NO");
 			}
 		} else if (userType.equals("admin")) {
 			try {
@@ -173,7 +173,7 @@ public class IndexController {
 				} else
 					AdminUser = null;
 			} catch (Exception E) {
-				E.printStackTrace();
+				mav.addObject("result", "NO");
 			}
 		}
 		if (FormalUser == null && CompanyUser == null && AdminUser == null) {

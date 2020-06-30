@@ -41,7 +41,7 @@
 		#{shopping_quantity},to_date(#{shopping_date},'yyyy/mm/dd hh24:mi:ss'),#{shopping_shipment})
 	</insert>
 	<insert id="insertUnsignedShopping" parameterType="model.Shopping">
-		insert into user_shopping values(#{shopping_seqno},#{shopping_buyer},#{shopping_item},
+		insert into unsigned_user_shopping values(#{shopping_seqno},#{shopping_buyer},#{shopping_item},
 		#{shopping_quantity},to_date(#{shopping_date},'yyyy/mm/dd hh24:mi:ss'),#{shopping_shipment})
 	</insert>
 	<select id="getMaxFormalShopping" resultType="Integer">

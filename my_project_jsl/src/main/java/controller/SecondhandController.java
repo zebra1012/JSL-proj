@@ -264,7 +264,6 @@ public class SecondhandController {
 		String pwd=request.getParameter("pwd");
 		String content = request.getParameter("content");
 		String writer=request.getParameter("writer");
-		System.out.println(content);
 		Comment temp = new Comment();
 		temp.setComment_seqno(seqno); temp.setComment_writer(writer);
 		temp.setComment_content(content);
@@ -275,9 +274,10 @@ public class SecondhandController {
 		return mav;
 	}
 	@RequestMapping(value="/secondhand/commentReply.html",method=RequestMethod.POST)
-	public ModelAndView CommentReply(Comment reply,HttpServletRequest request) {
+	public ModelAndView CommentReply(Comment reply,HttpServletRequest request,HttpSession session) {
 		ModelAndView mav = new ModelAndView("secondhand/CommentResult");
 		Condition c=new Condition();
+		String type = (String)session.getAttribute("Type");
 		Integer parent = Integer.parseInt(request.getParameter("parent_seqno"));//답글이 달릴  답글번호
 		Comment parentComment=commentDao.getComment(parent);
 		String content=reply.getComment_content();
@@ -291,6 +291,10 @@ public class SecondhandController {
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd kk:mm:ss");
 		String strDate = dateFormat.format(Calendar.getInstance().getTime());
 		reply.setComment_date(strDate);
+		if (type!=null && type.equals("Forml")) {
+			reply.setComment_type(1);
+		}
+		else reply.setComment_type(0);
 		commentDao.insertComment(reply);
 		mav.addObject("result","Success");
 		return mav;

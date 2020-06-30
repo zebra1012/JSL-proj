@@ -10,7 +10,7 @@
 		var password = document.getElementById("pwd").value;
 		var content = document.getElementById("content").value;
 		var parent = document.getElementById("parent").value;
-		var Type=document.getElementById("Type").value;
+		var Type=document.getElementById("type").value;
 		var RN = document.getElementById("RN").value;
 		if(writer=="") {
 			alert("작성자를 입력하세요.");

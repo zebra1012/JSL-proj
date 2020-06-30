@@ -236,7 +236,7 @@ public class ItemController {
 			Iterator it = list.iterator();
 			while(it.hasNext()) {
 				Shopping s = (Shopping)it.next();
-				if (s.getShopping_seqno()==parent) {
+				if (s.getShopping_item()==parent) {
 					flag=true;
 				}
 			}

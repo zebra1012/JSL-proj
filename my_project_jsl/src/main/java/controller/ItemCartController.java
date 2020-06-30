@@ -182,7 +182,7 @@ public class ItemCartController {
 				s.setShopping_item(c.getCart_seqno());
 				s.setShopping_shipment(1);
 				s.setShopping_date(strDate);
-				itemCartDao.insertFormalShopping(s);
+				itemCartDao.insertUnsignedShopping(s);
 			}
 			itemCartDao.clearUnsignedCart(user.getUnsigned_no());//해당 유저 카트 초기화
 			session.setAttribute("Cart",list); //Cart 값을 교체한다.
@@ -217,7 +217,7 @@ public class ItemCartController {
 					s.setItem(itemDao.getItem(s.getShopping_item())); //상품정보 추가
 				}
 			}
-			mav.addObject("Shoppping", list);
+			mav.addObject("Shopping", list);
 		}
 		return mav;
 	}
